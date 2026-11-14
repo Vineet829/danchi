@@ -3,7 +3,7 @@
 Tenant Sphere is a community app for apartment complexes, where tenants report
 maintenance issues and troublesome neighbors, technicians handle the issues
 assigned to them, and tenants share posts with the community. It is
-available at [tenant.confidental.online](https://tenant.confidental.online).
+available at [tenant.confidental.space](https://tenant.confidental.space).
 
 ## Table of Contents
 
