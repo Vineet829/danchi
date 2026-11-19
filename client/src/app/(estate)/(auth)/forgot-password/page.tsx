@@ -3,7 +3,7 @@ import PasswordResetRequestForm from "@/components/forms/auth/PasswordResetReque
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Reset your password — Tenant Sphere",
+	title: "Reset your password — Danchi",
 	description: "Password request reset page",
 };
 

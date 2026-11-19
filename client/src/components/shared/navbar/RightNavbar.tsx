@@ -85,7 +85,7 @@ export default function RightNavbar() {
 
 			<footer className="es-rail-foot">
 				<p>Good things start with good neighbours.</p>
-				<p>© {new Date().getFullYear()} Tenant Sphere</p>
+				<p>© {new Date().getFullYear()} Danchi</p>
 			</footer>
 		</aside>
 	);

@@ -5,7 +5,7 @@ import UpdateIssueForm from "@/components/forms/update-issue/UpdateIssueForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Update issue — Tenant Sphere",
+	title: "Update issue — Danchi",
 	description: "Technicians assigned to an issue can update the status of the issue",
 };
 

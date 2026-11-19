@@ -1,6 +1,6 @@
-# Tenant Sphere
+# Danchi
 
-Tenant Sphere is a community app for apartment complexes, where tenants report
+Danchi is a community app for apartment complexes, where tenants report
 maintenance issues and troublesome neighbors, technicians handle the issues
 assigned to them, and tenants share posts with the community. It is
 available at [tenant.confidental.space](https://tenant.confidental.space).
@@ -24,8 +24,8 @@ available at [tenant.confidental.space](https://tenant.confidental.space).
 
 In my apartment complex, we reported problems through a shared WhatsApp
 account, and messages often got lost. Technicians sometimes ignored requests,
-and there was no simple way to report noisy or troublesome neighbors. Tenant
-Sphere gives each of these a proper place. Issues are tracked and assigned,
+and there was no simple way to report noisy or troublesome neighbors. Danchi
+gives each of these a proper place. Issues are tracked and assigned,
 technicians are rated on their work, and reports about a tenant lead to a
 warning and, if enough neighbors report them, to their account being
 deactivated.

@@ -4,7 +4,7 @@ import CreatePostForm from "@/components/forms/add-post/CreatePostForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Create a post — Tenant Sphere",
+	title: "Create a post — Danchi",
 	description: "Authenticated users can ask any question or post some content for all users to see",
 };
 

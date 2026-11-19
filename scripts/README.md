@@ -1,7 +1,7 @@
 Local Cedar Court sample data
 ============================
 
-`python3 scripts/seed_society.py --container tenant_prod_postgres` previews the additions. Add `--apply` to populate the running local Spring/PostgreSQL app. `--container` names the local PostgreSQL container to use; `tenant_prod_postgres` is the one `local.yml` starts. There is no default, so the scripts never write to a database nobody named. The TenantSphere backend must be running on port 8000 for its Argon2 encoder to create a random, unrecorded password for the fictional accounts.
+`python3 scripts/seed_society.py --container tenant_prod_postgres` previews the additions. Add `--apply` to populate the running local Spring/PostgreSQL app. `--container` names the local PostgreSQL container to use; `tenant_prod_postgres` is the one `local.yml` starts. There is no default, so the scripts never write to a database nobody named. The Danchi backend must be running on port 8000 for its Argon2 encoder to create a random, unrecorded password for the fictional accounts.
 
 The dataset fills three Cedar Court blocks, each with six floors and six homes per floor, for 108 resident contacts. It retains the existing residents and guest account, adds technicians in all seven supported trades, and supplies community conversations, real vote relationships, bookmarks, maintenance history and reviews. It also adds activity visible in the guest account's own apartment and profile. Names and situations are fictional; addresses use the reserved `.example` domain.
 

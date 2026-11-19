@@ -48,8 +48,8 @@ export default function HomeContent() {
 			<a href="#home-main" className={styles.skipLink}>Skip to content</a>
 			<div className={styles.container}>
 				<header className={styles.header}>
-					<Link href="/" className={styles.wordmark} aria-label="Tenant Sphere home">
-						tenant<span>sphere</span><span className={styles.wordmarkDot}>.</span>
+					<Link href="/" className={styles.wordmark} aria-label="Danchi home">
+						dan<span>chi</span><span className={styles.wordmarkDot}>.</span>
 					</Link>
 					<a href="#everyday" className={styles.headerExplore}>Everyday living, made easier</a>
 					<nav className={styles.navigation} aria-label="Main navigation">
@@ -104,7 +104,7 @@ export default function HomeContent() {
 				</main>
 
 				<footer className={styles.footer}>
-					<p>© {new Date().getFullYear()} Tenant Sphere</p>
+					<p>© {new Date().getFullYear()} Danchi</p>
 					<p>Good things start with good neighbours.</p>
 					<Link href="/login" prefetch={false}>Already at home here? <span>Log in <ArrowRight size={14} aria-hidden="true" /></span></Link>
 				</footer>

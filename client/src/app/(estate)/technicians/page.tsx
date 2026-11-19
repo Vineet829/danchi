@@ -3,7 +3,7 @@ import TechnicianCard from "@/components/cards/TechnicianCard";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Technicians — Tenant Sphere",
+	title: "Technicians — Danchi",
 	description:
 		"Tenants can see a list of technicians, what they specialize on and their rating",
 };

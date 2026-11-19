@@ -1,4 +1,4 @@
-/* TenantSphere administration uses the resident application's petrol and jade palette. */
+/* Danchi administration uses the resident application's petrol and jade palette. */
 html[theme~="dark"] {
   --admin-canvas: #102d32;
   --admin-sidebar: #0d272c;

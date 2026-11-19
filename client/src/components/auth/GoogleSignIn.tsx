@@ -10,7 +10,7 @@ function SigningIn({ signedIn = false }: { signedIn?: boolean }) {
 	return (
 		<div className={styles.frame}>
 			<header className={styles.header}>
-				<span className={styles.wordmark}>tenant<span>sphere</span><span className={styles.wordmarkDot}>.</span></span>
+				<span className={styles.wordmark}>dan<span>chi</span><span className={styles.wordmarkDot}>.</span></span>
 			</header>
 
 			<main className={styles.statusLayout}>
@@ -26,7 +26,7 @@ function SigningIn({ signedIn = false }: { signedIn?: boolean }) {
 				</section>
 			</main>
 
-			<footer className={styles.footer}><span>© {new Date().getFullYear()} Tenant Sphere</span><span>Good things start with good neighbours.</span></footer>
+			<footer className={styles.footer}><span>© {new Date().getFullYear()} Danchi</span><span>Good things start with good neighbours.</span></footer>
 		</div>
 	);
 }

@@ -11,11 +11,11 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.tenantsphere</groupId>
-    <artifactId>tenant-sphere</artifactId>
+    <groupId>com.danchi</groupId>
+    <artifactId>danchi</artifactId>
     <version>0.1.0</version>
-    <name>tenant-sphere</name>
-    <description>Tenant Sphere backend</description>
+    <name>danchi</name>
+    <description>Danchi backend</description>
 
     <properties>
         <java.version>21</java.version>
@@ -167,7 +167,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.tenantsphere.TenantSphereApplication</mainClass>
+                    <mainClass>com.danchi.DanchiApplication</mainClass>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>

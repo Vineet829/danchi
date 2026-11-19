@@ -4,7 +4,7 @@ import UpdatePostForm from "@/components/forms/update-post/UpdatePostForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Edit post — Tenant Sphere",
+	title: "Edit post — Danchi",
 	description: "Authors can update the title and the body of their post",
 };
 

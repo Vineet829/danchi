@@ -1,0 +1,3 @@
+package com.danchi.auth.dto;
+
+public record MessageResponse(String message) {}

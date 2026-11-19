@@ -5,7 +5,7 @@ import CreateRatingForm from "@/components/forms/add-rating/CreateRatingForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Rate a technician — Tenant Sphere",
+	title: "Rate a technician — Danchi",
 	description:
 		"Tenants can rate the technicians, if they are satisfied or dissatisfied with the services rendered to them",
 };

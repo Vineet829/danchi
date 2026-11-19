@@ -5,7 +5,7 @@ import { UsersRound } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Edit profile — Tenant Sphere",
+	title: "Edit profile — Danchi",
 	description: "Signed in users can edit their profile information",
 };
 

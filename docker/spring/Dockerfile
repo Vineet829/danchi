@@ -12,11 +12,11 @@ WORKDIR /app
 RUN apt-get update \
     && apt-get install -y --no-install-recommends curl ca-certificates \
     && rm -rf /var/lib/apt/lists/* \
-    && groupadd --gid 10001 tenantsphere \
-    && useradd --uid 10001 --gid tenantsphere --no-create-home tenantsphere \
+    && groupadd --gid 10001 danchi \
+    && useradd --uid 10001 --gid danchi --no-create-home danchi \
     && mkdir -p /app/media/avatars \
     && chown -R 10001:10001 /app
-COPY --from=build --chown=10001:10001 /build/target/tenant-sphere-0.1.0.jar /app/app.jar
+COPY --from=build --chown=10001:10001 /build/target/danchi-0.1.0.jar /app/app.jar
 USER 10001:10001
 EXPOSE 8000
 # Mail readiness is not app health: an SMTP outage must not mark the API container unhealthy.

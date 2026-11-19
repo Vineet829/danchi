@@ -59,7 +59,7 @@ def prepare_portrait(portrait):
         assert not portrait['source'].startswith('bundled:'), f'Missing bundled portrait: {destination.name}'
         for attempt in range(3):
             try:
-                request = Request(portrait['source'], headers={'User-Agent': 'TenantSphere-Sample-Photos/1.0'})
+                request = Request(portrait['source'], headers={'User-Agent': 'Danchi-Sample-Photos/1.0'})
                 with urlopen(request, timeout=20) as response:
                     assert response.headers.get_content_type() == 'image/jpeg', 'Expected a JPEG portrait.'
                     content = response.read(MAX_IMAGE_BYTES + 1)

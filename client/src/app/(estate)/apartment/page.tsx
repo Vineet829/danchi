@@ -5,7 +5,7 @@ import { Wrench } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Add your apartment — Tenant Sphere",
+	title: "Add your apartment — Danchi",
 	description: "Authenticated users can add their apartment details",
 };
 

@@ -25,7 +25,7 @@ show-logs-api:
 # Usage: make superuser EMAIL=admin@example.com USERNAME=community_admin (prompts for the password).
 superuser:
 	docker compose -f local.yml run --rm --no-deps --entrypoint java api \
-		-Dloader.main=com.tenantsphere.admin.CreateAdminCommand -cp /app/app.jar \
+		-Dloader.main=com.danchi.admin.CreateAdminCommand -cp /app/app.jar \
 		org.springframework.boot.loader.launch.PropertiesLauncher $(EMAIL) $(USERNAME)
 
 # Compose names volumes after the checkout's folder, so ask it for the names.

@@ -1,4 +1,4 @@
-# TenantSphere administration
+# Danchi administration
 
 The Spring backend replaces the registered Django admin models with a Vaadin administration application. The resident-facing Next.js application and its APIs remain separate.
 
@@ -18,7 +18,7 @@ Java 21 and PostgreSQL are required. Build the deployable application with:
 
 ```sh
 mvn -Pproduction package
-java -jar target/tenant-sphere-0.1.0.jar
+java -jar target/danchi-0.1.0.jar
 ```
 
 Use the application's existing database, signing, mail and cookie environment variables. Set `DOMAIN` to the resident-facing site URL. Keep secure cookies enabled on HTTPS deployments. Production builds include the admin frontend; Node/Vite is not needed by the running server.
@@ -32,8 +32,8 @@ The dependency baseline is Spring Boot 3.5.16 and Vaadin 24.10.7. The latter is 
 Apply the database migrations by starting the packaged application, then run this operator command with the same `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_DB`, `POSTGRES_USER` and `POSTGRES_PASSWORD` environment variables:
 
 ```sh
-java -Dloader.main=com.tenantsphere.admin.CreateAdminCommand \
-  -cp target/tenant-sphere-0.1.0.jar \
+java -Dloader.main=com.danchi.admin.CreateAdminCommand \
+  -cp target/danchi-0.1.0.jar \
   org.springframework.boot.loader.launch.PropertiesLauncher \
   admin@example.com community_admin
 ```

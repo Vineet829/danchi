@@ -5,7 +5,7 @@ import { ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Report a tenant — Tenant Sphere",
+	title: "Report a tenant — Danchi",
 	description: "Tenants can report their fellow tenants in cases of misconduct or misbehavior",
 };
 

@@ -1,0 +1,21 @@
+package com.danchi.auth;
+
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestClient;
+
+@Configuration
+@EnableConfigurationProperties(GoogleOAuthProperties.class)
+public class OAuthConfig {
+
+    @Bean
+    @ConditionalOnMissingBean
+    public GoogleIdentityProvider googleIdentityProvider(GoogleOAuthProperties properties) {
+        var factory = new org.springframework.http.client.SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(java.time.Duration.ofSeconds(5));
+        factory.setReadTimeout(java.time.Duration.ofSeconds(10));
+        return new GoogleIdentityClient(RestClient.builder().requestFactory(factory).build(), properties);
+    }
+}

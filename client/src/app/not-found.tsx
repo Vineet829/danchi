@@ -5,7 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = { title: "Page not found — Tenant Sphere" };
+export const metadata: Metadata = { title: "Page not found — Danchi" };
 
 export default function NotFound() {
 	return (

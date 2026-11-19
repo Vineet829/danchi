@@ -2,7 +2,7 @@ import PostTagCard from "@/components/cards/PostTagCard";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Posts by tag — Tenant Sphere",
+	title: "Posts by tag — Danchi",
 	description: "Authenticated users can see the tags details of a post",
 };
 

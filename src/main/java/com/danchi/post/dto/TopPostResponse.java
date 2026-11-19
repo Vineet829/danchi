@@ -1,0 +1,16 @@
+package com.danchi.post.dto;
+
+import java.time.Instant;
+import java.util.UUID;
+
+public record TopPostResponse(
+        UUID id,
+        String title,
+        String slug,
+        String authorUsername,
+        int upvotes,
+        int downvotes,
+        long viewCount,
+        long repliesCount,
+        String avatar,
+        Instant createdAt) {}

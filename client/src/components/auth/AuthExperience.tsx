@@ -54,7 +54,7 @@ export default function AuthExperience({ mode }: { mode: "login" | "register" })
 		<div className={styles.frame}>
 			<a href="#auth-form" className={styles.skipLink}>Skip to form</a>
 			<header className={styles.header}>
-				<Link href="/" className={styles.wordmark} aria-label="Tenant Sphere home">tenant<span>sphere</span><span className={styles.wordmarkDot}>.</span></Link>
+				<Link href="/" className={styles.wordmark} aria-label="Danchi home">dan<span>chi</span><span className={styles.wordmarkDot}>.</span></Link>
 				<Link href="/" className={styles.backLink}><ArrowLeft size={15} aria-hidden="true" />Back to home</Link>
 			</header>
 
@@ -65,7 +65,7 @@ export default function AuthExperience({ mode }: { mode: "login" | "register" })
 					<div className={styles.formHeading}>
 						<p className={styles.formEyebrow}>{isRegister ? "A NEW BEGINNING" : "WELCOME HOME"}</p>
 						<h1 id="auth-title">{isRegister ? "Create your account" : "Come on in."}</h1>
-						<p>{isRegister ? "A few details, and you’re one step closer." : "Log in to your Tenant Sphere community."}</p>
+						<p>{isRegister ? "A few details, and you’re one step closer." : "Log in to your Danchi community."}</p>
 					</div>
 
 					{isRegister ? <RegisterForm disabled={guestPending || googlePending} onBusyChange={setFormPending} /> : <LoginForm disabled={guestPending || googlePending} onBusyChange={setFormPending} />}
@@ -77,13 +77,13 @@ export default function AuthExperience({ mode }: { mode: "login" | "register" })
 					</div>
 					{alternativeError && <p className={styles.formError} role="alert">{alternativeError}</p>}
 					<div className={styles.switchPage}>
-						<span>{isRegister ? "Already a neighbour?" : "New to Tenant Sphere?"}</span>
+						<span>{isRegister ? "Already a neighbour?" : "New to Danchi?"}</span>
 						<Link href={isRegister ? "/login" : "/register"} prefetch={false}>{isRegister ? "Log in" : "Create an account"}<ArrowRight size={16} aria-hidden="true" /></Link>
 					</div>
 				</section>
 			</main>
 
-			<footer className={styles.footer}><span>© {new Date().getFullYear()} Tenant Sphere</span><span>Good things start with good neighbours.</span></footer>
+			<footer className={styles.footer}><span>© {new Date().getFullYear()} Danchi</span><span>Good things start with good neighbours.</span></footer>
 		</div>
 	);
 }

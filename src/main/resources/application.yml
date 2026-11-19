@@ -1,6 +1,6 @@
 spring:
   application:
-    name: tenant-sphere
+    name: danchi
 
   datasource:
     url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:tenantsphere}
@@ -86,9 +86,9 @@ app:
     same-site: Lax
     secure: ${COOKIE_SECURE:true}
   site:
-    name: ${SITE_NAME:Tenant Sphere}
+    name: ${SITE_NAME:Danchi}
     domain: ${DOMAIN:http://localhost:8080}
-    default-from-email: ${DEFAULT_FROM_EMAIL:support@tenantsphere.local}
+    default-from-email: ${DEFAULT_FROM_EMAIL:support@danchi.local}
   verification:
     activation-ttl: P3D
     password-reset-ttl: P1D
@@ -100,4 +100,4 @@ app:
 
 logging:
   level:
-    com.tenantsphere: ${APP_LOG_LEVEL:INFO}
+    com.danchi: ${APP_LOG_LEVEL:INFO}

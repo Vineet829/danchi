@@ -1,0 +1,36 @@
+package com.danchi.issue.dto;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.danchi.issue.Issue;
+import com.danchi.issue.IssueStatus;
+import com.danchi.issue.Priority;
+import java.util.UUID;
+
+public record IssueResponse(
+        UUID id,
+        String apartmentUnit,
+        String reportedBy,
+        @JsonInclude(JsonInclude.Include.NON_NULL) String assignedTo,
+        UUID reportedById,
+        @JsonInclude(JsonInclude.Include.NON_NULL) UUID assignedToId,
+        String title,
+        String description,
+        IssueStatus status,
+        Priority priority,
+        long viewCount) {
+
+    public static IssueResponse of(Issue issue, long viewCount) {
+        return new IssueResponse(
+                issue.getId(),
+                issue.getApartment().getUnitNumber(),
+                issue.getReportedBy().getFullName(),
+                issue.getAssignedTo() == null ? null : issue.getAssignedTo().getFullName(),
+                issue.getReportedBy().getId(),
+                issue.getAssignedTo() == null ? null : issue.getAssignedTo().getId(),
+                issue.getTitle(),
+                issue.getDescription(),
+                issue.getStatus(),
+                issue.getPriority(),
+                viewCount);
+    }
+}

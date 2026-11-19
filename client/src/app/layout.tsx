@@ -9,7 +9,7 @@ import { PersistAuth } from "@/utils";
 
 
 export const metadata: Metadata = {
-	title: "Home | Tenant Sphere",
+	title: "Home | Danchi",
 	description: "Welcome home",
 };
 

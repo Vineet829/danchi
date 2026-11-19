@@ -3,7 +3,7 @@ import IssueDetails from "@/components/issue/IssueDetails";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Issue — Tenant Sphere",
+	title: "Issue — Danchi",
 	description:
 		"Authenticated uses can get the details of the issue they have raised. They can also delete the issue",
 };

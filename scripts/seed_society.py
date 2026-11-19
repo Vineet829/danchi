@@ -73,10 +73,10 @@ def psql(container, sql):
 def inaccessible_password_hash():
     """Use the running backend's encoder with an unrecorded random password."""
     pid = subprocess.check_output(['lsof', '-nP', '-tiTCP:8000', '-sTCP:LISTEN'], text=True).strip()
-    assert pid.isdigit(), 'Start the local TenantSphere backend on port 8000 first.'
+    assert pid.isdigit(), 'Start the local Danchi backend on port 8000 first.'
     command = subprocess.check_output(['ps', '-ww', '-p', pid, '-o', 'command='], text=True).strip()
     args = shlex.split(command)
-    assert 'com.tenantsphere.TenantSphereApplication' in args
+    assert 'com.danchi.DanchiApplication' in args
     assert str(ROOT / 'target/classes') in command
     classpath_flag = '-cp' if '-cp' in args else '-classpath'
     classpath = args[args.index(classpath_flag) + 1]

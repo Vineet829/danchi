@@ -5,7 +5,7 @@ import CreateIssueForm from "@/components/forms/report-issue/CreateIssueForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Report an issue — Tenant Sphere",
+	title: "Report an issue — Danchi",
 	description: "Tenants can report any issues to the management with regards to their apartments",
 };
 

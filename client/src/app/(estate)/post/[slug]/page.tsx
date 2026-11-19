@@ -3,7 +3,7 @@ import PostDetails from "@/components/post/PostDetails";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Post — Tenant Sphere",
+	title: "Post — Danchi",
 	description: "Authenticated users can see the details of a post",
 };
 
