@@ -19,7 +19,6 @@ FROM base as node-run-stage
 ARG APP_HOME=/app
 WORKDIR ${APP_HOME}
 
-# su-exec lets the start script drop from root to the checkout's owner.
 RUN apk add --no-cache su-exec
 
 COPY --from=node-build-stage /node_modules ./node_modules

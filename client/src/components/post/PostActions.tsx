@@ -10,7 +10,6 @@ interface PostActionsProps {
 	isUpvoted?: boolean;
 	isDownvoted?: boolean;
 	isBookmarked?: boolean;
-	/** Only the author can edit or delete a post. */
 	canManage?: boolean;
 	handleUpvote: () => void;
 	handleDownVote: () => void;
@@ -91,7 +90,7 @@ export default function PostActions({
 					title={isBookmarked ? "In your bookmarks" : "Bookmark this post"}
 				>
 					{isBookmarkLoading ? <span className="es-spinner" aria-hidden="true" /> : <Bookmark aria-hidden="true" />}
-					{isBookmarkLoading ? "Saving…" : isBookmarked ? "Saved" : "Save"}
+					{isBookmarkLoading ? "Saving..." : isBookmarked ? "Saved" : "Save"}
 				</button>
 			</div>
 

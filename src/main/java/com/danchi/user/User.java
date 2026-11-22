@@ -59,8 +59,6 @@ public class User extends BaseEntity {
     @Column(name = "last_login")
     private Instant lastLogin;
 
-    // When the account was first turned on, which the database sets however
-    // that happens. Until then, it is waiting for its activation link.
     @Column(name = "activated_at", insertable = false, updatable = false)
     private Instant activatedAt;
 

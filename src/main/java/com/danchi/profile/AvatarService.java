@@ -55,7 +55,6 @@ public class AvatarService {
                     HttpStatus.BAD_REQUEST, "Could not read the uploaded file.");
         }
 
-        // Avatars are public, and a photo can say where and when it was taken: only the image is kept.
         try {
             content = ImageMetadata.strip(content, expectedFormat);
         } catch (IllegalArgumentException exception) {

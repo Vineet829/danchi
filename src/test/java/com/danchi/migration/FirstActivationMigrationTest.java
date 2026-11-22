@@ -14,9 +14,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-// V10 runs over accounts as they were before it: each one that was ever on is
-// remembered as activated, and only one that never was still waits for its
-// activation email.
 class FirstActivationMigrationTest {
 
     private static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres:16-alpine");
@@ -39,7 +36,7 @@ class FirstActivationMigrationTest {
     }
 
     @Test
-    void accountsThatWereEverOnAreRememberedAsActivated() {
+    void backfillsActivationTimes() {
         migrateTo("9");
         long waiting = user("waiting", false, null);
         long active = user("active", true, null);

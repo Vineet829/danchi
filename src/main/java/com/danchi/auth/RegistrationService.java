@@ -54,7 +54,6 @@ public class RegistrationService {
         }
 
         String email = request.email().trim().toLowerCase(Locale.ROOT);
-        // A sign-up never activated gives way to this one: only its newest link works.
         pendingSignUps.removeFor(email);
         if (userRepository.existsByUsernameIgnoreCase(request.username())) {
             throw new RegistrationException("username", "A user with this username already exists");
@@ -68,14 +67,8 @@ public class RegistrationService {
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setActive(false);
 
-        // From here on the sign-up emails its address: an activation link, or a note to the account it has.
-        // It counts toward the account emails alike in both cases, once its password is hashed, so their
-        // counts are held only until it is saved. One refused before, as for a taken username, sends nothing
-        // and isn't counted.
         limiter.consumeAccountEmail(clientAddress, email);
 
-        // An email that has an account gets a new sign-up's answer, so signing up doesn't tell
-        // anyone which emails have accounts here. The account's owner is told instead.
         Optional<User> owner = userRepository.findByEmailIgnoreCase(email);
         if (owner.isPresent()) {
             user.setId(UUID.randomUUID());
@@ -95,8 +88,6 @@ public class RegistrationService {
         return user;
     }
 
-    // An activation email is only for an account that was never turned on.
-    // One that staff or reports turned off stays off until staff turn it on.
     @Transactional
     public void resendActivation(String email) {
         Optional<User> user = userRepository.findByEmailIgnoreCase(email.trim());
@@ -132,7 +123,6 @@ public class RegistrationService {
         return profileRepository.findByUserPkid(user.getPkid()).map(profile -> profile.isBanned(user)).orElse(false);
     }
 
-    // A username made only of underscores has no letters for a slug, so its profile takes a plain one.
     private String uniqueSlug(String username) {
         String base = Slugs.of(username, "profile");
         String candidate = base;

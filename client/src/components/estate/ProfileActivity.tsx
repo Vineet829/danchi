@@ -47,7 +47,7 @@ function ActivityLoading({ label }: { label: string }) {
 function ActivityError({ label, onRetry, retrying }: { label: string; onRetry: () => void; retrying: boolean }) {
 	return (
 		<div className="es-profile-notice" role="alert">
-			<p>We couldn’t load the {label}. Please try again.</p>
+			<p>We couldn&apos;t load the {label}. Please try again.</p>
 			<button type="button" className="es-btn es-btn--outline es-btn--sm" onClick={onRetry} disabled={retrying}>
 				<RefreshCw aria-hidden="true" />
 				Try again
@@ -68,9 +68,9 @@ function ActivityPagination({ page, count, hasNext, busy, error, label, onChange
 	if (count <= 3 && page === 1) return null;
 	const start = (page - 1) * 3 + 1;
 	const end = Math.min(page * 3, count);
-	let status = start > count ? "No more results" : `${start}–${end} of ${count}`;
+	let status = start > count ? "No more results" : `${start}-${end} of ${count}`;
 	if (error) status = `Page ${page} unavailable`;
-	if (busy) status = "Loading…";
+	if (busy) status = "Loading...";
 	return (
 		<nav className="es-profile-pagination" aria-label={`${label} pages`}>
 			<p role="status">{status}</p>
@@ -98,7 +98,7 @@ function TenantPosts({ slug }: { slug: string }) {
 			<div className="es-profile-section-head">
 				<div>
 					<h3 className="es-person-dialog-section" ref={headingRef} tabIndex={-1}>Community posts</h3>
-					<p>Latest conversations</p>
+					<p>Posts by this tenant</p>
 				</div>
 				{count !== undefined && <span className="es-profile-count">{plural(count, "post")}</span>}
 				{isFetching && posts && <Loader2 className="es-profile-refresh" aria-label="Updating posts" />}

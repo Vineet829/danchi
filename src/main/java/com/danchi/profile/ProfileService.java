@@ -155,7 +155,6 @@ public class ProfileService {
         return value != null && !value.isBlank();
     }
 
-    // A directory page's apartments and average ratings in one query each, not two per person.
     private Page<ProfileResponse> toResponses(Page<Profile> page) {
         List<Long> users = page.getContent().stream().map(profile -> profile.getUser().getPkid()).toList();
         Map<Long, ApartmentResponse> homes = new HashMap<>();

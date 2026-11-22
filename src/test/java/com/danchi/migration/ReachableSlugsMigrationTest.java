@@ -11,8 +11,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-// V12 runs over posts, tags and reports as they were made before it: each that had no address of
-// its own gets one, and the rest keep theirs.
 class ReachableSlugsMigrationTest {
 
     private static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres:16-alpine");
@@ -33,7 +31,7 @@ class ReachableSlugsMigrationTest {
     }
 
     @Test
-    void postsTagsAndReportsWithoutAnAddressGetOne() {
+    void replacesUnreachableSlugs() {
         Flyway.configure().dataSource(dataSource).target("11").load().migrate();
         long author = db.queryForObject(
                 "INSERT INTO users (id, email, username, first_name, last_name, password) VALUES"

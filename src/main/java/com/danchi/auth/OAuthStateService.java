@@ -41,7 +41,6 @@ public class OAuthStateService {
             }
             if (!MessageDigest.isEqual(value.getBytes(StandardCharsets.UTF_8),
                     state.value().getBytes(StandardCharsets.UTF_8))) return Optional.empty();
-            // Consume before contacting Google, including when its response fails.
             session.removeAttribute(ATTRIBUTE);
             return Optional.of(state.redirectUri());
         }

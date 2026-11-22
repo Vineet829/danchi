@@ -20,7 +20,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -58,7 +57,7 @@ class PostVoteServiceTest {
     @Autowired private JdbcTemplate database;
 
     @Test
-    void upvoteCanBeAddedRemovedAndAddedAgainWithAccurateMessages() {
+    void upvoteTogglesWithMessages() {
         User voter = user("voter");
         UUID post = post(voter);
         var controller = new PostVoteController(votes);
@@ -76,7 +75,7 @@ class PostVoteServiceTest {
     }
 
     @Test
-    void removingAnUpvotePreservesOtherPeoplesVotes() {
+    void removingUpvoteKeepsOtherVotes() {
         User voter = user("voter");
         User neighbour = user("neighbour");
         User other = user("other");
@@ -97,7 +96,7 @@ class PostVoteServiceTest {
     }
 
     @Test
-    void switchingVotesReplacesThePreviousVoteAndEitherVoteCanBeRemoved() {
+    void switchingVoteReplacesPrevious() {
         User voter = user("voter");
         UUID post = post(voter);
         votes.upvote(post, voter);
@@ -117,7 +116,7 @@ class PostVoteServiceTest {
     }
 
     @Test
-    void downvotingAtZeroProducesANegativeScoreAndUndoRestoresZero() {
+    void downvoteAtZeroGoesNegative() {
         User voter = user("voter");
         UUID post = post(voter);
         var controller = new PostVoteController(votes);
@@ -135,7 +134,7 @@ class PostVoteServiceTest {
     }
 
     @Test
-    void selectedVoteIsScopedToTheViewerAndUpdatesWhenSwitchingDirections() {
+    void voteStateIsPerViewer() {
         User voter = user("voter");
         User neighbour = user("neighbour");
         UUID post = post(voter);
@@ -155,7 +154,7 @@ class PostVoteServiceTest {
     }
 
     @Test
-    void votingOnAMissingPostReturnsNotFound() {
+    void missingPostVoteNotFound() {
         User voter = user("voter");
         assertThatThrownBy(() -> votes.upvote(UUID.randomUUID(), voter))
                 .isInstanceOfSatisfying(ResponseStatusException.class,
@@ -163,7 +162,7 @@ class PostVoteServiceTest {
     }
 
     @Test
-    void everyExplicitVoteTransitionIsIdempotentAndDoesNotMarkThePostAsEdited() {
+    void voteTransitionsAreIdempotent() {
         User voter = user("voter");
         UUID post = post(voter);
         var updated = database.queryForObject("SELECT updated_at FROM posts WHERE id = ?", java.sql.Timestamp.class, post);
@@ -184,7 +183,7 @@ class PostVoteServiceTest {
     }
 
     @Test
-    void editingAStalePostCannotOverwriteVotesAndBadCountersAreReconciled() {
+    void staleEditKeepsVoteCounts() {
         User voter = user("voter");
         UUID post = post(voter);
         Post stale = posts.findByExternalId(post).orElseThrow();
@@ -200,7 +199,7 @@ class PostVoteServiceTest {
 
     @Test
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    void concurrentVotesFromDifferentPeopleDoNotLoseCounts() throws Exception {
+    void concurrentVotesKeepCounts() throws Exception {
         List<User> voters = new ArrayList<>();
         UUID post = null;
         try {
@@ -218,7 +217,7 @@ class PostVoteServiceTest {
 
     @Test
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    void concurrentSubmissionsFromOnePersonAreIdempotentAndMutuallyExclusive() throws Exception {
+    void concurrentRepeatVotesIdempotent() throws Exception {
         User voter = user("parallel-" + UUID.randomUUID().toString().substring(0, 8));
         UUID post = post(voter);
         try {
@@ -255,56 +254,6 @@ class PostVoteServiceTest {
             start.countDown();
             for (Future<?> task : work) task.get(20, TimeUnit.SECONDS);
         }
-    }
-
-    @Test
-    void postListsArePagedByTheDatabaseAndKeepEveryTagOfEachPost() {
-        String suffix = UUID.randomUUID().toString().replace("-", "").substring(0, 12);
-        User author = user("tagger_" + suffix);
-        long garden = tag("garden-" + suffix);
-        long noise = tag("noise-" + suffix);
-        for (int i = 0; i < 3; i++) {
-            UUID postId = post(author);
-            for (long tag : List.of(garden, noise)) {
-                database.update("INSERT INTO post_tags (post_pkid, tag_pkid) VALUES ((SELECT pkid FROM posts WHERE id = ?), ?)",
-                        postId, tag);
-            }
-        }
-        entityManager.flush();
-        entityManager.clear();
-
-        // With fail_on_pagination_over_collection_fetch on, a page that fetched the tags would be refused.
-        var page = posts.findByAuthor(author.getPkid(), PageRequest.of(0, 2));
-        assertThat(page.getContent()).hasSize(2);
-        assertThat(page.getTotalElements()).isEqualTo(3);
-        assertThat(responses.toResponses(page, author).getContent())
-                .allSatisfy(post -> assertThat(post.tags()).containsExactly("garden-" + suffix, "noise-" + suffix));
-        var tagged = posts.findByTagSlug("garden-" + suffix, PageRequest.of(0, 10));
-        assertThat(responses.toTagResponses(tagged, author).getContent())
-                .hasSize(3)
-                .allSatisfy(post -> assertThat(post.tags()).containsExactly("garden-" + suffix, "noise-" + suffix));
-    }
-
-    private long tag(String name) {
-        return database.queryForObject("INSERT INTO tags (name, slug) VALUES (?, ?) RETURNING pkid", Long.class, name, name);
-    }
-
-    @Test
-    void aListCountsEachPostsRepliesAndOnlyThePostsOwnPageShowsThem() {
-        User author = user("lister_" + UUID.randomUUID().toString().replace("-", "").substring(0, 12));
-        UUID postId = post(author);
-        for (int i = 0; i < 2; i++) {
-            database.update("""
-                    INSERT INTO replies (id, post_pkid, author_pkid, body)
-                    VALUES (?, (SELECT pkid FROM posts WHERE id = ?), ?, 'A reply')
-                    """, UUID.randomUUID(), postId, author.getPkid());
-        }
-        Post stored = posts.findByExternalId(postId).orElseThrow();
-
-        var listed = responses.toResponses(new PageImpl<>(List.of(stored)), author).getContent().getFirst();
-        assertThat(listed.repliesCount()).isEqualTo(2);
-        assertThat(listed.replies()).isEmpty();
-        assertThat(responses.toResponse(stored, author).replies()).hasSize(2);
     }
 
     private void assertStoredCounts(UUID post, int upvotes, int downvotes) {

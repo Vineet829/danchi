@@ -17,7 +17,6 @@ function Count({ value }: { value?: number }) {
 }
 
 export default function ProfileTabs() {
-	// The first page of each list carries its full count.
 	const { data: posts } = useGetMyPostsQuery(1);
 	const { data: issues } = useGetMyIssuesQuery(1);
 	const { data: reports } = useGetMyReportsQuery(1);

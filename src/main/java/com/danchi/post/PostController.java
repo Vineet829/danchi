@@ -43,8 +43,6 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api/v1/posts")
 public class PostController {
 
-    // Addresses the API or the client already use for a page of their own, where a post with that
-    // slug could never be opened.
     private static final Set<String> TAKEN_PATHS = Set.of("my-posts", "top-posts", "popular-tags", "update-post");
 
     private static final int PAGE_SIZE = 9;
@@ -67,9 +65,6 @@ public class PostController {
         this.contentViewRecorder = contentViewRecorder;
     }
 
-    // A page of posts and its responses are built in one read-only transaction: the
-    // tags are not fetched with the page and load afterwards in one batch, which needs
-    // the page's posts to be still attached.
     @GetMapping("/")
     @Transactional(readOnly = true)
     @ObjectLabel("posts")

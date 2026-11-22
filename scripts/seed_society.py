@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Populate the local Spring/PostgreSQL app with fictional Cedar Court activity.
 
-Preview: python3 scripts/seed_society.py
-Apply:   python3 scripts/seed_society.py --apply
+Preview: python3 scripts/seed_society.py --container tenant_prod_postgres
+Apply:   python3 scripts/seed_society.py --container tenant_prod_postgres --apply
 
 Uses stable UUIDs, an atomic transaction, and inserts only. Existing accounts,
 content edits and votes are preserved. No email or notification is sent.
@@ -64,14 +64,12 @@ def psql(container, sql):
          'exec psql -XAtq -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1'],
         input=sql, text=True, capture_output=True, timeout=120)
     if result.returncode:
-        # Do not include SQL values or account password hashes in diagnostics.
         errors = [line for line in result.stderr.splitlines() if 'ERROR:' in line]
         raise RuntimeError('\n'.join(errors) or 'PostgreSQL command failed; transaction rolled back.')
     return result.stdout.strip()
 
 
 def inaccessible_password_hash():
-    """Use the running backend's encoder with an unrecorded random password."""
     pid = subprocess.check_output(['lsof', '-nP', '-tiTCP:8000', '-sTCP:LISTEN'], text=True).strip()
     assert pid.isdigit(), 'Start the local Danchi backend on port 8000 first.'
     command = subprocess.check_output(['ps', '-ww', '-p', pid, '-o', 'command='], text=True).strip()
@@ -155,7 +153,6 @@ class Society:
         by_id = {person['id']: person for person in self.people.values()}
         for block in 'ABC':
             for floor in range(1, 7):
-                # Retain the existing C-308 home within that floor's six-home layout.
                 numbers = [1, 3, 4, 5, 6, 8] if block == 'C' and floor == 3 else range(1, 7)
                 for number in numbers:
                     unit_number = f'{block}-{floor}0{number}'
@@ -256,7 +253,6 @@ class Society:
                     key = technician['username'] + ':' + str(index)
                     resolved = self.issue(key, unit, technician, trade, index, rng.randint(10, 135), 'resolved')
                     rating = rng.choices([2, 3, 4, 5], [1, 2, 7, 10])[0]
-                    # Lower scores mention the actual source of dissatisfaction.
                     comment = ("The repair is holding, but two appointments were missed before the visit." if rating == 2 else
                                "The job was completed, though getting a confirmed time took longer than I expected." if rating == 3 else
                                REVIEWS[trade][(index + rng.randrange(7)) % len(REVIEWS[trade])])

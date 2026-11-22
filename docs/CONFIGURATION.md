@@ -1,8 +1,8 @@
 # Configuration
 
-Start from `.envs/.env.example`, which explains most settings. Copy it to
-`.envs/.env.local` for `local.yml`, or to `.envs/.env.production` for
-`production.yml`. For production:
+Start from `.envs/.env.example`. Copy it to `.envs/.env.local` for
+`local.yml`, or to `.envs/.env.production` for `production.yml`. For
+production:
 
 - **Keys**: Set a strong `POSTGRES_PASSWORD` and a `SIGNING_KEY` from
   `openssl rand -hex 32`. Changing the signing key signs everyone out.

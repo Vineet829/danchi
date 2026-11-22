@@ -9,8 +9,6 @@ services:
     container_name: tenant_spring_api
     volumes:
       - tenant_prod_media:/app/media
-    # ports:
-    #   - "8000:8000"
     expose:
       - "8000"
     env_file:
@@ -18,14 +16,11 @@ services:
     environment:
       POSTGRES_HOST: postgres
       POSTGRES_PORT: "5432"
-      # Local nginx serves plain HTTP; secure cookies would be dropped by the browser.
       COOKIE_SECURE: "false"
       EMAIL_HOST: mailpit
       EMAIL_PORT: "1025"
       EMAIL_USE_AUTH: "false"
       EMAIL_USE_TLS: "false"
-    # Waits until PostgreSQL accepts connections: on a first start it is still
-    # creating the database, and the API exits if it cannot connect.
     depends_on:
       postgres:
         condition: service_healthy
@@ -40,8 +35,6 @@ services:
       dockerfile: ./docker/local/postgres/Dockerfile
     image: tenant_prod_postgres
     container_name: tenant_prod_postgres
-    # Published on this machine only: the database, the mail viewer, which shows every activation
-    # and reset link, and the site are not for the rest of the network.
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
@@ -78,16 +71,11 @@ services:
       dockerfile: ./docker/local/Dockerfile
     container_name: tenant_client
     image: tenant_client
-    # ports:
-    #   - "3000:3000"
     expose:
       - "3000"
     volumes:
       - ./client:/app
       - /app/node_modules
-    # add this line(uncomment it) so that hot module reloading can work when working with windows subsystem for linux.
-    # environment:
-    #   - WATCHPACK_POLLING=true
     networks:
       - tenant_prod_nw
 

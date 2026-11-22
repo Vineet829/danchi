@@ -25,7 +25,6 @@ export default function PostHeader({
 }: PostHeaderProps) {
 	const created = created_at ? new Date(created_at.replace(" ", "T")).getTime() : NaN;
 	const updated = updated_at ? new Date(updated_at.replace(" ", "T")).getTime() : NaN;
-	// Saves within a minute of posting are part of writing it, not an edit.
 	const edited = updated - created > 60_000;
 	const editedAgo = edited ? timeAgo(updated_at) : "";
 	const displayName = useDisplayName();

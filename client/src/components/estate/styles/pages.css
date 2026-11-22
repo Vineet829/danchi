@@ -1,6 +1,3 @@
-/* Page patterns — feed, directory, profile, detail pages and forms. */
-
-/* ── Feed ────────────────────────────────────────────────── */
 .estate-shell .es-composer {
 	@apply flex items-center gap-[12px] mb-[26px] [padding:10px_10px_10px_14px] [border:1px_solid_var(--es-line)] rounded-estate-lg [background:var(--es-sheen),_var(--es-surface)] [box-shadow:var(--es-shadow-1)] [transition:border-color_0.2s,_box-shadow_0.2s];
 }
@@ -115,7 +112,6 @@ a.es-stat:hover svg {
 	@apply text-estate-accent-text;
 }
 
-/* Display-only stats sit under the row's link, so a click on them opens the post. */
 .es-stat--static {
 	@apply static z-auto;
 }
@@ -132,7 +128,6 @@ a.es-stat:hover svg {
 	@apply [padding-inline:4px] border-[transparent] [background:transparent] text-estate-text-3 font-medium;
 }
 
-/* Bordered variant, used in grids */
 .es-postgrid {
 	@apply grid grid-cols-[repeat(auto-fill,_minmax(min(100%,_340px),_1fr))] gap-[18px] min-w-0;
 }
@@ -157,7 +152,6 @@ a.es-stat:hover svg {
 	@apply mt-auto pt-[16px];
 }
 
-/* ── Directory ───────────────────────────────────────────── */
 .es-people {
 	@apply grid grid-cols-[repeat(auto-fill,_minmax(min(100%,_300px),_1fr))] gap-[18px] min-w-0;
 }
@@ -214,7 +208,6 @@ a.es-stat:hover svg {
 	@apply inline-flex items-center justify-between gap-[8px] flex-[1] min-h-[44px] [padding:4px_0] [border:0] [background:transparent] text-estate-accent-text text-[0.875rem] font-[650] text-left cursor-pointer;
 }
 
-/* The native button opens the whole card without nesting the Rate link inside it. */
 .es-person-open::after {
 	@apply absolute inset-0 z-[1] rounded-estate-lg [content:""];
 }
@@ -247,7 +240,6 @@ a.es-stat:hover svg {
 	@apply grid gap-[8px];
 }
 
-/* Directory profile dialog, centered over the page. */
 .es-person-backdrop {
 	@apply fixed inset-0 z-[100] [background:rgb(5_22_25_/_0.58)] [backdrop-filter:blur(5px)] [-webkit-backdrop-filter:blur(5px)];
 }
@@ -649,7 +641,6 @@ a.es-stat:hover svg {
 	}
 }
 
-/* ── Panels & definition lists ───────────────────────────── */
 .es-panel {
 	@apply [padding:24px_26px];
 }
@@ -686,7 +677,6 @@ a.es-stat:hover svg {
 	@apply m-0 text-estate-text text-[1rem] leading-[1.8] [white-space:pre-line] [overflow-wrap:anywhere];
 }
 
-/* ── Profile ─────────────────────────────────────────────── */
 .es-profile-hero {
 	@apply isolate overflow-hidden mb-[8px];
 }
@@ -812,7 +802,6 @@ a.es-stat:hover svg {
 	@apply grid grid-cols-[repeat(auto-fill,_minmax(min(100%,_320px),_1fr))] gap-[18px] min-w-0;
 }
 
-/* Issue & report cards */
 .es-issue {
 	@apply flex flex-col gap-0 h-full p-[22px];
 }
@@ -877,7 +866,6 @@ a.es-stat:hover svg {
 	@apply [margin:8px_0_0] text-estate-text-2 text-[0.875rem] leading-[1.65] [overflow-wrap:anywhere];
 }
 
-/* ── Post detail ─────────────────────────────────────────── */
 .es-article {
 	@apply overflow-hidden;
 }
@@ -1010,7 +998,6 @@ a.es-stat:hover svg {
 	@apply [margin:18px_0_0] text-estate-text-3 text-[0.875rem] leading-[1.6];
 }
 
-/* ── Issue detail ────────────────────────────────────────── */
 .es-issuehead {
 	@apply mb-[26px];
 }
@@ -1043,7 +1030,6 @@ a.es-stat:hover svg {
 	@apply grid gap-[10px] mt-[22px] pt-[20px] [border-top:1px_solid_var(--es-line)];
 }
 
-/* ── Forms ───────────────────────────────────────────────── */
 .estate-shell .es-formpage {
 	@apply grid grid-cols-[minmax(0,_0.82fr)_minmax(0,_1.18fr)] [align-items:start] gap-[clamp(28px,_5cqi,_64px)] pt-[8px];
 }
@@ -1136,7 +1122,6 @@ a.es-stat:hover svg {
 	@apply w-[14px] h-[14px] shrink-0 mt-[3px];
 }
 
-/* Controls — the shared input primitives render inside .es-control */
 .estate-shell .es-control > div {
 	@apply relative block;
 }
@@ -1206,12 +1191,10 @@ a.es-stat:hover svg {
 	@apply m-0 [-webkit-appearance:none];
 }
 
-/* react-select */
 .estate-shell .es-select > div {
 	@apply min-w-0 text-[0.9375rem];
 }
 
-/* Segmented choice */
 .estate-shell .es-segmented {
 	@apply grid grid-cols-[repeat(var(--es-options,_3),_minmax(0,_1fr))] gap-[6px] p-[5px] [border:1px_solid_var(--es-field-line)] rounded-[11px] [background:var(--es-sunken)];
 }
@@ -1260,7 +1243,6 @@ a.es-stat:hover svg {
 	@apply [outline:2px_solid_var(--es-accent)] outline-offset-[2px];
 }
 
-/* Star rating input */
 .estate-shell .es-starinput {
 	@apply flex items-center flex-wrap gap-[14px];
 }
@@ -1297,7 +1279,6 @@ a.es-stat:hover svg {
 	@apply text-estate-text-2 text-[0.875rem] font-[550] leading-[1.5];
 }
 
-/* Tag entry */
 .estate-shell .es-tagbox {
 	@apply flex items-center flex-wrap gap-[8px] min-h-[48px] [padding:7px_8px] [border:1px_solid_var(--es-field-line)] rounded-estate-sm [background:var(--es-sunken)] [transition:border-color_0.16s,_box-shadow_0.16s];
 }
@@ -1330,7 +1311,6 @@ a.es-stat:hover svg {
 	@apply w-[13px] h-[13px];
 }
 
-/* File upload */
 .estate-shell .es-upload {
 	@apply flex items-center gap-[16px] [padding:14px_16px] [border:1px_dashed_var(--es-field-line)] rounded-estate [background:var(--es-sunken)] [transition:border-color_0.16s];
 }
@@ -1381,7 +1361,6 @@ a.es-stat:hover svg {
 	@apply m-0 text-estate-text-3 text-[0.8125rem] leading-[1.5];
 }
 
-/* ── Status pages ────────────────────────────────────────── */
 .es-statuspage {
 	@apply flex flex-col items-center justify-center min-h-[calc(var(--app-viewport-height)_*_0.6)] [padding:40px_24px] text-center;
 }
@@ -1414,7 +1393,6 @@ a.es-stat:hover svg {
 	@apply [margin:0_0_10px] text-estate-accent-text [font:400_clamp(5rem,_16vw,_9rem)_/_0.95_var(--es-serif)] tracking-[-0.04em];
 }
 
-/* ── Responsive ──────────────────────────────────────────── */
 @container es-content (max-width: 860px) {
 	.estate-shell .es-formpage {
 		@apply grid-cols-[minmax(0,_1fr)] gap-[28px];
@@ -1424,7 +1402,6 @@ a.es-stat:hover svg {
 		@apply static;
 	}
 
-	/* With one column the form comes first; the notes are supporting material. */
 	.es-steps {
 		@apply hidden;
 	}
@@ -1447,7 +1424,6 @@ a.es-stat:hover svg {
 }
 
 @container es-content (max-width: 640px) {
-	/* Keep the enlarged report forms within the available mobile width. */
 	.es-formpanel[data-size="large"] {
 		@apply [zoom:1];
 	}
@@ -1529,7 +1505,6 @@ a.es-stat:hover svg {
 	}
 }
 
-/* ── Additions ───────────────────────────────────────────── */
 .es-post-tags .es-chip {
 	@apply relative z-[1];
 }
@@ -1542,7 +1517,6 @@ a.es-stat:hover svg {
 	@apply inline-flex;
 }
 
-/* Votes sit together as one control */
 .estate-shell .es-votes {
 	@apply inline-flex items-center [border:1px_solid_var(--es-line-strong)] rounded-[999px] [background:var(--es-surface)];
 }
@@ -1579,7 +1553,6 @@ a.es-stat:hover svg {
 	@apply mt-[5px];
 }
 
-/* Numbered notes beside a form */
 .es-steps {
 	@apply max-w-[400px] [margin:30px_0_0] p-0 [list-style:none];
 }
@@ -1604,7 +1577,6 @@ a.es-stat:hover svg {
 	@apply [margin:1px_0_0] text-estate-text-2 text-[0.8125rem] leading-[1.6];
 }
 
-/* Form details */
 .estate-shell .es-fieldset {
 	@apply m-0 p-0 [border:0];
 }
@@ -1654,7 +1626,6 @@ a.es-stat:hover svg {
 	@apply hidden;
 }
 
-/* An empty state inside a form card needs no second border. */
 .es-formpanel .es-empty {
 	@apply [padding:36px_8px_28px] [border:0];
 }

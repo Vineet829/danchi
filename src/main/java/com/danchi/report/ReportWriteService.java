@@ -35,7 +35,6 @@ public class ReportWriteService {
 
     @Transactional
     public Report create(ReportCreateRequest request, User reporter) {
-        // Serialize reports about the same person so simultaneous reports cannot lose counts.
         User reported = userRepository.findByUsernameForUpdate(request.reportedUserUsername())
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.BAD_REQUEST, "The provided username does not exist"));

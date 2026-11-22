@@ -51,7 +51,7 @@ import java.util.UUID;
     com.danchi.common.ErrorResponseWriter.class,
     ApiAuthenticationEntryPoint.class
 })
-class SecuritySessionRegressionTest {
+class SecuritySessionTest {
     @Autowired MockMvc mvc;
     @MockBean AuthService auth;
     @MockBean JwtService jwt;
@@ -89,7 +89,7 @@ class SecuritySessionRegressionTest {
     }
 
     @Test
-    void jwtRequestsKeepExistingUiSessionIdStable() throws Exception {
+    void jwtRequestsKeepSessionId() throws Exception {
         var session = new MockHttpSession();
         String before = session.getId();
         for (int i = 0; i < 3; i++) {
@@ -106,7 +106,7 @@ class SecuritySessionRegressionTest {
     }
 
     @Test
-    void passwordLoginRotatesAnExistingUiSession() throws Exception {
+    void passwordLoginRotatesSession() throws Exception {
         var session = new MockHttpSession();
         String before = session.getId();
         mvc.perform(
@@ -120,7 +120,7 @@ class SecuritySessionRegressionTest {
     }
 
     @Test
-    void apiOnlyLoginDoesNotCreateAnHttpSession() throws Exception {
+    void apiLoginCreatesNoSession() throws Exception {
         var result =
                 mvc.perform(
                                 post("/api/v1/auth/login/").cookie(new Cookie("XSRF-TOKEN", "csrf-fixture")).header("X-XSRF-TOKEN", "csrf-fixture")
@@ -133,7 +133,7 @@ class SecuritySessionRegressionTest {
     }
 
     @Test
-    void failedLoginDoesNotRotateExistingSession() throws Exception {
+    void failedLoginKeepsSession() throws Exception {
         when(auth.authenticate(anyString(), anyString()))
                 .thenThrow(new InvalidCredentialsException());
         var session = new MockHttpSession();
@@ -149,7 +149,7 @@ class SecuritySessionRegressionTest {
     }
 
     @Test
-    void signInsAndEmailRequestsAreCountedBeforeAnythingElse() throws Exception {
+    void signInLimitsApplyFirst() throws Exception {
         doThrow(new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, "Too many sign-in attempts. Please try again later."))
                 .when(limiter).consume(eq(RequestLimit.SIGN_IN_EMAIL), anyString());
         mvc.perform(
@@ -169,7 +169,7 @@ class SecuritySessionRegressionTest {
     }
 
     @Test
-    void signUpsCountTheirNetworkBeforeAnythingElse() throws Exception {
+    void signUpLimitAppliesFirst() throws Exception {
         doThrow(new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, "Too many sign-ups from this network. Please try again later."))
                 .when(limiter).consume(eq(RequestLimit.SIGN_UP_ADDRESS), anyString());
         mvc.perform(
@@ -183,7 +183,7 @@ class SecuritySessionRegressionTest {
     }
 
     @Test
-    void aRefreshKeepsItsSignInSoSigningOutRefusesTheOldTokensToo() throws Exception {
+    void refreshKeepsSignInSession() throws Exception {
         UUID userId = UUID.randomUUID();
         UUID session = UUID.randomUUID();
         var user = new User();
@@ -202,7 +202,7 @@ class SecuritySessionRegressionTest {
     }
 
     @Test
-    void signingOutRefusesItsTokensFromThenOn() throws Exception {
+    void logoutRevokesBothTokens() throws Exception {
         mvc.perform(post("/api/v1/auth/logout/")
                         .cookie(new Cookie("XSRF-TOKEN", "csrf-fixture"), new Cookie("access", "access-token"),
                                 new Cookie("refresh", "refresh-token"))
@@ -213,7 +213,7 @@ class SecuritySessionRegressionTest {
     }
 
     @Test
-    void cookieSessionMutationsRequireCsrfEvenAtLogin() throws Exception {
+    void loginAndLogoutRequireCsrf() throws Exception {
         mvc.perform(post("/api/v1/auth/login/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"email\":\"admin@example.invalid\",\"password\":\"ValidSecret42\"}"))
@@ -226,7 +226,7 @@ class SecuritySessionRegressionTest {
     }
 
     @Test
-    void browserCanBootstrapCsrfWithoutASessionAndUseItsHeader() throws Exception {
+    void csrfBootstrapWithoutSession() throws Exception {
         var response = mvc.perform(get("/api/v1/auth/csrf/")).andExpect(status().isNoContent())
                 .andExpect(header().string("Cache-Control", "no-store")).andReturn().getResponse();
         var token = response.getCookie("XSRF-TOKEN");
@@ -236,14 +236,14 @@ class SecuritySessionRegressionTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"email\":\"admin@example.invalid\",\"password\":\"ValidSecret42\"}"))
                 .andExpect(status().isOk());
-        mvc.perform(post("/api/v1/auth/login/").cookie(token).header("X-XSRF-TOKEN", "forged")
+        mvc.perform(post("/api/v1/auth/login/").cookie(token).header("X-XSRF-TOKEN", "wrong-token")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"email\":\"admin@example.invalid\",\"password\":\"ValidSecret42\"}"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    void loginHintOutlivesAccessAndMatchesRefreshLifetime() throws Exception {
+    void loginHintMatchesRefreshLifetime() throws Exception {
         var response = mvc.perform(post("/api/v1/auth/login/").cookie(new Cookie("XSRF-TOKEN", "csrf-fixture")).header("X-XSRF-TOKEN", "csrf-fixture")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"email\":\"admin@example.invalid\",\"password\":\"ValidSecret42\"}"))
@@ -254,7 +254,7 @@ class SecuritySessionRegressionTest {
     }
 
     @Test
-    void aBannedAccountsTokensAreRefused() throws Exception {
+    void bannedAccountTokensRefused() throws Exception {
         var resident = new User();
         resident.setId(UUID.randomUUID());
         resident.setPkid(2L);
@@ -271,7 +271,7 @@ class SecuritySessionRegressionTest {
     }
 
     @Test
-    void aReportedStaffAccountsTokensAreStillAccepted() throws Exception {
+    void reportedStaffTokensAccepted() throws Exception {
         var reported = new Profile();
         reported.setReportCount(5);
         when(profiles.findByUserPkid(1L)).thenReturn(Optional.of(reported));
@@ -281,7 +281,7 @@ class SecuritySessionRegressionTest {
     }
 
     @Test
-    void privateDetailsRejectAnonymousVisitors() throws Exception {
+    void privateDetailsNeedSignIn() throws Exception {
         mvc.perform(get("/api/v1/posts/example/" )).andExpect(status().isUnauthorized());
         mvc.perform(get("/api/v1/issues/" + UUID.randomUUID() + "/")).andExpect(status().isUnauthorized());
     }

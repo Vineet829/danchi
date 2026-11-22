@@ -156,7 +156,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <!-- Start test instrumentation explicitly instead of attaching to a running JVM. -->
                     <argLine>"-javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar"</argLine>
                     <systemPropertyVariables>
                         <spring.devtools.livereload.enabled>false</spring.devtools.livereload.enabled>
@@ -189,7 +188,6 @@
                         <artifactId>vaadin-maven-plugin</artifactId>
                         <version>${vaadin.version}</version>
                         <configuration>
-                            <!-- Regenerate route imports; cached bundles can omit newly added views. -->
                             <forceProductionBuild>true</forceProductionBuild>
                         </configuration>
                         <executions>

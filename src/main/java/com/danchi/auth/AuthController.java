@@ -65,7 +65,7 @@ public class AuthController {
 
     @GetMapping("/csrf/")
     public ResponseEntity<Void> csrf(org.springframework.security.web.csrf.CsrfToken token) {
-        token.getToken(); // Materialize the deferred token and write its cookie.
+        token.getToken();
         return ResponseEntity.noContent().header("Cache-Control", "no-store").build();
     }
 
@@ -94,7 +94,6 @@ public class AuthController {
         if (!jwtService.isCurrent(token, user) || revocations.isRevoked(token)) {
             throw new InvalidCredentialsException();
         }
-        // The new tokens stay in the same sign-in, so signing out refuses the old ones with them.
         issueCookies(user.getId(), jwtService.sessionOf(token).orElseGet(UUID::randomUUID), response);
         return new MessageResponse("Access tokens refreshed successfully");
     }
@@ -145,12 +144,10 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    // Counted whether or not an account has the email, so a refusal says nothing about it.
     private void limitAccountEmail(HttpServletRequest request, String email) {
         limiter.consumeAccountEmail(request.getRemoteAddr(), email);
     }
 
-    // The tokens are refused from now on, not only taken from this browser.
     @PostMapping("/logout/")
     public ResponseEntity<Void> logout(HttpServletRequest request, HttpServletResponse response) {
         readCookie(request, accessCookieName).ifPresent(revocations::revoke);

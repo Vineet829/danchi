@@ -54,9 +54,9 @@ import org.testcontainers.containers.PostgreSQLContainer;
 @DataJpaTest(properties = "spring.jpa.show-sql=false")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({VerificationTokenService.class, RegistrationService.class, PasswordResetService.class,
-        PendingSignUps.class, RequestLimiter.class, AuthLifecycleRegressionTest.Configuration.class})
+        PendingSignUps.class, RequestLimiter.class, AuthLifecycleTest.Configuration.class})
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
-class AuthLifecycleRegressionTest {
+class AuthLifecycleTest {
     private static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres:16-alpine");
 
     @DynamicPropertySource
@@ -103,7 +103,7 @@ class AuthLifecycleRegressionTest {
     }
 
     @Test
-    void concurrentActivationHasExactlyOneWinner() throws Exception {
+    void concurrentActivationSucceedsOnce() throws Exception {
         User user = user(false);
         String token = tokens.issue(user, VerificationPurpose.ACTIVATION, Duration.ofDays(1));
         assertThat(together(8, i -> registration.activate(tokens.encodeUid(user), token)))
@@ -112,7 +112,7 @@ class AuthLifecycleRegressionTest {
     }
 
     @Test
-    void concurrentPasswordResetHasExactlyOneWinnerAndOneNotice() throws Exception {
+    void concurrentResetSucceedsOnce() throws Exception {
         User user = user(true);
         String token = tokens.issue(user, VerificationPurpose.PASSWORD_RESET, Duration.ofDays(1));
         List<Boolean> outcomes = together(8, i -> {
@@ -129,7 +129,7 @@ class AuthLifecycleRegressionTest {
     }
 
     @Test
-    void deactivatedAccountCannotRequestAnotherActivation() {
+    void bannedAccountCannotResendActivation() {
         User user = user(false);
         ban(user);
         registration.resendActivation(user.getEmail());
@@ -138,7 +138,7 @@ class AuthLifecycleRegressionTest {
     }
 
     @Test
-    void tokenIssuedBeforeModerationCannotReactivateAccount() {
+    void banVoidsActivationToken() {
         User user = user(false);
         String token = tokens.issue(user, VerificationPurpose.ACTIVATION, Duration.ofDays(1));
         ban(user);
@@ -147,7 +147,7 @@ class AuthLifecycleRegressionTest {
     }
 
     @Test
-    void accountTurnedOffByStaffCannotRequestAnotherActivation() {
+    void disabledAccountCannotResendActivation() {
         User user = user(true);
         database.update("UPDATE users SET is_active = FALSE WHERE pkid = ?", user.getPkid());
         registration.resendActivation(user.getEmail());
@@ -156,7 +156,7 @@ class AuthLifecycleRegressionTest {
     }
 
     @Test
-    void unusedActivationLinkCannotTurnOnAnAccountStaffTurnedOff() {
+    void oldLinkCannotReenableAccount() {
         User user = user(false);
         String token = tokens.issue(user, VerificationPurpose.ACTIVATION, Duration.ofDays(1));
         database.update("UPDATE users SET is_active = TRUE WHERE pkid = ?", user.getPkid());
@@ -166,7 +166,7 @@ class AuthLifecycleRegressionTest {
     }
 
     @Test
-    void databaseRemembersWhenAnAccountWasFirstTurnedOn() {
+    void firstActivationTimeIsKept() {
         User waiting = user(false);
         assertThat(activatedAt(waiting)).isNull();
         assertThat(activatedAt(user(true))).isNotNull();
@@ -183,7 +183,7 @@ class AuthLifecycleRegressionTest {
     @Autowired private PendingSignUps pendingSignUps;
 
     @Test
-    void aNewSignUpReplacesAPendingOneWithTheSameEmailWhoseLinkStopsWorking() {
+    void signUpReplacesPendingAccount() {
         User pending = user(false);
         String token = tokens.issue(pending, VerificationPurpose.ACTIVATION, Duration.ofDays(1));
         User replacement = registration.register(new RegisterRequest(
@@ -197,7 +197,7 @@ class AuthLifecycleRegressionTest {
     }
 
     @Test
-    void aSignUpWithAnEmailThatHasAnAccountGetsTheSameAnswerAndItsOwnerIsTold() {
+    void existingEmailIsNotDisclosed() {
         User owner = user(true);
         long accounts = users.count();
 
@@ -215,14 +215,13 @@ class AuthLifecycleRegressionTest {
     }
 
     @Test
-    void aSignUpCountsTowardItsEmailsOnceItSendsOneAndNotWhenRefusedBefore() {
+    void signUpEmailRateLimit() {
         String taken = user(true).getUsername();
         String email = "inbox_" + UUID.randomUUID().toString().replace("-", "") + "@example.invalid";
         for (int attempt = 0; attempt < 3; attempt++) {
             assertThatThrownBy(() -> registration.register(signUp(taken, email), address()))
                     .isInstanceOf(RegistrationException.class);
         }
-        // Each one replaces the sign-up before it, which was never activated.
         for (int attempt = 0; attempt < 3; attempt++) {
             registration.register(signUp("fresh_" + UUID.randomUUID().toString().replace("-", ""), email), address());
         }
@@ -235,7 +234,7 @@ class AuthLifecycleRegressionTest {
     }
 
     @Test
-    void aUsernameOfUnderscoresGetsAProfileAddressThatOpens() {
+    void underscoreUsernameGetsSlug() {
         User first = registration.register(signUp("___", UUID.randomUUID() + "@example.invalid"), address());
         User second = registration.register(signUp("____", UUID.randomUUID() + "@example.invalid"), address());
 
@@ -247,13 +246,12 @@ class AuthLifecycleRegressionTest {
         return new RegisterRequest(username, "New", "Resident", email, "Fresh9!pass", "Fresh9!pass");
     }
 
-    // A network of its own for each sign-up, so only the email's own count adds up.
     private static String address() {
         return "network-" + UUID.randomUUID();
     }
 
     @Test
-    void pendingSignUpsGoAfterAWeekAndNoOtherAccountsDo() {
+    void removesWeekOldSignUps() {
         User oldPending = user(false);
         User newPending = user(false);
         User active = user(true);
@@ -271,7 +269,7 @@ class AuthLifecycleRegressionTest {
     }
 
     @Test
-    void invalidPurposeUidAndExpiryCannotConsumeToken() {
+    void tokenChecksPurposeUidExpiry() {
         User user = user(false);
         User other = user(false);
         String token = tokens.issue(user, VerificationPurpose.ACTIVATION, Duration.ofDays(1));
@@ -284,7 +282,7 @@ class AuthLifecycleRegressionTest {
     }
 
     @Test
-    void rollbackKeepsResetTokenUsableAndPreservesPassword() {
+    void rolledBackResetKeepsToken() {
         User user = user(true);
         String oldHash = user.getPassword();
         String token = tokens.issue(user, VerificationPurpose.PASSWORD_RESET, Duration.ofDays(1));
@@ -299,7 +297,7 @@ class AuthLifecycleRegressionTest {
     }
 
     @Test
-    void concurrentResendsLeaveOnlyOneUsableToken() throws Exception {
+    void concurrentResendsLeaveOneToken() throws Exception {
         User user = user(false);
         together(6, i -> {
             registration.resendActivation(user.getEmail());
@@ -310,7 +308,7 @@ class AuthLifecycleRegressionTest {
     }
 
     @Test
-    void databaseEnforcesCaseInsensitiveIdentity() {
+    void identityIsCaseInsensitive() {
         User first = user(true);
         User second = user(true);
         assertThatThrownBy(() -> database.update("UPDATE users SET username = ? WHERE pkid = ?",

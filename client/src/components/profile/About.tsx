@@ -25,7 +25,6 @@ function AboutContent() {
 	const profile = data?.profile;
 
 	if (isLoading) return <CardsSkeleton cards={2} />;
-	// The header above already explains the failure and offers a retry.
 	if (isError || !profile) return null;
 
 	const home = profile?.apartment;
@@ -35,17 +34,17 @@ function AboutContent() {
 			<section className="es-card es-panel es-about-bio" aria-labelledby="about-bio">
 				<h2 className="es-section-title" id="about-bio">
 					<Quote aria-hidden="true" strokeWidth={1.75} />
-					In your own words
+					Bio
 				</h2>
 				{profile?.bio ? (
 					<blockquote className="es-quote">{profile.bio}</blockquote>
 				) : (
 					<p className="es-quote" data-empty="true">
-						You have not added a bio yet.{" "}
+						You haven&apos;t added a bio yet.{" "}
 						<Link href="/profile/edit" className="es-field-link">
 							Add a few lines
 						</Link>{" "}
-						so your neighbours know who you are.
+						about yourself.
 					</p>
 				)}
 			</section>

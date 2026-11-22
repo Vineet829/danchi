@@ -48,7 +48,7 @@ class RequestLimiterTest {
     }
 
     @Test
-    void refusesPastTheLimitUntilTheWindowHasPassed() {
+    void refusesUntilWindowPasses() {
         for (int i = 0; i < 5; i++) limiter.consume(RequestLimit.SIGN_UP_ADDRESS, "203.0.113.7");
         assertThatThrownBy(() -> limiter.consume(RequestLimit.SIGN_UP_ADDRESS, "203.0.113.7"))
                 .isInstanceOfSatisfying(ResponseStatusException.class, refused -> {
@@ -56,7 +56,6 @@ class RequestLimiterTest {
                     assertThat(refused.getReason())
                             .isEqualTo("Too many sign-ups from this network. Please try again later.");
                 });
-        // Another address, and another kind of request from this one, count on their own.
         limiter.consume(RequestLimit.SIGN_UP_ADDRESS, "203.0.113.8");
         limiter.consume(RequestLimit.SIGN_IN_ADDRESS, "203.0.113.7");
 
@@ -65,7 +64,7 @@ class RequestLimiterTest {
     }
 
     @Test
-    void emailsCountAlikeWhateverTheirCaseAndAreNeverStored() {
+    void emailKeysHashedIgnoringCase() {
         for (int i = 0; i < 3; i++) limiter.consume(RequestLimit.ACCOUNT_EMAIL_RECIPIENT, "Resident@Example.invalid");
         assertThatThrownBy(() -> limiter.consume(RequestLimit.ACCOUNT_EMAIL_RECIPIENT, "resident@example.invalid "))
                 .isInstanceOf(ResponseStatusException.class);
@@ -75,7 +74,7 @@ class RequestLimiterTest {
     }
 
     @Test
-    void cleanupRemovesWindowsThatEndedLongAgo() {
+    void cleanupRemovesOldWindows() {
         limiter.consume(RequestLimit.SIGN_IN_EMAIL, "old@example.invalid");
         limiter.consume(RequestLimit.SIGN_IN_EMAIL, "new@example.invalid");
         db.update("UPDATE request_limits SET window_start = NOW() - INTERVAL '2 days' WHERE key_hash = ("

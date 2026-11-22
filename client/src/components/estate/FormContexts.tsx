@@ -13,7 +13,6 @@ import { StatusPill } from "./Pills";
 import RatingStars from "./RatingStars";
 import { joined, label } from "./format";
 
-/** The apartment a new issue will be filed against. */
 export function ApartmentContext() {
 	const { data, isLoading } = useGetMyApartmentQuery();
 	const apartment = data?.apartment;
@@ -21,7 +20,7 @@ export function ApartmentContext() {
 	if (isLoading) {
 		return (
 			<div className="es-context" role="status">
-				<span className="es-sr">Loading your apartment…</span>
+				<span className="es-sr">Loading your apartment...</span>
 				<span className="es-skeleton size-[38px] !rounded-[11px]" />
 				<span className="es-skeleton h-[14px] w-[180px]" />
 			</div>
@@ -41,7 +40,6 @@ export function ApartmentContext() {
 	);
 }
 
-/** The issue whose status is about to change. */
 export function IssueContext({ id }: { id: string }) {
 	const { data } = useGetSingleIssueQuery(id);
 	const issue = data?.issue;
@@ -59,7 +57,6 @@ export function IssueContext({ id }: { id: string }) {
 	);
 }
 
-/** The technician being rated, when they are in the directory we already hold. */
 export function TechnicianContext() {
 	const searchTerm = useAppSelector((state) => state.user.techSearchTerm);
 	const page = useAppSelector((state) => state.user.techPage);
@@ -76,7 +73,7 @@ export function TechnicianContext() {
 
 	if (!technician) {
 		return (
-			<FormContext icon={<Wrench strokeWidth={1.75} />} label="You are rating">
+			<FormContext icon={<Wrench strokeWidth={1.75} />} label="You're rating">
 				@{username}
 			</FormContext>
 		);
@@ -86,7 +83,7 @@ export function TechnicianContext() {
 		<div className="es-context">
 			<PersonAvatar name={technician.full_name} seed={technician.username} src={technician.avatar} size="md" />
 			<div className="es-context-copy">
-				<span className="es-context-label">You are rating</span>
+				<span className="es-context-label">You&apos;re rating</span>
 				<span className="es-context-value">
 					{joined([technician.full_name, label(technician.occupation)], " · ")}
 				</span>

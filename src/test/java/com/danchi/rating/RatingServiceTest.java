@@ -34,7 +34,7 @@ class RatingServiceTest {
     }
 
     @Test
-    void aTenantRatesATechnician() {
+    void tenantRatesTechnician() {
         User tenant = user(1L, Occupation.TENANT);
         user(2L, Occupation.PLUMBER, "plumber");
 
@@ -44,7 +44,7 @@ class RatingServiceTest {
     }
 
     @Test
-    void aTechnicianCantRateATenant() {
+    void technicianCannotRateTenant() {
         User technician = user(1L, Occupation.PLUMBER);
         user(2L, Occupation.TENANT, "tenant");
 
@@ -55,7 +55,7 @@ class RatingServiceTest {
     }
 
     @Test
-    void aGuestCantRateAnyone() {
+    void guestCannotRate() {
         User guest = new User();
         guest.setPkid(1L);
         guest.setGuest(true);

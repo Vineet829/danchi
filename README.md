@@ -1,19 +1,18 @@
 # Danchi
 
 Danchi is a community app for apartment complexes, where tenants report
-maintenance issues and troublesome neighbors, technicians handle the issues
-assigned to them, and tenants share posts with the community. It is
-available at [tenant.confidental.space](https://tenant.confidental.space).
+maintenance issues and troublesome neighbours, technicians handle the issues
+assigned to them, and tenants share posts with the community. It's available
+at [tenant.confidental.space](https://tenant.confidental.space).
 
-## Why I Built It
+## Why I Made It
 
-In my apartment complex, we reported problems through a shared WhatsApp
+In my apartment complex we reported problems through a shared WhatsApp
 account, and messages often got lost. Technicians sometimes ignored requests,
-and there was no simple way to report noisy or troublesome neighbors. Danchi
-gives each of these a proper place. Issues are tracked and assigned,
-technicians are rated on their work, and reports about a tenant lead to a
-warning and, if enough neighbors report them, to their account being
-deactivated.
+and there was no simple way to report noisy or troublesome neighbours. So in
+Danchi, issues are tracked and assigned, technicians get rated on their work,
+and a reported tenant gets a warning. If enough neighbours report them, their
+account is deactivated.
 
 ## Features
 
@@ -23,12 +22,12 @@ deactivated.
 - **Issue Reporting**: Report a problem with your apartment and follow its
   status. An administrator assigns it to a technician, who updates it as they
   work.
-- **Tenant Reports**: Report a neighbor for misconduct. The first report sends
+- **Tenant Reports**: Report a neighbour for misconduct. The first report sends
   them a warning email that doesn't say who reported them. Once five different
   people have reported someone, their account is deactivated automatically.
-  A superuser can reactivate it after removing enough reports to bring the
-  count below five. Reports from guest accounts don't count, and staff
-  accounts are never deactivated by reports.
+  Guest reports don't count, and staff accounts can't be deactivated this way.
+  A superuser can reactivate an account after removing enough reports to get
+  the count below five.
 - **Tenants and Technicians**: Browse the tenants and technicians in your
   community, and rate technicians on their work.
 - **Profiles**: Edit your profile and avatar, and see your posts, activity,
@@ -41,8 +40,7 @@ deactivated.
 
 ## Getting Started
 
-The commands below are for macOS and Linux. On Windows, use WSL. You need
-Docker and make.
+You'll need Docker and make (macOS or Linux; on Windows, use WSL).
 
 ### Run with Docker
 

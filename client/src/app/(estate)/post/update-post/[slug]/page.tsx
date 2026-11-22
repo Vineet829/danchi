@@ -4,7 +4,7 @@ import UpdatePostForm from "@/components/forms/update-post/UpdatePostForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Edit post — Danchi",
+	title: "Edit post | Danchi",
 	description: "Authors can update the title and the body of their post",
 };
 
@@ -23,7 +23,7 @@ function UpdatePostPage({ params }: UpdateParamsProps) {
 					Edit your <em>post</em>
 				</>
 			}
-			description="Fix a detail or add what you missed. Replies and votes stay where they are."
+			description="You can change the title and the text. Replies and votes are kept."
 			back={{ href: `/post/${params.slug}`, label: "Back to the post" }}
 		>
 			<UpdatePostForm params={params} />

@@ -1,5 +1,3 @@
-"""Fictional Cedar Court fixtures. Kept out of application and migration code."""
-
 FEMALE_NAMES = """
 Aditi Deshpande; Anushka Rao; Riya Kapoor; Sneha Kulkarni; Pooja Verma; Neha Joshi;
 Kavya Menon; Ishita Bose; Nandini Gupta; Shruti Patil; Tanvi Shah; Sakshi Jain;
@@ -81,7 +79,6 @@ TECHNICIANS = [
     ("Adil Ansari", "hvac", "AC servicing, drain leaks and cooling faults. Evenings available with advance notice."),
 ]
 
-# author unit, age in days, title, body, tags, replies: (author unit, text)
 POSTS = [
     ("A-201", 0, "Spare seat to the metro tomorrow morning",
      "Leaving from the main gate at 8:10 tomorrow. I have one seat free if anyone is going towards the metro. Please be downstairs a couple of minutes early; I can't wait past 8:15.",
@@ -193,7 +190,6 @@ POSTS = [
      ["Community"], [("C-505", "We have about a month's worth."), ("A-203", "A smaller pile here, but you are welcome to it."), ("B-503", "Collected everything this morning. The children were delighted with the response.")]),
 ]
 
-# Trade-specific maintenance history and comments, selected independently.
 REPAIRS = {
     "plumber": [
         ("Drip under the kitchen sink", "A slow drip collects where the waste pipe meets the sink. There is a bowl underneath for now."),

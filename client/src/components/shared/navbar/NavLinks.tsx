@@ -8,7 +8,6 @@ import { Fragment, type ReactElement, type ReactNode } from "react";
 import { NAV_GROUPS, NAV_META } from "./navMeta";
 
 type NavLinksProps = {
-	/** Lets the mobile sheet wrap each link so that choosing one closes the sheet. */
 	wrap?: (link: ReactElement) => ReactNode;
 };
 

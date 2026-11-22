@@ -97,7 +97,7 @@ export default function ApartmentCreateForm() {
 
 			<div className="es-form-actions">
 				<p className="es-form-note">It appears on your profile straight away.</p>
-				<SubmitButton isLoading={isLoading} busyLabel="Saving…">
+				<SubmitButton isLoading={isLoading} busyLabel="Saving...">
 					Add apartment
 				</SubmitButton>
 			</div>

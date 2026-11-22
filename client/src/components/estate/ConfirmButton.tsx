@@ -5,7 +5,6 @@ import { useEffect, useState, type ReactNode } from "react";
 type ConfirmButtonProps = {
 	onConfirm: () => void;
 	children: ReactNode;
-	/** Shown after the first click, while waiting for the second. */
 	confirmLabel: ReactNode;
 	className?: string;
 	armedClassName?: string;
@@ -13,7 +12,6 @@ type ConfirmButtonProps = {
 	ariaLabel?: string;
 };
 
-/** A destructive action that asks for a second click before it runs. */
 export default function ConfirmButton({
 	onConfirm,
 	children,

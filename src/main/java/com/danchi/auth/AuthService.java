@@ -34,8 +34,6 @@ public class AuthService {
         this.transactions = new TransactionTemplate(transactionManager);
     }
 
-    // The password is checked before a transaction opens: hashing it takes a while, and a database
-    // connection held meanwhile is one of the few that other requests share.
     public User authenticate(String email, String rawPassword) {
         User user = userRepository.findByEmailIgnoreCase(email).orElse(null);
 
@@ -54,8 +52,6 @@ public class AuthService {
         return transactions.execute(status -> signIn(user.getPkid(), encodedPassword));
     }
 
-    // The account as it is now, once its password has matched: one changed or switched off
-    // meanwhile has to be signed in to afresh.
     private User signIn(Long pkid, String checkedPassword) {
         User user = userRepository.findById(pkid)
                 .filter(found -> checkedPassword.equals(found.getPassword()))

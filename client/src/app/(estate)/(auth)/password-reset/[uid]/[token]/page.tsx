@@ -3,7 +3,7 @@ import PasswordResetConfirmForm from "@/components/forms/auth/PasswordResetConfi
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Choose a new password — Danchi",
+	title: "Choose a new password | Danchi",
 	description: "Password request reset page",
 };
 
@@ -16,7 +16,7 @@ export default function ForgotPassword() {
 					Choose a new <em>password</em>
 				</>
 			}
-			description="Pick something you have not used before, at least eight characters long."
+			description="Pick something you haven't used before, at least eight characters long."
 			back={{ href: "/login", label: "Back to log in" }}
 		>
 			<PasswordResetConfirmForm />

@@ -24,7 +24,6 @@ public class MailService {
 
     @Async
     public void send(String to, String subject, String body) {
-        // Demo inboxes are intentionally undeliverable and never reach the SMTP provider.
         if (to != null && to.endsWith("@guest.tenantsphere.invalid")) return;
         try {
             SimpleMailMessage message = new SimpleMailMessage();

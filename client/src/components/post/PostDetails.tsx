@@ -64,7 +64,7 @@ function PostDetailsContent({ params }: PostDetailsProps) {
 			const result = await setPostVote({ postId: post.id, vote: selected ? 0 : direction }).unwrap();
 			toast.success(result.message);
 		} catch {
-			toast.error("We could not save your vote. Please try again.");
+			toast.error("We couldn't save your vote. Please try again.");
 		} finally {
 			pendingVote.current = null;
 		}
@@ -79,7 +79,7 @@ function PostDetailsContent({ params }: PostDetailsProps) {
 			await bookmarkPost(post.slug).unwrap();
 			toast.success("Saved to your bookmarks");
 		} catch {
-			toast.error("We could not save this post. Please try again.");
+			toast.error("We couldn't save this post. Please try again.");
 		}
 	};
 
@@ -90,7 +90,7 @@ function PostDetailsContent({ params }: PostDetailsProps) {
 			toast.success("Post deleted");
 			router.back();
 		} catch (error) {
-			toast.error("We could not delete the post");
+			toast.error("We couldn't delete the post");
 		}
 	};
 
@@ -125,7 +125,7 @@ function PostDetailsContent({ params }: PostDetailsProps) {
 						</Link>
 					}
 				>
-					We could not find that post
+					We couldn&apos;t find that post
 				</EmptyState>
 			</div>
 		);
@@ -180,7 +180,7 @@ function PostDetailsContent({ params }: PostDetailsProps) {
 						))}
 					</ol>
 				) : (
-					<p className="es-thread-empty">No replies yet. Be the first to join in.</p>
+					<p className="es-thread-empty">No replies yet.</p>
 				)}
 			</section>
 		</div>

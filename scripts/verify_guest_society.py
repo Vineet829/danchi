@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--check-voting', action='store_true')
+    parser.add_argument('--check-voting', action='store_true', help='Check voting rules and restore the original vote.')
     parser.add_argument('--check-avatars', action='store_true', help='Check local portraits and author-photo consistency.')
     args = parser.parse_args()
     jars = {}
@@ -36,7 +36,6 @@ def main():
         path = parts._replace(path=parts.path.rstrip('/')).geturl()
         headers = {'Content-Type': 'application/json'}
         if method != 'GET':
-            # A change carries the CSRF token the server set as a cookie, as the browser app does.
             if csrf(client) is None:
                 request('/auth/csrf', client=client)
             headers['X-XSRF-TOKEN'] = csrf(client)
@@ -70,7 +69,6 @@ def main():
                 return rows
             page += 1
 
-    # Each visit gets a temporary guest account, as "Try as a guest" does.
     assert request('/auth/guest', 'POST', {})[0] == 200
     try:
         tenants = all_pages('/profiles/all', 'profiles')
@@ -95,7 +93,6 @@ def main():
         own_posts = all_pages('/posts/my-posts', 'my_posts')
         issues = all_pages('/issues/me', 'my_issues')
         reports = all_pages('/reports/me', 'reports')
-        # A new guest has the three newest posts bookmarked, two issues of its own, and nothing written yet.
         assert {post['id'] for post in bookmarks} == {post['id'] for post in posts[:3]}
         assert not own_posts and not reports
         assert sorted(issue['status'] for issue in issues) == ['reported', 'resolved']
@@ -110,7 +107,6 @@ def main():
             seeded_users = {portrait['username'] for portrait in manifest['portraits']}
             people = {person['username']: person for person in tenants + technicians}
             photos = {username: person['avatar'] for username, person in people.items()}
-            # The retired shared guest account is turned off, so the directories leave it out; its posts keep its photo.
             unlisted = seeded_users - photos.keys()
             assert unlisted <= {'testuser'}, 'A seeded profile is missing from the directories.'
             photos.update({portrait['username']: '/assets/avatars/cedar-court/' + portrait['file']

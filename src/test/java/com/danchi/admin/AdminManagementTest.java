@@ -50,7 +50,7 @@ class AdminManagementTest {
 
     static {
         try {
-            UPLOADS = Files.createTempDirectory("ts-admin-test-");
+            UPLOADS = Files.createTempDirectory("danchi-admin-test-");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -114,7 +114,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void localSetupCreatesAuditedAdministratorWithoutChangingExistingAccounts() {
+    void localSetupCreatesAuditedAdmin() {
         String password = "LocalSetupSecret42";
         long created =
                 CreateAdminCommand.create(
@@ -178,7 +178,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void localSetupRejectsWeakPasswordsAndInvalidIdentityBeforeWriting() {
+    void localSetupRejectsBadInput() {
         int count = db.queryForObject("SELECT COUNT(*) FROM users", Integer.class);
         assertThatThrownBy(
                         () ->
@@ -214,7 +214,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void everyRegisteredResourceSupportsCreateEditReadAndDelete() {
+    void everyResourceSupportsCrud() {
         long resident = createUser("resident"), technician = createUser("technician");
         long profile =
                 db.queryForObject(
@@ -343,7 +343,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void passwordIsHashedConfirmedAndNeverExposedInQueriesOrHistory() {
+    void passwordHashedAndNeverShown() {
         long id = createUser("password_test");
         String hash =
                 db.queryForObject("SELECT password FROM users WHERE pkid=?", String.class, id);
@@ -370,7 +370,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void staleEditsCannotOverwriteNewerValues() {
+    void staleEditsAreRejected() {
         long id = createUser("stale");
         var stale = queries.read(AdminResource.USERS, id);
         var fresh = new LinkedHashMap<>(stale);
@@ -383,7 +383,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void groupAndDirectPermissionsAreEnforcedAndRevocationIsImmediate() {
+    void permissionsApplyImmediately() {
         long staff = fixture("staff", true, false, "tenant");
         long resident = createUser("managed");
         long group =
@@ -433,7 +433,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void staffCannotEscalateThroughAUserEditor() {
+    void staffCannotEscalatePrivileges() {
         long staff = fixture("restricted", true, false, "tenant"),
                 resident = createUser("ordinary");
         grant(staff, "users.view", "users.change", "users.add");
@@ -458,7 +458,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void anonymousAndResidentCannotReadWriteOrPreviewDeletions() {
+    void nonStaffHaveNoAccess() {
         long resident = createUser("unprivileged");
         var selection =
                 Map.of(
@@ -491,7 +491,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void fiveDistinctReportersDeactivateAndDeletingAReportRecalculatesWithoutReactivating() {
+    void fiveReportersDeactivateAccount() {
         long target = createUser("reported");
         List<Long> reports = new ArrayList<>();
         long first = 0;
@@ -549,7 +549,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void removingTheStaffRoleFromAReportedAccountSwitchesItOff() {
+    void demotedReportedStaffDeactivated() {
         long staff = createUser("demoted_staff");
         db.update("UPDATE users SET is_staff=TRUE WHERE pkid=?", staff);
         for (int i = 0; i < 5; i++) {
@@ -570,7 +570,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void editingAUserLeavesTheirProfileVersionAlone() {
+    void userEditKeepsProfileVersion() {
         long user = createUser("renamed_resident");
         var version = db.queryForObject("SELECT updated_at FROM profiles WHERE user_pkid=?", Object.class, user);
         var row = queries.read(AdminResource.USERS, user);
@@ -581,7 +581,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void reportsKeepAStaffAccountOnAndItCanStillBeEdited() {
+    void reportedStaffStaysEditable() {
         long staff = createUser("reported_staff");
         db.update("UPDATE users SET is_staff=TRUE WHERE pkid=?", staff);
         for (int i = 0; i < 5; i++) {
@@ -615,7 +615,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void movingAReportUpdatesBothTargetsAndSelfReportingIsRejected() {
+    void movingReportRecountsBothTargets() {
         long reporter = createUser("reporter"),
                 a = createUser("target_a"),
                 b = createUser("target_b");
@@ -640,7 +640,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void issueResolutionIsIdempotentReopeningClearsDateAndBulkFailureRollsBack() {
+    void resolveReopenAndBulkRollback() {
         long resident = createUser("issue_owner");
         long apartment =
                 writes.save(
@@ -673,7 +673,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void deletionPreviewIncludesCascadesAndRequiresTheirPermissions() {
+    void deletionPreviewShowsCascades() {
         long resident = createUser("cascade"), staff = fixture("staff", true, false, "tenant");
         long apartment =
                 writes.save(
@@ -701,7 +701,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void changedDeletionPreviewMustBeReviewedAgain() {
+    void changedPreviewBlocksDeletion() {
         long resident = createUser("new_child");
         long apartment =
                 writes.save(
@@ -720,7 +720,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void accountDeletionRecountsVotesAndReportsAndRemovesOrphanViews() {
+    void accountDeletionRecountsTotals() {
         long owner = createUser("post_owner"), voter = createUser("voter");
         long post = writes.save(AdminResource.POSTS, null, null, post(owner));
         db.update("INSERT INTO post_upvotes VALUES(?,?)", post, voter);
@@ -753,7 +753,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void administratorCannotDeleteOrDemoteTheirOwnAccount() {
+    void adminCannotRemoveOwnAccess() {
         assertThatThrownBy(() -> delete(AdminResource.USERS, admin))
                 .hasMessageContaining("own account");
         var row = queries.read(AdminResource.USERS, admin);
@@ -763,7 +763,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void invalidRatingsAndContentReferencesAreRejected() {
+    void invalidReferencesRejected() {
         long a = createUser("a"), b = createUser("b");
         assertThatThrownBy(
                         () ->
@@ -817,7 +817,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void searchFiltersSortingAndPaginationOperateOnTheDatabase() {
+    void listQueriesRunInDatabase() {
         for (int i = 0; i < 6; i++)
             writes.save(
                     AdminResource.APARTMENTS,
@@ -848,7 +848,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void historyIsAppendOnlyAndSurvivesAccountDeletion() {
+    void historyIsAppendOnly() {
         long id = createUser("history");
         delete(AdminResource.USERS, id);
         assertThat(audit.history(AdminResource.USERS, id, "", 0, 10)).hasSize(2);
@@ -857,7 +857,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void avatarUploadUsesImageValidationAndIsAudited() {
+    void avatarUploadValidatedAndAudited() {
         long id = createUser("avatar");
         long profile =
                 db.queryForObject("SELECT pkid FROM profiles WHERE user_pkid=?", Long.class, id);
@@ -894,7 +894,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void tagsCanBeManagedWithoutDeletingPosts() {
+    void tagDeletionKeepsPosts() {
         long resident = createUser("tag_owner");
         long post = writes.save(AdminResource.POSTS, null, null, post(resident));
         long tag = writes.save(AdminResource.TAGS, null, null, map("name", "garden"));
@@ -917,7 +917,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void relationPickersRequireViewAccessAndHideLabelsOtherwise() {
+    void relationPickersNeedViewAccess() {
         long staff = fixture("rater", true, false, "tenant"), resident = createUser("neighbour");
         grant(staff, "ratings.change");
         login(staff);
@@ -934,7 +934,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void postTagsReuseCaseVariantsOfExistingTags() {
+    void tagsMatchIgnoringCase() {
         long resident = createUser("tagger");
         long existing = writes.save(AdminResource.TAGS, null, null, map("name", "plumbing"));
         var data = post(resident);
@@ -953,7 +953,7 @@ class AdminManagementTest {
     }
 
     @Test
-    void historySearchTreatsWildcardsLiterally() {
+    void historySearchEscapesWildcards() {
         writes.save(AdminResource.TAGS, null, null, map("name", "a_b"));
         writes.save(AdminResource.TAGS, null, null, map("name", "axb"));
         assertThat(audit.history(AdminResource.TAGS, null, "a_b", 0, 20))
@@ -964,7 +964,7 @@ class AdminManagementTest {
     @Autowired org.springframework.transaction.PlatformTransactionManager transactions;
 
     @Test
-    void deletingAVoterDoesNotLoseAnotherConcurrentVote() throws Exception {
+    void voterDeletionKeepsConcurrentVote() throws Exception {
         long owner = createUser("concurrent_owner");
         long removed = createUser("removed_voter");
         long remaining = createUser("remaining_voter");

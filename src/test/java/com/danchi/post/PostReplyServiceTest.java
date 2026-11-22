@@ -45,7 +45,7 @@ class PostReplyServiceTest {
     @Autowired private JdbcTemplate database;
 
     @Test
-    void aPageOfRepliesLoadsItsAuthorsAvatarsAtOnce() {
+    void repliesLoadAvatarsInBatch() {
         long first = person("first_replier", "/media/avatars/first.png");
         long second = person("second_replier", null);
         long third = person("third_replier", "/media/avatars/third.png");

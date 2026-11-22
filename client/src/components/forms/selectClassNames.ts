@@ -1,6 +1,5 @@
 import type { ClassNamesConfig } from "react-select";
 
-/** Keep react-select's keyboard and positioning logic; Tailwind owns its appearance. */
 const selectClassNames: ClassNamesConfig<{ value: string; label: string }, false> = {
 	control: ({ isFocused }) => `es-select-control${isFocused ? " es-select-control--focused" : ""}`,
 	valueContainer: () => "es-select-value",

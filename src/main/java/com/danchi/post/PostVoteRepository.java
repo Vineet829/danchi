@@ -7,7 +7,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.server.ResponseStatusException;
 
-/** Vote writes share a post row lock and never change the post's edit timestamp. */
 @Repository
 public class PostVoteRepository {
 

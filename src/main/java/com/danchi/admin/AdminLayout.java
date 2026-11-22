@@ -128,7 +128,6 @@ public class AdminLayout extends AppLayout {
         nav.getElement().setAttribute("aria-label", label);
         for (var resource : resources) {
             if (access.allowed(resource, "view")) {
-                // SideNav resolves paths relative to the /admin servlet mapping.
                 nav.addItem(
                         new SideNavItem(
                                 resource.title,

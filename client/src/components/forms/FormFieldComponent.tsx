@@ -22,7 +22,6 @@ type FormFieldComponentProps<TFieldValues extends FieldValues> = {
 		linkText: string;
 		linkUrl: string;
 	};
-	/** Supporting text under the control. */
 	hint?: React.ReactNode;
 	className?: string;
 	disabled?: boolean;

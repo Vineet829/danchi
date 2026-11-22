@@ -8,12 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
 
-/**
- * Hashes at most a couple of passwords at once. Each Argon2 hash holds 16 MiB of memory while it
- * runs, so on a small server a burst of sign-ins could otherwise take more memory than it has. A hash
- * waits its turn for a few seconds at most; past that the server is too busy, and the request is
- * refused, to be tried again, rather than left waiting.
- */
 public class BoundedPasswordEncoder implements PasswordEncoder {
     static final int AT_ONCE = 2;
     static final Duration WAIT = Duration.ofSeconds(10);

@@ -1,6 +1,5 @@
 FROM docker.io/node:22-alpine AS base
 
-# stage 1. Install dependencies only when needed
 FROM base AS deps
 
 RUN apk add --no-cache libc6-compat
@@ -17,8 +16,6 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-# Stage 2 Rebuild the source code when needed
-
 FROM base AS builder
 ARG APP_HOME=/app
 WORKDIR ${APP_HOME}
@@ -30,7 +27,6 @@ COPY . ${APP_HOME}
 
 RUN npm run build
 
-# Stage 3: Create a production image. copy all the files and run next as a non root user
 FROM base AS runner
 
 ARG APP_HOME=/app

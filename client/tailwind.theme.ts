@@ -1,4 +1,3 @@
-/** Shared visual tokens and motion for the public, entry and community interfaces. */
 export const tenantTheme = {
 	screens: {
 		"rail-hidden": {
@@ -273,7 +272,6 @@ export const tenantTheme = {
 	},
 };
 
-/** Scoped variables also consumed by portalled menus and third-party controls. */
 export const estateVariables = {
 	"--es-sans": 'var(--estate-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif',
 	"--es-serif": 'var(--estate-editorial), "Iowan Old Style", Georgia, serif',

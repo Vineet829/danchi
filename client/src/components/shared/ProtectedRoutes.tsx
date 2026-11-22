@@ -16,7 +16,7 @@ export default function ProtectedRoute({ children }: { children: ReactNode }) {
 		}
 	}, [isAuthenticated, isInitialized, pathname, router]);
 	if (!isInitialized || !isAuthenticated) {
-		return <div className="es-gate"><Spinner size="md" label="Checking your session…" /></div>;
+		return <div className="es-gate"><Spinner size="md" label="Checking your session..." /></div>;
 	}
 	return <>{children}</>;
 }

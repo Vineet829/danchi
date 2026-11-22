@@ -45,7 +45,7 @@ class ProfileActivityServiceTest {
     @Autowired private JdbcTemplate database;
 
     @Test
-    void postsAreScopedToTheProfileAndNewestFirstWithReplyCounts() {
+    void profilePostsNewestFirst() {
         long author = profile("neighbour", "tenant", null);
         long other = profile("other", "tenant", null);
         long older = post("popular-older", author, 20, 48);
@@ -71,7 +71,7 @@ class ProfileActivityServiceTest {
     }
 
     @Test
-    void postsWithTheSameTimestampHaveStablePageOrder() {
+    void sameTimestampStableOrder() {
         long author = profile("neighbour", "tenant", null);
         post("first", author, 0, 1);
         post("second", author, 0, 1);
@@ -82,7 +82,7 @@ class ProfileActivityServiceTest {
     }
 
     @Test
-    void reviewsIncludeAuthorsAndTheSummaryCoversAllPagesForOnlyThisPerson() {
+    void reviewSummaryCoversAllPages() {
         long technician = profile("electrician", "electrician", null);
         long otherTechnician = profile("plumber", "plumber", null);
         long first = profile("first-reviewer", "tenant", "/media/first.jpg");
@@ -116,7 +116,7 @@ class ProfileActivityServiceTest {
     }
 
     @Test
-    void profilesWithoutActivityHaveEmptyResultsAndZeroRatingBuckets() {
+    void noActivityGivesEmptyResults() {
         profile("new-neighbour", "tenant", null);
         assertThat(activity.posts("new-neighbour", PageRequest.of(0, 3))).isEmpty();
         var result = activity.reviews("new-neighbour", PageRequest.of(0, 3), "/reviews/");
@@ -128,7 +128,7 @@ class ProfileActivityServiceTest {
     }
 
     @Test
-    void missingAndNonDirectoryProfilesAreNotExposed() {
+    void hiddenProfilesReturnNotFound() {
         long staff = profile("staff", "tenant", null);
         long admin = profile("admin", "tenant", null);
         database.update("UPDATE users SET is_staff = TRUE WHERE pkid = ?", staff);

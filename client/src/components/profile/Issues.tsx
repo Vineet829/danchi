@@ -24,7 +24,7 @@ export default function Issues() {
 		<>
 			<TabHeading
 				title="Issues you reported"
-				note="Follow each one from reported to resolved."
+				note="Open an issue to see its progress."
 				action={
 					<Link href="/report-issue" className="es-btn es-btn--outline es-btn--sm">
 						<Plus aria-hidden="true" />
@@ -43,7 +43,7 @@ export default function Issues() {
 					))}
 				</div>
 			) : (
-				<EmptyState icon={Wrench} description="When something at your apartment needs attention, report it and track it here.">
+				<EmptyState icon={Wrench} description="Issues you report for your apartment are listed here.">
 					No issues reported
 				</EmptyState>
 			)}

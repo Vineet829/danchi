@@ -3,8 +3,8 @@ import BookmarkedPostCard from "@/components/cards/BookmarkedPostCard";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Bookmarks — Danchi",
-	description: "Authenticated users can see the posts they have bookmarked",
+	title: "Bookmarks | Danchi",
+	description: "Authenticated users can see the posts they've bookmarked",
 };
 
 

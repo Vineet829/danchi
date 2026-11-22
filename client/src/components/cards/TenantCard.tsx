@@ -56,7 +56,7 @@ function TenantCardContent() {
 					</>
 				}
 				count={ready ? totalCount : undefined}
-				description="The people who share your building. Put a name to the face you pass on the stairs."
+				description="Tenants in your building."
 			/>
 
 			<div className="es-toolbar">
@@ -92,7 +92,7 @@ function TenantCardContent() {
 				</div>
 			) : searchTerm ? (
 				<EmptyState icon={SearchX} description="Check the spelling, or try a first name, last name or username.">
-					No tenants match &ldquo;{searchTerm}&rdquo;
+					No tenants match &quot;{searchTerm}&quot;
 				</EmptyState>
 			) : (
 				<EmptyState icon={UsersRound} description="Tenants appear here once they join the building.">

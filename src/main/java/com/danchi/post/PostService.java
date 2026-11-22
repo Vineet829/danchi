@@ -55,7 +55,6 @@ public class PostService {
                 .orElse(false);
     }
 
-    // A list shows each post's number of replies; only a post's own page shows the replies.
     @Transactional(readOnly = true)
     public Page<PostResponse> toResponses(Page<Post> posts, User viewer) {
         Context context = contextFor(posts.getContent(), false, viewer);
@@ -144,7 +143,6 @@ public class PostService {
         contentViewRepository.countByObjects(CONTENT_TYPE, pkids)
                 .forEach(row -> viewCounts.put(row.getObjectPkid(), row.getTotal()));
 
-        // Listings that only show reply counts must not load every reply and its author.
         List<Reply> allReplies = withReplies
                 ? replyRepository.findByPostPkidInOrderByCreatedAtAsc(pkids)
                 : List.of();

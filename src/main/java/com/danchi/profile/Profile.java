@@ -21,9 +21,6 @@ public class Profile extends BaseEntity {
 
     public static final int DEACTIVATION_REPORTERS = 5;
 
-    // Staff run the admin console, so reports about them are kept for the
-    // other administrators to see, but never switch their account off:
-    // residents together could otherwise lock every administrator out.
     public static boolean keptOnByStaffRole(boolean staff, boolean superuser) {
         return staff || superuser;
     }
@@ -62,10 +59,6 @@ public class Profile extends BaseEntity {
     @Column(name = "slug", nullable = false, unique = true)
     private String slug;
 
-    // Five different reporters lock a resident out: no sign-in, no activation,
-    // and open sessions end. Staff stay in, as above. The owner is passed in
-    // because the user association is lazy and the per-request check runs outside a
-    // transaction.
     public boolean isBanned(User owner) {
         return reportCount >= DEACTIVATION_REPORTERS && !keptOnByStaffRole(owner.isStaff(), owner.isSuperuser());
     }

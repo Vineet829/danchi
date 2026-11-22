@@ -3,7 +3,6 @@ package com.danchi.admin;
 import java.util.Arrays;
 import java.util.List;
 
-/** The sole allowlist for admin SQL identifiers and editable fields. */
 public enum AdminResource {
     USERS(
             "users",

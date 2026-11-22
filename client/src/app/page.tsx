@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import HomeContent from "@/components/home/HomeContent";
 
 export const metadata: Metadata = {
-	title: "Danchi — Good neighbours. Better living.",
+	title: "Danchi | Community app for apartment buildings",
 	description:
-		"A little closer to home. Report maintenance issues, connect with your neighbours, and keep your apartment community together with Danchi.",
+		"Danchi is a community app for apartment buildings. Tenants report repairs and share posts with their neighbours.",
 };
 
 export default function HomePage() {

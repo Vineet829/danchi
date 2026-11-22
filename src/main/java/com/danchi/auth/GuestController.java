@@ -23,7 +23,6 @@ public class GuestController {
     @PostMapping("/guest/")
     public MessageResponse login(@AuthenticationPrincipal AppUserDetails principal,
             HttpServletRequest request, HttpServletResponse response) {
-        // An already authenticated visitor continues their own account.
         var user = principal != null && principal.getUser().isGuest()
                 ? principal.getUser() : guests.create(request.getRemoteAddr());
         if (request.getSession(false) != null) request.changeSessionId();

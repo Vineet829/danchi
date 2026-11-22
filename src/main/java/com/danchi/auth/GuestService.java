@@ -40,11 +40,10 @@ public class GuestService {
     public User create(String address) {
         if (!enabled) throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,
                 "Guest access is not available on this installation.");
-        // Bound storage/creation work on the 1 GB host, including requests on different instances.
         db.queryForObject("SELECT pg_advisory_xact_lock(170628,8)", Object.class);
         long active = db.queryForObject("SELECT count(*) FROM users WHERE is_guest AND guest_expires_at > NOW()", Long.class);
         if (active >= 200) throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS,
-                "All demo places are in use. Please try again later.");
+                "All guest accounts are in use. Try again later.");
         String hash = addressHash(address);
         db.update("DELETE FROM guest_login_limits WHERE window_start < NOW() - INTERVAL '1 hour'");
         Integer attempts = db.queryForObject("""
@@ -61,7 +60,7 @@ public class GuestService {
         guest.setEmail(suffix + "@guest.tenantsphere.invalid");
         guest.setFirstName("Guest");
         guest.setLastName("Resident");
-        guest.setPassword("!guest"); // No password can authenticate this account.
+        guest.setPassword("!guest");
         guest.setGuest(true);
         guest.setGuestExpiresAt(Instant.now().plus(Duration.ofHours(24)));
         guest.setActive(true);

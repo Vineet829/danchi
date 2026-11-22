@@ -60,9 +60,9 @@ export default function RegisterForm({ disabled = false, onBusyChange }: Props) 
 					<AuthField id="register-confirm-password" label="Confirm password" type="password" autoComplete="new-password" placeholder="Repeat password" required {...register("re_password")} error={errors.re_password?.message} />
 				</div>
 				<ul id="password-requirements" className={styles.requirements} aria-label="Password requirements">{requirements.map(({ label, met }) => <li key={label} className={met ? styles.requirementMet : ""}><Check size={12} aria-hidden="true" /><span>{label}<span className={styles.visuallyHidden}>{met ? ": met" : ": required"}</span></span></li>)}</ul>
-				<Button type="submit" className={styles.submitButton} disabled={disabled || isLoading}>{isLoading ? <><Loader2 size={18} className={styles.spinner} aria-hidden="true" />Creating your account…</> : <>Create account<ArrowRight size={18} aria-hidden="true" /></>}</Button>
+				<Button type="submit" className={styles.submitButton} disabled={disabled || isLoading}>{isLoading ? <><Loader2 size={18} className={styles.spinner} aria-hidden="true" />Creating your account...</> : <>Create account<ArrowRight size={18} aria-hidden="true" /></>}</Button>
 			</fieldset>
-			<p className={styles.activationNote}><Mail size={15} aria-hidden="true" />We’ll email you a link to activate your account.</p>
+			<p className={styles.activationNote}><Mail size={15} aria-hidden="true" />We&apos;ll email you a link to activate your account.</p>
 		</form>
 	);
 }

@@ -1,22 +1,17 @@
 # Contributing
 
-Bug reports and questions are welcome as
-[issues](https://github.com/Vineet829/danchi/issues).
-
 To work on the code, you need Docker, Java 21, Maven, and Node.js 22 (22.13 or
-newer). The commands below are for macOS and Linux. On Windows, use WSL. Set
-up `.envs/.env.local` first, as described under
+newer). Set up `.envs/.env.local` first, as described under
 [Run with Docker](README.md#run-with-docker).
 
 ## Architecture
 
-- **Client**: A Next.js 15 app with React 19, Redux Toolkit, and Tailwind CSS.
-- **Backend**: A Java 21 and Spring Boot 3.5 API on PostgreSQL 16, with Flyway
-  migrations. It sends email over SMTP and serves the admin console, built
-  with Vaadin.
-- **Docker**: nginx sits in front of both. It sends the API (`/api/v1`), the
-  admin console (`/admin` and `/VAADIN`), and uploaded files (`/media`) to the
-  backend, and the site's pages to the client.
+The client is a Next.js 15 app (React 19, Redux Toolkit, Tailwind CSS). The
+backend is a Java 21 / Spring Boot 3.5 API on PostgreSQL 16 with Flyway
+migrations. It sends email over SMTP and also serves the admin console, which
+is built with Vaadin. In Docker, nginx sits in front of both. The API
+(`/api/v1`), the admin console (`/admin` and `/VAADIN`), and uploaded files
+(`/media`) go to the backend, and the site's pages go to the client.
 
 ## Run the Backend and Client Directly
 
@@ -28,8 +23,9 @@ it first with `make down`, because its client container also writes to
 start of the backend also installs the admin console's frontend packages, so
 it takes longer.
 
+In one terminal, start PostgreSQL and Mailpit, then the API on port 8000:
+
 ```bash
-# Terminal 1: PostgreSQL and Mailpit, then the API on port 8000
 docker compose -f local.yml up -d postgres mailpit
 export POSTGRES_USER=tenantsphere POSTGRES_PASSWORD="your-database-password"
 export SIGNING_KEY="your-signing-key"
@@ -37,8 +33,9 @@ export COOKIE_SECURE=false DOMAIN=http://localhost:3000
 mvn spring-boot:run
 ```
 
+In a second terminal, start the client on port 3000:
+
 ```bash
-# Terminal 2: the client on port 3000
 cd client
 npm install
 npm run dev
@@ -52,13 +49,19 @@ backend on port 8000.
 Stop the client's dev server first, or the Docker stack with `make down`:
 `npm run build` writes to `client/.next` too.
 
-```bash
-mvn test                  # backend, needs Docker for PostgreSQL
+The backend tests need Docker for PostgreSQL:
 
-cd client                 # after npm install
+```bash
+mvn test
+```
+
+For the client, run these after `npm install`:
+
+```bash
+cd client
 npm run lint
 npx tsc --noEmit
-npm run test:regressions
+npm test
 npm run build
 ```
 

@@ -17,7 +17,7 @@ export default function useSocialAuth(authenticate: any, provider: string) {
 		const state = searchParams.get("state");
 		const code = searchParams.get("code");
 		if (!state || !code || searchParams.has("error")) {
-			toast.error("Google sign-in was cancelled or could not be completed.");
+			toast.error("Google sign-in was cancelled or couldn't be completed.");
 			router.replace("/login");
 			return;
 		}

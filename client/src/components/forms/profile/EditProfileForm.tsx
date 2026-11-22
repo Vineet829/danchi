@@ -65,7 +65,7 @@ export default function EditProfileForm() {
 			const detail = extractErrorMessage(error);
 			const tooLarge = typeof error === "object" && error !== null && "status" in error && error.status === 413;
 			setUploadError(detail || (tooLarge ? "Choose an image smaller than 1 MB."
-				: "We could not upload your photo. Choose the file again to retry."));
+				: "We couldn't upload your photo. Choose the file again to retry."));
 			input.value = "";
 		}
 	};
@@ -110,7 +110,7 @@ export default function EditProfileForm() {
 							{uploading ? (
 								<>
 									<span className="es-spinner" aria-hidden="true" />
-									Uploading…
+									Uploading...
 								</>
 							) : uploadAccepted ? (
 								<>
@@ -185,7 +185,7 @@ export default function EditProfileForm() {
 				<Link href="/profile" className="es-btn es-btn--ghost">
 					Cancel
 				</Link>
-				<SubmitButton isLoading={isLoading} disabled={uploading} busyLabel="Saving…">
+				<SubmitButton isLoading={isLoading} disabled={uploading} busyLabel="Saving...">
 					Save changes
 				</SubmitButton>
 			</div>

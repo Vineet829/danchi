@@ -27,11 +27,11 @@ export default function BookmarkedPostCard() {
 				eyebrow="Your space"
 				title={
 					<>
-						Saved <em>for later</em>
+						Saved <em>posts</em>
 					</>
 				}
 				count={!data || isError ? undefined : data.bookmarked_posts.count}
-				description="Posts you bookmarked, so the good ones never get lost in the feed."
+				description="Posts you bookmarked."
 			/>
 
 			{isLoading || (!data && isFetching) ? (
@@ -47,7 +47,7 @@ export default function BookmarkedPostCard() {
 			) : (
 				<EmptyState
 					icon={Bookmark}
-					description="Open any post and choose Save. It will be waiting for you here."
+					description="Open a post and press Save."
 					action={
 						<Link href="/welcome" className="es-btn es-btn--primary">
 							Browse the community

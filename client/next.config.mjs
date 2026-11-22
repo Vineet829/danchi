@@ -8,7 +8,6 @@ const nextConfig = {
 		],
 	},
 	output: "standalone",
-	// Vaadin uses /admin/ for its initialization and UI requests in development.
 	skipTrailingSlashRedirect: process.env.NODE_ENV === "development",
 	async rewrites() {
 		if (process.env.NODE_ENV !== "development") return [];

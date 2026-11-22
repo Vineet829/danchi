@@ -68,8 +68,6 @@ public class AdminDeleteService {
                             report));
         writes.lockUsers(targets);
         var previousCounts = writes.reportCounts(targets);
-        // Vote operations lock the post before changing its vote rows. Take that same lock
-        // before cascading a deleted voter's rows, then recount using a fresh SQL snapshot.
         List<Long> votedPosts =
                 r == AdminResource.USERS
                         ? db.queryForList(
@@ -84,8 +82,6 @@ public class AdminDeleteService {
                         : List.of();
         for (long post : votedPosts)
             db.queryForList("SELECT pkid FROM posts WHERE pkid=? FOR UPDATE", post);
-        // Lock and audit the complete cascade before the first DELETE. History is never cascaded
-        // away.
         for (var entry : affected.entrySet())
             for (long id : new TreeSet<>(entry.getValue())) {
                 db.queryForList(
@@ -127,7 +123,6 @@ public class AdminDeleteService {
             db.update("DELETE FROM " + r.table + " WHERE pkid=?", id);
         writes.recalculateReports(targets, previousCounts);
         for (long post : votedPosts) {
-            // Join-table rows cascade on account deletion; keep the cached feed totals consistent.
             db.update(
                     """
                     UPDATE posts p SET upvotes=(SELECT count(*) FROM post_upvotes v WHERE v.post_pkid=p.pkid),
@@ -253,7 +248,7 @@ public class AdminDeleteService {
                             + count("post_downvotes", "user_pkid IN " + ids(roots.keySet()))
                             + count("post_bookmarks", "user_pkid IN " + ids(roots.keySet())));
             effects.add(
-                    "Apartment tenants, issue assignees and surviving content-view users will be"
+                    "Apartment tenants, issue assignees and content views will be"
                             + " cleared where they reference these accounts.");
             effects.add(
                     "Report counts and post vote totals will be recalculated. Administration"

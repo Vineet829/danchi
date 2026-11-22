@@ -49,7 +49,6 @@ public class PostReplyService {
         Post post = postRepository.findByExternalId(postId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found."));
         var replies = replyRepository.findByPostPkid(post.getPkid(), pageable);
-        // The page's avatars in one query, not one per reply.
         List<Long> authors = replies.getContent().stream().map(reply -> reply.getAuthor().getPkid()).distinct().toList();
         Map<Long, String> avatars = new HashMap<>();
         if (!authors.isEmpty()) {

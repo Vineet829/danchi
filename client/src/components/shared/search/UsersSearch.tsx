@@ -13,7 +13,6 @@ import React from "react";
 type UsersSearchProps = {
 	placeholder?: string;
 	label?: string;
-	// Tenants and technicians keep their own search, so one directory's filter never carries into the other.
 	variant?: "tenant" | "technician";
 };
 

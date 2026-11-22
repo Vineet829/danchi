@@ -11,8 +11,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-// V14 runs over profiles as they were made before it: each that had no address of its own gets one,
-// and the rest keep theirs.
 class ReachableProfileSlugsMigrationTest {
 
     private static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres:16-alpine");
@@ -33,7 +31,7 @@ class ReachableProfileSlugsMigrationTest {
     }
 
     @Test
-    void profilesWithoutAnAddressGetOne() {
+    void replacesUnreachableProfileSlugs() {
         Flyway.configure().dataSource(dataSource).target("13").load().migrate();
         UUID empty = profile("___", "");
         UUID next = profile("____", "-1");

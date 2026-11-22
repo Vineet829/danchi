@@ -38,7 +38,7 @@ class PostRepositoryTest {
     @Autowired private JdbcTemplate database;
 
     @Test
-    void topPostsFetchAuthorsAndRankByVotesThenViewsThenRecency() {
+    void topPostsRankingOrder() {
         long firstAuthor = author("first");
         long secondAuthor = author("second");
         long mostVotes = post("most-votes", firstAuthor, 3, 72);
@@ -59,7 +59,7 @@ class PostRepositoryTest {
     }
 
     @Test
-    void storedViewCountsFollowNewRepeatedMovedAndDeletedViews() {
+    void viewCountTracksViewChanges() {
         long author = author("view_author");
         long viewer = author("repeat_viewer");
         long first = post("first-viewed", author, 0, 2);
@@ -97,7 +97,7 @@ class PostRepositoryTest {
     }
 
     @Test
-    void topPostsUseNetScoreAndTheCommunityFeedKeepsItsNewestFirstOrder() {
+    void topPostsUseNetScore() {
         long author = author("author");
         long negative = post("negative", author, 12, 1);
         database.update("UPDATE posts SET downvotes = 15 WHERE pkid = ?", negative);

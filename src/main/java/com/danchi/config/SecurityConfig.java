@@ -69,20 +69,14 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf
                     .csrfTokenRepository(csrfRepository)
-                    // The token is read from a cookie, never reflected in a compressed response body.
                     .csrfTokenRequestHandler(new org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler())
                     .ignoringRequestMatchers(request -> !request.getRequestURI().startsWith("/api/")
                             && !request.getRequestURI().equals("/admin/logout")))
-            // JWT authentication is checked on every request. Applying the session-fixation
-            // strategy on each check rotates Vaadin's UI session and races concurrent uploads.
-            // Both password-login entry points rotate an existing session explicitly instead.
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .sessionFixation(f -> f.none()))
             .authorizeHttpRequests(auth -> auth
                 .dispatcherTypeMatchers(DispatcherType.ERROR)
                 .permitAll()
-                // Vaadin initializes its login UI through the servlet root. View annotations
-                // enforce navigation access; this matcher never applies to REST endpoints.
                 .requestMatchers(request -> request.getRequestURI().equals(request.getContextPath() + "/admin/")
                         && requestUtil.isFrameworkInternalRequest(request))
                 .permitAll()
@@ -119,7 +113,6 @@ public class SecurityConfig {
             )
             .logout(logout -> logout
                 .logoutUrl("/admin/logout")
-                // The console's tokens are refused from now on, not only taken from this browser.
                 .addLogoutHandler((request, response, authentication) -> {
                     if (request.getCookies() == null) return;
                     for (var cookie : request.getCookies()) {

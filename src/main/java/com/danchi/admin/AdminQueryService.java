@@ -115,7 +115,6 @@ public class AdminQueryService {
     public List<Choice> choices(String table, String search, int offset, int limit) {
         AdminResource r = relation(table);
         if (r == AdminResource.GROUPS) permissions.requireSuperuser();
-        // Labels carry names and emails, so searching a relation needs view access to its table.
         permissions.require(r, "view");
         String label = choiceLabel(r);
         return db.query(
@@ -137,7 +136,6 @@ public class AdminQueryService {
     public Choice choice(String table, long id) {
         AdminResource r = relation(table);
         if (r == AdminResource.GROUPS) permissions.requireSuperuser();
-        // An editor may show a saved relation it cannot view; identify it without exposing the label.
         if (!permissions.allowed(r, "view")) return new Choice(id, "#" + id);
         var rows =
                 db.query(

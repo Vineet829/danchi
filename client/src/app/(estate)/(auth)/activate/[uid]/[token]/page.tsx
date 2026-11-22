@@ -45,7 +45,7 @@ export default function ActivationPage() {
 						<span className="es-empty-icon" aria-hidden="true">
 							<Info strokeWidth={1.5} />
 						</span>
-						<h1 className="es-statuspage-title">We could not activate this account</h1>
+						<h1 className="es-statuspage-title">We couldn&apos;t activate this account</h1>
 						<p className="es-statuspage-text">
 							The link may have expired or been used already. If you activated your account before, you can log
 							in as usual.
@@ -56,7 +56,7 @@ export default function ActivationPage() {
 					</>
 				) : (
 					<>
-						<Spinner size="lg" label="Activating your account…" />
+						<Spinner size="lg" label="Activating your account..." />
 						<h1 className="es-statuspage-title">Activating your account</h1>
 						<p className="es-statuspage-text">This only takes a moment.</p>
 					</>

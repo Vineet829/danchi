@@ -42,7 +42,7 @@ class ApartmentServiceTest {
     }
 
     @Test
-    void aTenantAddsTheirApartment() {
+    void tenantAddsApartment() {
         when(apartments.findFirstByTenantPkidOrderByPkidAsc(7L)).thenReturn(Optional.empty());
         when(apartments.findByUnitNumber("B12")).thenReturn(Optional.empty());
 
@@ -53,7 +53,7 @@ class ApartmentServiceTest {
     }
 
     @Test
-    void aTenantWithAnApartmentCantClaimAnother() {
+    void tenantCannotClaimSecondApartment() {
         when(apartments.findFirstByTenantPkidOrderByPkidAsc(7L)).thenReturn(Optional.of(new Apartment()));
 
         assertThatThrownBy(() -> service.create(tenant, REQUEST))

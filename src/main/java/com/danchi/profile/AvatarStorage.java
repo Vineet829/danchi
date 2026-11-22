@@ -41,7 +41,6 @@ public class AvatarStorage {
         try {
             Files.createDirectories(avatarDir);
             Files.createFile(destination);
-            // Register cleanup only after creating a file owned by this upload.
             TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
                 @Override
                 public void afterCompletion(int status) {

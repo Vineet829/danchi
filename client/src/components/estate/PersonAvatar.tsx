@@ -6,9 +6,7 @@ import { UserRound } from "lucide-react";
 type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 interface PersonAvatarProps {
-	/** Full name when we have it, username otherwise. Used for the initials. */
 	name?: string;
-	/** A stable identity, normally the username, so a person keeps one colour everywhere. */
 	seed?: string;
 	src?: string | null;
 	size?: AvatarSize;

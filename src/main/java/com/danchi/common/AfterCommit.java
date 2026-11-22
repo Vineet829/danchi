@@ -5,11 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-/**
- * Runs best-effort side effects (mail, file cleanup) once the data is committed. A failing side
- * effect is logged instead of thrown: the request already succeeded, and an error response would
- * invite the client to retry and create a duplicate.
- */
 public final class AfterCommit {
     private static final Logger LOGGER = LoggerFactory.getLogger(AfterCommit.class);
 
@@ -32,7 +27,7 @@ public final class AfterCommit {
         try {
             action.run();
         } catch (RuntimeException exception) {
-            LOGGER.warn("A post-commit side effect failed; the committed change is kept.", exception);
+            LOGGER.warn("After-commit action failed", exception);
         }
     }
 }

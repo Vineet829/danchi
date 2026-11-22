@@ -41,7 +41,6 @@ public class RatingService {
 
     @Transactional
     public Rating create(RatingCreateRequest request, User ratingUser) {
-        // A guest's rating would count against a real person's work, as a guest's report doesn't.
         if (ratingUser.isGuest()) {
             throw new AccessDeniedException("Guests can't rate technicians. Sign up to rate their work.");
         }

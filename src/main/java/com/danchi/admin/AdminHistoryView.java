@@ -30,7 +30,7 @@ public class AdminHistoryView extends VerticalLayout {
                         AdminPresentation.eyebrow("Administration"),
                         new H1("Change history"),
                         new Paragraph(
-                                "A record of your team’s updates, including deleted records."));
+                                "A record of your team's updates, including deleted records."));
         heading.addClassName("admin-page-heading");
         add(heading);
         var history = table(audit, null, null);

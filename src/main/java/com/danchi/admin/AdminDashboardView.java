@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Route(value = "", layout = AdminLayout.class)
-@PageTitle("Overview | Danchi Administration")
+@PageTitle("Overview | Danchi Admin")
 @RolesAllowed({"STAFF", "SUPERUSER"})
 public class AdminDashboardView extends VerticalLayout {
     private static final List<AdminResource> PRIMARY =
@@ -29,10 +29,9 @@ public class AdminDashboardView extends VerticalLayout {
         addClassNames("admin-content", "admin-overview");
         Div heading =
                 new Div(
-                        AdminPresentation.eyebrow("Your workspace"),
                         new H1("Community overview"),
                         new Paragraph(
-                                "People, homes and the everyday work that keeps them connected."));
+                                "People, homes and maintenance."));
         heading.addClassName("admin-page-heading");
         add(heading);
 
@@ -46,10 +45,8 @@ public class AdminDashboardView extends VerticalLayout {
             Div empty =
                     new Div(
                             AdminPresentation.icon(VaadinIcon.LOCK),
-                            new H2("Your workspace is ready for access"),
-                            new Paragraph(
-                                    "Ask a superuser to assign a group or direct permissions to"
-                                        + " your staff account."));
+                            new H2("No access yet"),
+                            new Paragraph("Ask a superuser to add you to a group."));
             empty.addClassNames("admin-panel", "admin-empty");
             add(empty);
             return;
@@ -91,10 +88,7 @@ public class AdminDashboardView extends VerticalLayout {
 
         Div resources = new Div();
         resources.addClassNames("admin-panel", "admin-resource-panel");
-        Div resourcesHeader =
-                new Div(
-                        new H2("Community resources"),
-                        new Span("More ways to manage your community."));
+        Div resourcesHeader = new Div(new H2("Other sections"));
         resourcesHeader.addClassName("admin-panel-heading");
         resources.add(resourcesHeader);
         counts.forEach(
@@ -107,14 +101,6 @@ public class AdminDashboardView extends VerticalLayout {
             workspace.add(resources);
         } else workspace.addClassName("admin-workspace-single");
         add(workspace);
-
-        Div footer =
-                new Div(
-                        AdminPresentation.icon(VaadinIcon.SHIELD),
-                        new Span("Your permissions apply throughout this workspace."),
-                        new Span("Administration changes are recorded in history."));
-        footer.addClassName("admin-overview-footer");
-        add(footer);
     }
 
     private static Anchor metric(AdminResource resource, int count) {

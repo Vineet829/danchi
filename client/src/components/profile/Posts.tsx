@@ -6,7 +6,7 @@ import TabHeading from "./TabHeading";
 export default function Posts() {
 	return (
 		<>
-			<TabHeading title="Your posts" note="Everything you have shared with the building." />
+			<TabHeading title="Your posts" note="Posts you've written." />
 			<MyPostCard />
 		</>
 	);

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Add or upgrade bundled portraits for the fictional society accounts.
 
-Preview: python3 scripts/seed_avatars.py
-Apply:   python3 scripts/seed_avatars.py --apply
+Preview: python3 scripts/seed_avatars.py --container tenant_prod_postgres
+Apply:   python3 scripts/seed_avatars.py --container tenant_prod_postgres --apply
 
 The checked-in manifest fixes each person's portrait. Only empty fields or an
 explicitly recorded previous sample portrait are replaced. Uploaded photos are
@@ -89,7 +89,7 @@ def main():
     parser.add_argument('--apply', action='store_true', help='Prepare portraits and add or upgrade sample photos.')
     parser.add_argument('--container', required=True,
                         help='The local PostgreSQL container to use, such as tenant_prod_postgres from local.yml.')
-    parser.add_argument('--with-identities', action='store_true', help='Update the curated fictional names and hometowns in the same transaction.')
+    parser.add_argument('--with-identities', action='store_true', help='Also update the sample names and hometowns.')
     args = parser.parse_args()
     portraits = load_portraits()
     identities = load_identities() if args.with_identities else []

@@ -56,7 +56,6 @@ services:
       - "80:80"
       - "443:443"
     environment:
-      # The site's host name, such as example.com, for nginx's server_name and certificate paths.
       SERVER_NAME: ${SERVER_NAME:?Set SERVER_NAME to the site's host name, such as example.com}
     volumes:
       - ./docker/production/nginx/nginx.conf.template:/etc/nginx/templates/nginx.conf.template:ro

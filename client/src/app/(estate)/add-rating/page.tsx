@@ -5,9 +5,9 @@ import CreateRatingForm from "@/components/forms/add-rating/CreateRatingForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Rate a technician — Danchi",
+	title: "Rate a technician | Danchi",
 	description:
-		"Tenants can rate the technicians, if they are satisfied or dissatisfied with the services rendered to them",
+		"Tenants can rate the technicians, if they're satisfied or dissatisfied with the services rendered to them",
 };
 
 function AddRatingPage() {
@@ -16,10 +16,10 @@ function AddRatingPage() {
 			eyebrow="Technicians"
 			title={
 				<>
-					Rate the <em>work</em>
+					Rate a <em>technician</em>
 				</>
 			}
-			description="Tell us how the job went. An honest rating helps your neighbours choose well."
+			description="Give one to five stars and say how the job went."
 			back={{ href: "/technicians", label: "Back to technicians" }}
 			aside={<TechnicianContext />}
 		>

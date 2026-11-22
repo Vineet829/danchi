@@ -63,7 +63,7 @@ export default function UpdatePostForm({ params }: UpdateParamsProps) {
 				<Link href={`/post/${postSlug}`} className="es-btn es-btn--ghost">
 					Cancel
 				</Link>
-				<SubmitButton isLoading={isLoading} busyLabel="Saving…">
+				<SubmitButton isLoading={isLoading} busyLabel="Saving...">
 					Save changes
 				</SubmitButton>
 			</div>

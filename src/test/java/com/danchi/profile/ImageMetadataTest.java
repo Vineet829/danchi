@@ -23,12 +23,11 @@ import org.junit.jupiter.api.Test;
 class ImageMetadataTest {
 
     private static final String PLACE = "GPS 51.5007 N 0.1246 W";
-    // A 3 x 2 lossless WebP made with cwebp.
     private static final String WEBP_3X2 =
             "UklGRlAAAABXRUJQVlA4TEMAAAAvAkAAAC+gkI0kaBGW7oU9sCNR1LYRQ6HjsE2IB/Feitq2gQrhBFPMg7jX/Mf/J+iidIA824Gatg3YUOdfDo3ofzwrAA==";
 
     @Test
-    void aJpegKeepsItsPixelsAndRotationButNotWhereItWasTaken() throws Exception {
+    void jpegKeepsOnlyOrientation() throws Exception {
         byte[] plain = encode(sample(BufferedImage.TYPE_INT_RGB), "jpeg");
         assertThat(applicationSegments(plain)).startsWith(0xE0);
         byte[] tagged = concat(
@@ -50,7 +49,7 @@ class ImageMetadataTest {
     }
 
     @Test
-    void anUprightJpegKeepsNoExifAtAll() throws Exception {
+    void uprightJpegDropsExif() throws Exception {
         byte[] plain = encode(sample(BufferedImage.TYPE_INT_RGB), "jpeg");
         byte[] tagged = concat(Arrays.copyOfRange(plain, 0, 2), segment(0xE1, exif(false, 1)),
                 Arrays.copyOfRange(plain, 2, plain.length));
@@ -63,9 +62,8 @@ class ImageMetadataTest {
     }
 
     @Test
-    void aJpegLosesWhatIsStoredAfterItsEnd() throws Exception {
+    void jpegDropsTrailingData() throws Exception {
         byte[] plain = encode(sample(BufferedImage.TYPE_INT_RGB), "jpeg");
-        // Some phones store a short video after the photo, with where it was taken.
         byte[] video = concat(new byte[] {0, 0, 0, 24}, ascii("ftypmp42"), ascii("udta xyz " + PLACE));
 
         byte[] stripped = ImageMetadata.strip(concat(plain, video), "jpeg");
@@ -74,7 +72,7 @@ class ImageMetadataTest {
     }
 
     @Test
-    void aProgressiveJpegKeepsEveryScanButNotACommentBetweenThem() throws Exception {
+    void progressiveJpegKeepsScans() throws Exception {
         byte[] plain = progressive(sample(BufferedImage.TYPE_INT_RGB));
         byte[] scan = {(byte) 0xFF, (byte) 0xDA};
         int second = indexOf(plain, scan, indexOf(plain, scan, 0) + 2);
@@ -90,7 +88,7 @@ class ImageMetadataTest {
     }
 
     @Test
-    void aPngKeepsItsPixelsButNotItsTextExifOrTime() throws Exception {
+    void pngDropsTextExifTime() throws Exception {
         byte[] plain = encode(sample(BufferedImage.TYPE_INT_ARGB), "png");
         int afterHeader = 8 + 12 + 13;
         byte[] tagged = concat(
@@ -108,7 +106,7 @@ class ImageMetadataTest {
     }
 
     @Test
-    void aGifKeepsItsImageAndLoopingButNotItsComments() throws Exception {
+    void gifKeepsLoopDropsComments() throws Exception {
         byte[] plain = encode(sample(BufferedImage.TYPE_INT_RGB), "gif");
         assertThat(plain[plain.length - 1]).isEqualTo((byte) 0x3B);
         byte[] tagged = concat(
@@ -125,7 +123,7 @@ class ImageMetadataTest {
     }
 
     @Test
-    void aWebpKeepsItsImageButNotItsExifOrXmp() throws Exception {
+    void webpDropsExifAndXmp() throws Exception {
         byte[] simple = Base64.getDecoder().decode(WEBP_3X2);
         byte[] extended = riff(
                 webpChunk("VP8X", new byte[] {0x0C, 0, 0, 0, 2, 0, 0, 1, 0, 0}),
@@ -143,7 +141,7 @@ class ImageMetadataTest {
     }
 
     @Test
-    void aFileNotLaidOutAsItsFormatSaysIsRefused() throws Exception {
+    void rejectsMalformedFile() throws Exception {
         byte[] jpeg = encode(sample(BufferedImage.TYPE_INT_RGB), "jpeg");
 
         assertThatThrownBy(() -> ImageMetadata.strip(jpeg, "png")).isInstanceOf(IllegalArgumentException.class);
@@ -165,7 +163,6 @@ class ImageMetadataTest {
         return out.toByteArray();
     }
 
-    // A JPEG drawn in several scans, each adding detail.
     private static byte[] progressive(BufferedImage image) throws Exception {
         ImageWriter writer = ImageIO.getImageWritersByFormatName("jpeg").next();
         ImageWriteParam param = writer.getDefaultWriteParam();
@@ -192,7 +189,6 @@ class ImageMetadataTest {
         return image.getRGB(0, 0, image.getWidth(), image.getHeight(), null, 0, image.getWidth());
     }
 
-    // A TIFF directory with a description, as cameras write GPS and other text, and the orientation.
     private static byte[] exif(boolean little, int orientation) {
         byte[] description = concat(ascii(PLACE), new byte[] {0});
         ByteBuffer tiff = ByteBuffer.allocate(8 + 2 + 2 * 12 + 4 + description.length)

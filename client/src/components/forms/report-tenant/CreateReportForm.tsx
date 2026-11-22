@@ -62,13 +62,13 @@ export default function CreateReportForm() {
 				name="description"
 				register={register}
 				errors={errors}
-				placeholder="What happened, where and when? Stick to what you saw or heard."
+				placeholder="What happened, and when?"
 				isTextArea
 			/>
 
 			<div className="es-form-actions">
 				<p className="es-form-note">Your name is never shared with the tenant.</p>
-				<SubmitButton isLoading={isLoading} busyLabel="Sending…">
+				<SubmitButton isLoading={isLoading} busyLabel="Sending...">
 					Send report
 				</SubmitButton>
 			</div>

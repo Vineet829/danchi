@@ -20,7 +20,6 @@ import java.sql.Timestamp;
 import java.time.*;
 import java.util.*;
 
-/** All administration writes are validated, authorized, transactional and audited here. */
 @Service
 public class AdminRecordService {
     private final JdbcTemplate db;
@@ -189,9 +188,6 @@ public class AdminRecordService {
         if (r == AdminResource.POSTS) saveTags(id, Objects.toString(values.get("tags"), ""));
         if (r == AdminResource.PROFILES)
             recalculateReports(Set.of(number(values.get("user_pkid"))), Map.of());
-        // Taking away the staff role that kept a reported account on applies the
-        // five-reporter rule again, as a fifth report would. Only then: a recount
-        // moves the profile's version, which would interrupt an open profile edit.
         if (r == AdminResource.USERS
                 && before != null
                 && Profile.keptOnByStaffRole(
@@ -230,9 +226,7 @@ public class AdminRecordService {
         var before = locked(AdminResource.PROFILES, profileId, revision);
         var owner = users.findById(number(before.get("user_pkid"))).orElseThrow();
         avatars.upload(owner, file);
-        // AvatarStorage participates in this transaction and cleans up files on rollback.
         db.update("UPDATE profiles SET updated_at=clock_timestamp() WHERE pkid=?", profileId);
-        // Flush the JPA write before reading through JDBC for the audit snapshot.
         users.flush();
         audit.record(
                 AdminResource.PROFILES,
@@ -304,9 +298,6 @@ public class AdminRecordService {
                         || (!staff && !superuser)
                         || (Boolean.TRUE.equals(before.get("is_superuser")) && !superuser)))
             throw new IllegalArgumentException("You cannot remove your own administration access.");
-        // Only turning a resident's account back on waits for their reports
-        // to be reviewed. Reports never turn a staff account off, so they
-        // never keep one off either.
         if (active
                 && !Boolean.TRUE.equals(before.get("is_active"))
                 && !Profile.keptOnByStaffRole(staff, superuser)
@@ -421,7 +412,7 @@ public class AdminRecordService {
             if (create || !password.isBlank()) {
                 if (!password.matches("(?s)^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,128}$"))
                     throw new IllegalArgumentException(
-                            "Use 8–128 characters with an uppercase letter, lowercase letter and"
+                            "Use 8 to 128 characters with an uppercase letter, lowercase letter and"
                                     + " number for the password.");
                 if (!password.equals(input.get("password_confirmation")))
                     throw new IllegalArgumentException("The passwords do not match.");
@@ -455,7 +446,6 @@ public class AdminRecordService {
                     rater = number(out.get("rating_user_pkid"));
             if (rated == rater)
                 throw new IllegalArgumentException("A person cannot rate themselves.");
-            // Residents rate technicians on their work, as on the site.
             String raterOccupation = occupationOf(rater), ratedOccupation = occupationOf(rated);
             if (!"tenant".equals(raterOccupation)
                     || ratedOccupation == null
@@ -507,7 +497,6 @@ public class AdminRecordService {
     }
 
     private void saveTags(long post, String input) {
-        // Tags match case-insensitively, as in the community API, so "Plumbing" reuses "plumbing".
         Set<String> seen = new HashSet<>();
         var tags =
                 Arrays.stream(input.split(","))
@@ -528,7 +517,6 @@ public class AdminRecordService {
             if (id == null) {
                 String slug = Slugs.of(tag);
                 if (slug.isBlank()) slug = "tag";
-                // Native upsert also handles a tag concurrently added through the community API.
                 id =
                         db.queryForObject(
                                 "INSERT INTO tags(name,slug) VALUES(?,?) ON CONFLICT(name) DO"
@@ -609,7 +597,6 @@ public class AdminRecordService {
                         "Warning: " + user.get("first_name") + " You have been reported!",
                         "A report has been filed against your account on " + mail.siteName() + ".");
             }
-            // Removing reports restores the counts, but does not silently reactivate an account.
         }
     }
 

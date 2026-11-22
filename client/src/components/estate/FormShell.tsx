@@ -7,14 +7,11 @@ type FormShellProps = {
 	title: ReactNode;
 	description?: ReactNode;
 	back?: { href: string; label: string };
-	/** Supporting content under the description: context, steps, reassurance. */
 	aside?: ReactNode;
-	/** Enlarge the form panel independently of its supporting column. */
 	panelSize?: "default" | "large";
 	children: ReactNode;
 };
 
-/** Two columns: what the form is for on the left, the form itself on the right. */
 export default function FormShell({ eyebrow, title, description, back, aside, panelSize = "default", children }: FormShellProps) {
 	return (
 		<div className="es-page es-page--wide">
@@ -39,7 +36,6 @@ export default function FormShell({ eyebrow, title, description, back, aside, pa
 
 type Step = { title: string; text: string };
 
-/** Numbered notes in the style of the public pages. */
 export function FormSteps({ steps, label }: { steps: Step[]; label?: string }) {
 	return (
 		<ol className="es-steps" aria-label={label}>
@@ -64,7 +60,6 @@ type FormNoteProps = {
 	children: ReactNode;
 };
 
-/** A small card for one fact that matters while filling in the form. */
 export function FormContext({ icon, label, children }: FormNoteProps) {
 	return (
 		<div className="es-context">

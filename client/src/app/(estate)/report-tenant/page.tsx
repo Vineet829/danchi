@@ -5,8 +5,8 @@ import { ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Report a tenant — Danchi",
-	description: "Tenants can report their fellow tenants in cases of misconduct or misbehavior",
+	title: "Report a tenant | Danchi",
+	description: "Tenants can report their fellow tenants in cases of misconduct or misbehaviour",
 };
 
 function ReportTenantPage() {
@@ -16,14 +16,14 @@ function ReportTenantPage() {
 			panelSize="large"
 			title={
 				<>
-					Raise a <em>concern</em>
+					Report a <em>tenant</em>
 				</>
 			}
-			description="When something a neighbour does becomes a problem, let the management know. Say what happened, plainly."
+			description="Tell the management about a problem with a neighbour."
 			back={{ href: "/profile", label: "Back to profile" }}
 			aside={
 				<FormContext icon={<ShieldCheck strokeWidth={1.75} />} label="Anonymous">
-					We act on every report, and never disclose who raised it.
+					Only the management can see who sent a report.
 				</FormContext>
 			}
 		>

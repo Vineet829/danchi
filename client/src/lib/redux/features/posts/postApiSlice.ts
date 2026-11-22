@@ -167,9 +167,7 @@ export const postApiSlice = postQueriesApi.injectEndpoints({
 					for (const args of usersApiSlice.util.selectCachedArgsForQuery(profileState, "getProfilePosts")) {
 						dispatch(usersApiSlice.util.updateQueryData("getProfilePosts", args, (draft) => applyConfirmedVote(draft.profile_posts.results, data)));
 					}
-				} catch {
-					// Preserve the confirmed state on failure; the caller offers a safe retry.
-				}
+				} catch {}
 			},
 		}),
 	}),

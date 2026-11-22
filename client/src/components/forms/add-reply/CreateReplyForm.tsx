@@ -57,11 +57,11 @@ export default function CreateReplyForm({ slug }: ReplyFormProps) {
 					name="body"
 					register={register}
 					errors={errors}
-					placeholder="Add your reply…"
+					placeholder="Add your reply..."
 					isTextArea
 				/>
 				<div className="es-replyform-foot">
-					<SubmitButton isLoading={isLoading} busyLabel="Posting…" arrow={false} className="es-btn--sm">
+					<SubmitButton isLoading={isLoading} busyLabel="Posting..." arrow={false} className="es-btn--sm">
 						Reply
 					</SubmitButton>
 				</div>

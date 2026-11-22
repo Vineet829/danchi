@@ -37,8 +37,6 @@ public class JwtService {
         this.refreshTtl = properties.jwt().refreshTokenTtl();
     }
 
-    // Every token of one sign-in carries that sign-in's session id, refreshed ones too, so signing out
-    // refuses them all: copies, and refresh tokens from before the latest refresh.
     public String issueAccessToken(UUID userId, UUID session) {
         return issue(userId, session, TokenType.ACCESS, accessTtl);
     }
@@ -47,7 +45,6 @@ public class JwtService {
         return issue(userId, session, TokenType.REFRESH, refreshTtl);
     }
 
-    /** How long a refresh token lasts, which no token of a sign-in outlives from the moment it was made. */
     public Duration refreshTokenTtl() {
         return refreshTtl;
     }
@@ -81,10 +78,6 @@ public class JwtService {
         return UUID.fromString(claims.get("user_id", String.class));
     }
 
-    /**
-     * A token this server signed and that hasn't run out: its id, its sign-in's session id (none for a
-     * token made before session ids were), and when it runs out.
-     */
     public Optional<Issued> issued(String token) {
         try {
             Claims claims = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
@@ -100,7 +93,6 @@ public class JwtService {
 
     public record Issued(UUID id, UUID session, Instant expiresAt) {}
 
-    /** The session id of the sign-in a token belongs to, if it is a valid token that has one. */
     public Optional<UUID> sessionOf(String token) {
         return issued(token).map(Issued::session);
     }
@@ -108,7 +100,6 @@ public class JwtService {
     public boolean isCurrent(String token, User user) {
         Claims claims = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
         Number version = claims.get("auth_version", Number.class);
-        // Existing sessions remain valid until a password change or deactivation revokes them.
         return (version == null ? 0L : version.longValue()) == user.getAuthVersion();
     }
 }

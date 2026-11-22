@@ -20,13 +20,13 @@ function SigningIn({ signedIn = false }: { signedIn?: boolean }) {
 					</span>
 					<div className={styles.formHeading}>
 						<p className={styles.formEyebrow}>GOOGLE SIGN-IN</p>
-						<h1 id="google-title">{signedIn ? "You’re in." : "Signing you in"}</h1>
-						<p role="status">{signedIn ? "Opening your community…" : "Confirming your Google account…"}</p>
+						<h1 id="google-title">{signedIn ? "You're signed in" : "Signing you in"}</h1>
+						<p role="status">{signedIn ? "Opening your community..." : "Confirming your Google account..."}</p>
 					</div>
 				</section>
 			</main>
 
-			<footer className={styles.footer}><span>© {new Date().getFullYear()} Danchi</span><span>Good things start with good neighbours.</span></footer>
+			<footer className={styles.footer}><span>© {new Date().getFullYear()} Danchi</span></footer>
 		</div>
 	);
 }

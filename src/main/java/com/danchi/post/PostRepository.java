@@ -10,9 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-// A page of posts fetches only their authors with them: fetching a collection, such as the tags,
-// would make Hibernate read every post and page them in memory. The tags of a page's posts load
-// afterwards in one query (Post.tags).
 public interface PostRepository extends JpaRepository<Post, Long> {
 
     Page<Post> findByAuthorPkidOrderByCreatedAtDescPkidDesc(Long authorPkid, Pageable pageable);

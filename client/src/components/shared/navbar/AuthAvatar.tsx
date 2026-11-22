@@ -26,7 +26,6 @@ export default function AuthAvatar() {
 		return null;
 	}
 
-	// Keep the page scrollbar in place so the fixed header does not shift.
 	return (
 		<DropdownMenu modal={false}>
 			<DropdownMenuTrigger asChild>

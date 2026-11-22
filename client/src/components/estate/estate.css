@@ -1,4 +1,3 @@
-/* Interior theme for the signed-in app. Public and entry pages keep their own styling. */
 @import "./styles/tokens.css";
 @import "./styles/shell.css";
 @import "./styles/ui.css";

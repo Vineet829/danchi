@@ -32,7 +32,6 @@ const PaginationSection = ({ totalPages, entityType }: PaginationSectionProps) =
 		if (currentPage < totalPages) goTo(currentPage + 1);
 	};
 
-	// A single page needs no controls, unless we are stranded beyond it.
 	if (totalPages <= 1 && currentPage <= 1) return null;
 
 	return (

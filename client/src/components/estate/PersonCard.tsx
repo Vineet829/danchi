@@ -23,7 +23,6 @@ type PersonCardProps = {
 	slug: string;
 	avatar?: string | null;
 	bio?: string | null;
-	/** Small label beside the name, such as a trade. */
 	badge?: string;
 	facts: PersonFact[];
 	summaryFacts: PersonFact[];
@@ -55,7 +54,6 @@ export default function PersonCard({ name, username, slug, avatar, bio, badge, f
 	const ProfileIcon = isTechnician ? Wrench : UsersRound;
 	const ratingHref = `/add-rating?username=${encodeURIComponent(username)}`;
 	const { data: viewer } = useGetUserQuery();
-	// Tenants rate technicians; guests' ratings would count against real people's work.
 	const canRate = isTechnician && viewer?.occupation === "tenant" && !viewer.is_guest;
 	const cardFacts = isTechnician
 		? [...summaryFacts, { icon: Star, label: "Rating", value: <RatingStars value={rating} /> }]

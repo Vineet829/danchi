@@ -1,9 +1,3 @@
-"""Curated identity updates used by seed_avatars.py --with-identities.
-
-Only the recorded fictional sample identities are eligible. Account UUIDs,
-credentials, homes and activity are retained; later profile edits are preserved.
-"""
-
 import json
 import re
 import uuid
@@ -53,8 +47,6 @@ def preview_sql(identities):
 
 
 def update_sql(identities):
-    # The caller owns the transaction. Both tables use the same eligibility
-    # snapshot, so a partial match can never rename only half of a profile.
     return f'''CREATE TEMP TABLE cedar_court_identity_changes ON COMMIT DROP AS {changes_query(identities, lock=True)};
         UPDATE users u SET username = c.profile ->> 'username', first_name = c.profile ->> 'first_name',
             last_name = c.profile ->> 'last_name', updated_at = now()

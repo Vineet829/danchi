@@ -21,7 +21,7 @@ export default function RightNavbar() {
 				</h2>
 				{postsLoading ? (
 					<div className="es-rail-loading" role="status">
-						<span className="es-sr">Loading top posts…</span>
+						<span className="es-sr">Loading top posts...</span>
 						{[72, 58, 84, 64].map((width) => (
 							<div key={width} className="es-rail-loading-row">
 								<span className="es-skeleton size-[22px]" />
@@ -53,7 +53,7 @@ export default function RightNavbar() {
 						))}
 					</ol>
 				) : (
-					<p className="es-rail-empty">{postsFailed ? "Top posts could not be loaded." : "No top posts yet."}</p>
+					<p className="es-rail-empty">{postsFailed ? "Top posts couldn't be loaded." : "No top posts yet."}</p>
 				)}
 			</section>
 
@@ -64,7 +64,7 @@ export default function RightNavbar() {
 				</h2>
 				{tagsLoading ? (
 					<div className="es-taglist" role="status">
-						<span className="es-sr">Loading popular tags…</span>
+						<span className="es-sr">Loading popular tags...</span>
 						{[96, 132, 118, 104].map((width) => (
 							<span key={width} className="es-skeleton es-skeleton--pill h-[27px] w-[var(--bone-width)]" style={{ "--bone-width": `${width}px` } as CSSProperties} />
 						))}
@@ -79,12 +79,11 @@ export default function RightNavbar() {
 						))}
 					</div>
 				) : (
-					<p className="es-rail-empty">{tagsFailed ? "Tags could not be loaded." : "No popular tags yet."}</p>
+					<p className="es-rail-empty">{tagsFailed ? "Tags couldn't be loaded." : "No popular tags yet."}</p>
 				)}
 			</section>
 
 			<footer className="es-rail-foot">
-				<p>Good things start with good neighbours.</p>
 				<p>© {new Date().getFullYear()} Danchi</p>
 			</footer>
 		</aside>

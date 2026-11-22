@@ -32,7 +32,6 @@ import java.time.*;
 import java.util.*;
 import java.util.function.Supplier;
 
-/** Shared, server-authorized editor and paged list for the registered Django models. */
 public abstract class AdminCrudView extends VerticalLayout {
     protected final AdminResource resource;
     private final AdminQueryService queries;
@@ -440,7 +439,7 @@ public abstract class AdminCrudView extends VerticalLayout {
                                     + row.get("report_count")
                                     + " · Reputation: "
                                     + row.get("reputation")
-                                    + " / 100. These values follow the report records."));
+                                    + " / 100"));
             Image avatar = new Image();
             avatar.setAlt("Current profile picture");
             avatar.setWidth("80px");
@@ -517,7 +516,7 @@ public abstract class AdminCrudView extends VerticalLayout {
                                     + row.get("downvotes")
                                     + " · Views: "
                                     + row.get("total_views")
-                                    + ". Vote totals are calculated from residents’ votes."));
+                                    + ". Vote totals are calculated from residents' votes."));
         if (resource == AdminResource.ISSUES && id != null)
             body.add(
                     new Paragraph(
@@ -769,7 +768,7 @@ public abstract class AdminCrudView extends VerticalLayout {
     }
 
     static String display(Object value) {
-        if (value == null) return "—";
+        if (value == null) return "-";
         if (value instanceof Boolean b) return b ? "Yes" : "No";
         return value.toString();
     }

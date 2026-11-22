@@ -2,7 +2,7 @@ export function authErrorMessage(error: unknown): string {
 	const fallback = "Something went wrong. Please try again.";
 	if (!error || typeof error !== "object") return fallback;
 	if ("status" in error && error.status === "FETCH_ERROR") {
-		return "We couldn’t connect. Check your connection and try again.";
+		return "We couldn't connect. Check your connection and try again.";
 	}
 	if (!("data" in error) || !error.data || typeof error.data !== "object") return fallback;
 	const data = error.data as Record<string, unknown>;

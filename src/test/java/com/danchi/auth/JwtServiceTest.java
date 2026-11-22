@@ -13,7 +13,7 @@ class JwtServiceTest {
     private static final UUID SIGN_IN = UUID.randomUUID();
 
     @Test
-    void credentialChangesRevokeBothTokenTypes() {
+    void credentialChangeRevokesTokens() {
         JwtService jwt = service("a", Duration.ofMinutes(30));
         var user = new com.danchi.user.User();
         user.setId(UUID.randomUUID());
@@ -26,7 +26,7 @@ class JwtServiceTest {
     }
 
     @Test
-    void accessAndRefreshTokensRoundTripTheirUserAndHaveDifferentIds() {
+    void tokensRoundTripUserId() {
         JwtService jwt = service("a", Duration.ofMinutes(30));
         UUID user = UUID.randomUUID();
         String access = jwt.issueAccessToken(user, SIGN_IN);
@@ -36,7 +36,7 @@ class JwtServiceTest {
     }
 
     @Test
-    void tokenTypesCannotBeInterchanged() {
+    void tokenTypesNotInterchangeable() {
         JwtService jwt = service("a", Duration.ofMinutes(30));
         UUID user = UUID.randomUUID();
         assertThatThrownBy(() -> jwt.extractUserId(jwt.issueRefreshToken(user, SIGN_IN), TokenType.ACCESS))
@@ -46,7 +46,7 @@ class JwtServiceTest {
     }
 
     @Test
-    void expiredAccessAndRefreshTokensAreRejected() {
+    void expiredTokensRejected() {
         JwtService jwt = service("a", Duration.ofSeconds(-1));
         UUID user = UUID.randomUUID();
         assertThatThrownBy(() -> jwt.extractUserId(jwt.issueAccessToken(user, SIGN_IN), TokenType.ACCESS))
@@ -56,14 +56,14 @@ class JwtServiceTest {
     }
 
     @Test
-    void signatureFromAnotherKeyIsRejected() {
+    void otherKeySignatureRejected() {
         String token = service("b", Duration.ofMinutes(30)).issueAccessToken(UUID.randomUUID(), SIGN_IN);
         assertThatThrownBy(() -> service("a", Duration.ofMinutes(30)).extractUserId(token, TokenType.ACCESS))
                 .isInstanceOf(JwtException.class);
     }
 
     @Test
-    void aSignInsTokensCarryItsSessionId() {
+    void tokensCarrySessionId() {
         JwtService jwt = service("a", Duration.ofMinutes(30));
         UUID user = UUID.randomUUID();
         UUID session = UUID.randomUUID();

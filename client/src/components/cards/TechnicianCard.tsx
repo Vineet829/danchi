@@ -41,11 +41,11 @@ export default function TechnicianCard() {
 				eyebrow="Directory"
 				title={
 					<>
-						The people who <em>fix things</em>
+						Find a <em>technician</em>
 					</>
 				}
 				count={ready ? totalCount : undefined}
-				description="Find the right pair of hands for the job, and rate the work once it is done."
+				description="Technicians who work in your building. You can rate them after a job."
 			/>
 
 			<div className="es-toolbar">
@@ -81,10 +81,10 @@ export default function TechnicianCard() {
 				</div>
 			) : searchTerm ? (
 				<EmptyState icon={SearchX} description="Check the spelling, or try a first name, last name or username.">
-					No technicians match &ldquo;{searchTerm}&rdquo;
+					No technicians match &quot;{searchTerm}&quot;
 				</EmptyState>
 			) : (
-				<EmptyState icon={Wrench} description="Technicians appear here once they join the building.">
+				<EmptyState icon={Wrench} description="Technicians appear here once they choose a trade on their profile.">
 					No technicians yet
 				</EmptyState>
 			)}

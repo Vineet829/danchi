@@ -7,7 +7,7 @@
   electrician, lists you as a technician. Staff and guest accounts aren't
   listed.
 - **Administrator**: Staff accounts can see, change, and delete every issue.
-  In the admin console they work with the permissions they are given, such as
+  In the admin console they work with the permissions they're given, such as
   assigning issues to technicians. Superusers, like the account
   `make superuser` creates, can do everything, including managing groups and
   switching accounts on or off.

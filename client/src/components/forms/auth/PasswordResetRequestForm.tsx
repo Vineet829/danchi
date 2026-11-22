@@ -50,7 +50,7 @@ export default function PasswordResetRequestForm() {
 			/>
 			<div className="es-form-actions">
 				<p className="es-form-note">The link arrives by email.</p>
-				<SubmitButton isLoading={isLoading} busyLabel="Sending…">
+				<SubmitButton isLoading={isLoading} busyLabel="Sending...">
 					Send reset link
 				</SubmitButton>
 			</div>

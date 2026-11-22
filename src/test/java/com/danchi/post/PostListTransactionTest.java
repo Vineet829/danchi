@@ -26,8 +26,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-// Pages of posts are read the way a request reads them: no transaction around the call, so tags
-// that load after the page's own transaction has ended would fail.
 @DataJpaTest(properties = "spring.jpa.show-sql=false")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({PostController.class, PostService.class, ContentViewRecorder.class})
@@ -67,7 +65,7 @@ class PostListTransactionTest {
     }
 
     @Test
-    void aPageOfTaggedPostsListsTheirTags() {
+    void taggedPostListShowsTags() {
         new TransactionTemplate(transactions).executeWithoutResult(status -> {
             User author = new User();
             author.setUsername("page_author");

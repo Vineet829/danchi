@@ -125,7 +125,6 @@ public class IssueWriteService {
         Issue issue = issueRepository.findByExternalIdForUpdate(issueId)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "No Issue matches the given query."));
-        // Hydrate response relations while the transaction is open, without locking outer joins.
         org.hibernate.Hibernate.initialize(issue.getApartment());
         org.hibernate.Hibernate.initialize(issue.getReportedBy());
         org.hibernate.Hibernate.initialize(issue.getAssignedTo());

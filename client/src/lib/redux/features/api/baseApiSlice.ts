@@ -70,7 +70,6 @@ const baseQueryWithReauth: BaseQueryFn<
 				} else if (refreshResponse.error?.status === 401 || refreshResponse.error?.status === 403) {
 					api.dispatch(setLogout());
 				} else {
-					// A temporary network/relay failure does not invalidate the user's session.
 					response = refreshResponse;
 				}
 			} finally {

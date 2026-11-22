@@ -81,7 +81,7 @@ function CreatePostFormContent() {
 				name="body"
 				register={register}
 				errors={errors}
-				placeholder="Ask a question or share what you have in mind…"
+				placeholder="Ask a question or share what you have in mind..."
 				isTextArea
 			/>
 
@@ -112,7 +112,7 @@ function CreatePostFormContent() {
 							<input
 								type="text"
 								id="tags"
-								placeholder={field.value.length > 0 ? "Add another…" : "Type a tag and press Enter"}
+								placeholder={field.value.length > 0 ? "Add another..." : "Type a tag and press Enter"}
 								onKeyDown={(e) => handleInputKeyDown(e, field)}
 								autoComplete="off"
 								aria-describedby="tags-hint"
@@ -131,7 +131,7 @@ function CreatePostFormContent() {
 
 			<div className="es-form-actions">
 				<p className="es-form-note">Everyone in the building can read and reply.</p>
-				<SubmitButton isLoading={isLoading} busyLabel="Publishing…">
+				<SubmitButton isLoading={isLoading} busyLabel="Publishing...">
 					Publish post
 				</SubmitButton>
 			</div>

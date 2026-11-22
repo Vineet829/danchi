@@ -5,12 +5,12 @@ import CreateIssueForm from "@/components/forms/report-issue/CreateIssueForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Report an issue — Danchi",
+	title: "Report an issue | Danchi",
 	description: "Tenants can report any issues to the management with regards to their apartments",
 };
 
 const STEPS = [
-	{ title: "Reported", text: "You describe what is wrong at your apartment." },
+	{ title: "Reported", text: "You describe what's wrong at your apartment." },
 	{ title: "In progress", text: "The technician assigned to it gets to work." },
 	{ title: "Resolved", text: "The fix is done and the issue is closed." },
 ];
@@ -22,10 +22,10 @@ function ReportIssuePage() {
 			panelSize="large"
 			title={
 				<>
-					Something <em>not right?</em>
+					Report an <em>issue</em>
 				</>
 			}
-			description="Tell us what needs attention. You can follow it from reported to resolved on your profile."
+			description="Describe the problem and choose how urgent it is."
 			aside={
 				<>
 					<ApartmentContext />

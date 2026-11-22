@@ -21,7 +21,7 @@ class GuestServiceTest {
     private final ApartmentRepository apartments = mock(ApartmentRepository.class);
     private final JdbcTemplate db = mock(JdbcTemplate.class);
 
-    @Test void createsIndependentUnprivilegedAccountsWithNoReusablePassword() {
+    @Test void createsUnprivilegedGuestAccounts() {
         when(db.queryForObject(contains("count(*) FROM users"), eq(Long.class))).thenReturn(0L);
         when(db.queryForObject(contains("INSERT INTO guest_login_limits"), eq(Integer.class), anyString())).thenReturn(1);
         var ids = new AtomicLong();
@@ -39,18 +39,18 @@ class GuestServiceTest {
         verify(profiles, times(2)).save(argThat(profile -> profile.getAvatar().endsWith("testuser-bot-v5.jpg")));
         verify(apartments, times(2)).saveAndFlush(any());
     }
-    @Test void disabledGuestAccessDoesNotTouchTheDatabase() {
+    @Test void disabledGuestAccessSkipsDatabase() {
         assertThatThrownBy(() -> new GuestService(users, profiles, apartments, db, false).create("192.0.2.1"))
                 .isInstanceOf(ResponseStatusException.class).hasMessageContaining("503");
         verifyNoInteractions(db, users, profiles, apartments);
     }
-    @Test void guestCapacityIsBoundedBeforeCreatingAnyAccounts() {
+    @Test void guestCapacityCheckedFirst() {
         when(db.queryForObject(contains("count(*) FROM users"),eq(Long.class))).thenReturn(200L);
         assertThatThrownBy(() -> new GuestService(users,profiles,apartments,db,true).create("192.0.2.1"))
                 .isInstanceOf(ResponseStatusException.class).hasMessageContaining("429");
         verifyNoInteractions(users,profiles,apartments);
     }
-    @Test void perAddressLimitIsCheckedBeforeAccountCreation() {
+    @Test void addressLimitCheckedFirst() {
         when(db.queryForObject(contains("count(*) FROM users"), eq(Long.class))).thenReturn(0L);
         when(db.queryForObject(contains("INSERT INTO guest_login_limits"),eq(Integer.class),anyString())).thenReturn(6);
         assertThatThrownBy(() -> new GuestService(users,profiles,apartments,db,true).create("192.0.2.1"))

@@ -30,7 +30,6 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
     @Query("select i from Issue i where i.id = :externalId")
     Optional<Issue> findByExternalId(@Param("externalId") UUID externalId);
 
-    // Lock only the issue row; a fetch join would also try to lock the nullable assignee.
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select i from Issue i where i.id = :externalId")
     Optional<Issue> findByExternalIdForUpdate(@Param("externalId") UUID externalId);

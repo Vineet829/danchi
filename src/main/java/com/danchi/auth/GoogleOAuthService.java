@@ -92,7 +92,6 @@ public class GoogleOAuthService {
         User user = identities.findById(info.sub()).map(GoogleIdentity::getUser).orElse(null);
         if (user == null) {
             String email = info.email().trim().toLowerCase(Locale.ROOT);
-            // Google has verified the email, so a sign-up with it that was never activated gives way.
             pendingSignUps.removeFor(email);
             if (userRepository.existsByEmailIgnoreCase(email)) {
                 throw new GoogleAuthenticationException(

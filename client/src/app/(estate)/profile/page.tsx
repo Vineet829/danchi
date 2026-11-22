@@ -4,7 +4,7 @@ import ProtectedRoute from "@/components/shared/ProtectedRoutes";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Your profile — Danchi",
+	title: "Your profile | Danchi",
 	description: "Signed in users can view all their profile information",
 };
 

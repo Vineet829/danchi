@@ -49,7 +49,7 @@ function progressNote(status?: string, assignedTo?: string) {
 		return assignedTo ? `${assignedTo} is working on this.` : "Work on this issue is under way.";
 	}
 	return assignedTo
-		? `Reported and assigned to ${assignedTo}. Work has not started yet.`
+		? `Reported and assigned to ${assignedTo}. Work hasn't started yet.`
 		: "Reported. Waiting to be assigned to a technician.";
 }
 
@@ -110,7 +110,7 @@ export default function IssueDetails({ params }: IssueDetailsProps) {
 						</Link>
 					}
 				>
-					We could not find that issue
+					We couldn&apos;t find that issue
 				</EmptyState>
 			</div>
 		);
@@ -134,7 +134,7 @@ export default function IssueDetails({ params }: IssueDetailsProps) {
 					<section className="es-card es-progresscard" aria-labelledby="issue-progress">
 						<h2 className="es-section-title" id="issue-progress">
 							<ListChecks aria-hidden="true" strokeWidth={1.75} />
-							Where things stand
+							Status
 						</h2>
 						<IssueProgress status={issue.status} />
 						<p className="es-progresscard-note">{progressNote(issue.status, issue.assigned_to)}</p>

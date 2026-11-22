@@ -18,7 +18,6 @@ public class AdminPermissions {
 
     public Actor actor() {
         var principal = AdminAccess.requireStaff();
-        // Re-read privileges for every operation; an open Vaadin session is not an authority cache.
         var rows =
                 db.queryForList(
                         "SELECT pkid,id,email,is_superuser FROM users WHERE pkid=? AND is_active"

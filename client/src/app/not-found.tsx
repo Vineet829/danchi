@@ -5,7 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = { title: "Page not found — Danchi" };
+export const metadata: Metadata = { title: "Page not found | Danchi" };
 
 export default function NotFound() {
 	return (
@@ -19,10 +19,10 @@ export default function NotFound() {
 				</p>
 				<p className="es-eyebrow es-eyebrow--plain">Page not found</p>
 				<h1 className="es-statuspage-title">
-					This door does not <em>lead anywhere</em>.
+					We can&apos;t find <em>this page</em>.
 				</h1>
 				<p className="es-statuspage-text">
-					The page may have moved, or the address might be mistyped. Let us get you back home.
+					The page may have moved, or the address might be mistyped.
 				</p>
 				<Link href="/welcome" className="es-btn es-btn--primary">
 					<ArrowLeft aria-hidden="true" />

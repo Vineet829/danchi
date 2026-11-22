@@ -39,7 +39,6 @@ public class ProviderAuthController {
     public AuthorizationUrlResponse authorizationUrl(
             @PathVariable String provider,
             @RequestParam("redirect_uri") String redirectUri, HttpServletRequest request) {
-        // Each start keeps a session on the server until it is used or expires.
         limiter.consume(RequestLimit.GOOGLE_SIGN_IN_ADDRESS, request.getRemoteAddr());
         return new AuthorizationUrlResponse(
                 googleOAuthService.authorizationUrl(provider, redirectUri, request));

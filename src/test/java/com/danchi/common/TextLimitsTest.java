@@ -17,7 +17,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
-// Long text is stored as it is sent, so each kind has a most it may be.
 class TextLimitsTest {
     private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
@@ -26,7 +25,7 @@ class TextLimitsTest {
     }
 
     @Test
-    void longTextIsRefusedWithTheMostItMayBe() {
+    void rejectsTextOverLimit() {
         assertThat(messages(new PostCreateRequest("Title", "x".repeat(10001), List.of())))
                 .containsExactly("A post can be at most 10,000 characters.");
         assertThat(messages(new PostUpdateRequest(null, "x".repeat(10001), null)))
@@ -44,7 +43,7 @@ class TextLimitsTest {
     }
 
     @Test
-    void textUpToTheMostIsTaken() {
+    void acceptsTextAtLimit() {
         assertThat(messages(new PostCreateRequest("Title", "x".repeat(10000), List.of()))).isEmpty();
         assertThat(messages(new ReplyCreateRequest("x".repeat(5000)))).isEmpty();
         assertThat(messages(new UpdateProfileRequest(null, null, null, null, null, null, "x".repeat(1000), null, null)))

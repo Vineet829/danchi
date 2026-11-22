@@ -4,14 +4,14 @@ import CreatePostForm from "@/components/forms/add-post/CreatePostForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Create a post — Danchi",
+	title: "Create a post | Danchi",
 	description: "Authenticated users can ask any question or post some content for all users to see",
 };
 
 const STEPS = [
-	{ title: "Lead with the point", text: "A clear title gets answers faster." },
-	{ title: "Add the detail", text: "Where, when, and who it matters to." },
-	{ title: "Tag it", text: "One or two tags are enough." },
+	{ title: "Write a clear title", text: "People see it first in the list of posts." },
+	{ title: "Add the details", text: "Say where and when, if it matters." },
+	{ title: "Add tags", text: "One or two tags are enough." },
 ];
 
 function AddPostPage() {
@@ -20,10 +20,10 @@ function AddPostPage() {
 			eyebrow="Community"
 			title={
 				<>
-					Start a <em>conversation</em>
+					Write a <em>post</em>
 				</>
 			}
-			description="Ask a question, share a notice or pass on a recommendation with everyone in the building."
+			description="Ask a question or share a notice with your neighbours."
 			back={{ href: "/welcome", label: "Back to community" }}
 			aside={<FormSteps steps={STEPS} label="Writing a good post" />}
 		>

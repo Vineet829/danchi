@@ -2,15 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Shared scale for every route and portal. Viewport tokens keep fixed surfaces
-   within the screen; screen media-query breakpoints include the same 1.2 factor. */
 html {
 	@apply [--app-zoom:1.2] [--app-viewport-width:calc(100vw_/_var(--app-zoom))] [--app-viewport-height:calc(100svh_/_var(--app-zoom))] [--app-dynamic-height:calc(100dvh_/_var(--app-zoom))] [zoom:var(--app-zoom)];
 }
 
-/* Floating UI positions portalled menus in viewport pixels. Cancel the app
-   zoom on the positioning wrapper, then restore it on the visible content so
-   the account menu stays beside its trigger at the same size as the app. */
 body > [data-radix-popper-content-wrapper] {
 	@apply [zoom:calc(1_/_var(--app-zoom))];
 }
@@ -23,7 +18,6 @@ body {
 	@apply font-openSans bg-[hsl(var(--background))];
 }
 
-/* Dark appearance for shared select controls. */
 :root {
 	@apply [--select-background-color:#2b2a33] [--select-border-color:#ffffff] [--select-text-color:white] [--select-border-hover-color:#718096] [--select-option-selected-background-color:#4a5568] [--select-option-background-color:#2b2a33] [--select-option-text-color:white] [--select-option-hover-background-color:#718096] [--select-value-text-color:white] [--select-menu-background-color:#2b2a33];
 }

@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 
 type SubmitButtonProps = {
 	children: ReactNode;
-	/** Shown while the request is in flight. */
 	busyLabel?: string;
 	isLoading?: boolean;
 	disabled?: boolean;
@@ -13,7 +12,7 @@ type SubmitButtonProps = {
 
 export default function SubmitButton({
 	children,
-	busyLabel = "Saving…",
+	busyLabel = "Saving...",
 	isLoading = false,
 	disabled = false,
 	arrow = true,

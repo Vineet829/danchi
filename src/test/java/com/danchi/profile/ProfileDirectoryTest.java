@@ -46,7 +46,7 @@ class ProfileDirectoryTest {
     @Autowired private JdbcTemplate database;
 
     @Test
-    void directoriesListOnlyAccountsThatAreOn() {
+    void directoriesListActiveAccounts() {
         person("tenant_on", true, "tenant");
         person("tenant_never_activated", false, "tenant");
         person("plumber_on", true, "plumber");
@@ -64,7 +64,7 @@ class ProfileDirectoryTest {
     }
 
     @Test
-    void aDirectoryPageLoadsApartmentsAndRatingsForEveryoneAtOnce() {
+    void directoryLoadsDetailsInBatch() {
         long first = person("first_tenant", true, "tenant");
         long second = person("second_tenant", true, "tenant");
         long third = person("third_tenant", true, "tenant");

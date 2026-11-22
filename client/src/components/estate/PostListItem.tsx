@@ -30,11 +30,8 @@ export type PostSummary = {
 
 type PostListItemProps = {
 	post: PostSummary;
-	/** Position in the list, used to stagger the entrance. */
 	index?: number;
-	/** Hide the author when every row belongs to the same person. */
 	showAuthor?: boolean;
-	/** Hide the saved marker where every row is a saved post. */
 	showSaved?: boolean;
 };
 

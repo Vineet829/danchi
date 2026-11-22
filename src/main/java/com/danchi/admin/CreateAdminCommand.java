@@ -21,9 +21,6 @@ import java.util.UUID;
 
 import javax.sql.DataSource;
 
-/**
- * Operator-only CLI: requires direct database credentials and exposes no HTTP bootstrap endpoint.
- */
 public final class CreateAdminCommand {
     private CreateAdminCommand() {}
 
@@ -87,17 +84,17 @@ public final class CreateAdminCommand {
             throw new IllegalArgumentException("Enter a valid email address.");
         if (!username.matches("[a-zA-Z0-9_]{1,60}"))
             throw new IllegalArgumentException(
-                    "Username must be 1–60 letters, digits or underscores.");
+                    "Username must be 1 to 60 letters, digits or underscores.");
         if (firstName == null
                 || firstName.isBlank()
                 || firstName.length() > 60
                 || lastName == null
                 || lastName.isBlank()
                 || lastName.length() > 60)
-            throw new IllegalArgumentException("First and last names must be 1–60 characters.");
+            throw new IllegalArgumentException("First and last names must be 1 to 60 characters.");
         if (password == null || !password.matches("(?s)^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{12,128}$"))
             throw new IllegalArgumentException(
-                    "Admin password must be 12–128 characters with an uppercase letter, a lowercase"
+                    "Admin password must be 12 to 128 characters with an uppercase letter, a lowercase"
                         + " letter and a digit.");
 
         String hash = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8().encode(password);

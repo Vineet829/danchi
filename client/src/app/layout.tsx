@@ -10,7 +10,7 @@ import { PersistAuth } from "@/utils";
 
 export const metadata: Metadata = {
 	title: "Home | Danchi",
-	description: "Welcome home",
+	description: "A community app for apartment buildings.",
 };
 
 export default function RootLayout({

@@ -19,11 +19,9 @@ type SegmentedFieldProps = {
 	inputRef?: Ref<HTMLInputElement>;
 	hint?: ReactNode;
 	error?: string;
-	/** Leave out the coloured dots when the options carry no status. */
 	plain?: boolean;
 };
 
-/** A short, mutually exclusive choice shown in full rather than hidden in a menu. */
 export default function SegmentedField({
 	legend,
 	name,

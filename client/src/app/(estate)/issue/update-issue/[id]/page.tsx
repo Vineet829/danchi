@@ -5,7 +5,7 @@ import UpdateIssueForm from "@/components/forms/update-issue/UpdateIssueForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Update issue — Danchi",
+	title: "Update issue | Danchi",
 	description: "Technicians assigned to an issue can update the status of the issue",
 };
 
@@ -21,10 +21,10 @@ function UpdateIssuePage({ params }: UpdateParamsProps) {
 			eyebrow="Assigned to you"
 			title={
 				<>
-					Move it <em>forward</em>
+					Update the <em>issue</em>
 				</>
 			}
-			description="Update the status so the tenant knows where things stand, every step of the way."
+			description="Change the status as the work goes on."
 			back={{ href: `/issue/${params.id}`, label: "Back to the issue" }}
 			aside={<IssueContext id={params.id} />}
 		>

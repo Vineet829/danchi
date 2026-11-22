@@ -16,8 +16,6 @@ spring:
         jdbc:
           time_zone: UTC
         format_sql: true
-        # A page of results that fetches a collection is refused, rather than read whole and paged
-        # in memory.
         query:
           fail_on_pagination_over_collection_fetch: true
 
@@ -57,7 +55,6 @@ server:
   servlet:
     context-path: /
 
-# API errors and uploaded media belong to Spring MVC, not the admin UI fallback.
 vaadin:
   url-mapping: /admin/*
   exclude-urls: /api/**,/media/**,/actuator/**

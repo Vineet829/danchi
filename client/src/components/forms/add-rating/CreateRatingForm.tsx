@@ -57,7 +57,6 @@ export default function CreateRatingForm() {
 
 	const ratingError = errors.rating?.message;
 
-	// A rating always belongs to someone. Without a technician there is nothing to submit.
 	if (checked && !username) {
 		return (
 			<EmptyState
@@ -118,12 +117,12 @@ export default function CreateRatingForm() {
 				register={register}
 				placeholder="What went well, and what could have been better?"
 				isTextArea
-				hint="A few honest lines help the next neighbour choose."
+				hint="Other tenants can read it on the technician's profile."
 			/>
 
 			<div className="es-form-actions">
 				<p className="es-form-note">Ratings count towards the technician&apos;s average.</p>
-				<SubmitButton isLoading={isLoading} busyLabel="Saving…">
+				<SubmitButton isLoading={isLoading} busyLabel="Saving...">
 					Add rating
 				</SubmitButton>
 			</div>

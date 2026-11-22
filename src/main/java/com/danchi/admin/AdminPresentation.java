@@ -14,7 +14,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 
-/** Presentation helpers only; authorization and record operations remain in their services. */
 final class AdminPresentation {
     private static final DateTimeFormatter DATE =
             DateTimeFormatter.ofPattern("dd MMM yyyy · HH:mm 'UTC'", Locale.ENGLISH)
@@ -84,7 +83,7 @@ final class AdminPresentation {
     }
 
     static String timestamp(Object value) {
-        if (value == null) return "—";
+        if (value == null) return "-";
         Instant instant;
         if (value instanceof Date date) instant = date.toInstant();
         else if (value instanceof Instant time) instant = time;

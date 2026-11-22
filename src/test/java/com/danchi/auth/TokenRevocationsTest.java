@@ -66,7 +66,7 @@ class TokenRevocationsTest {
     }
 
     @Test
-    void aSignedOutTokenIsRefusedAndTheOthersAreNot() {
+    void revokesOnlyGivenToken() {
         UUID user = UUID.randomUUID();
         String signedOut = jwtService.issueRefreshToken(user, UUID.randomUUID());
         String other = jwtService.issueRefreshToken(user, UUID.randomUUID());
@@ -78,15 +78,13 @@ class TokenRevocationsTest {
         assertThat(revocations.isRevoked(other)).isFalse();
         assertThat(revocations.isRevoked("not-a-token")).isFalse();
         revocations.revoke("not-a-token");
-        // The token's id and its sign-in's.
         assertThat(db.queryForObject("SELECT count(*) FROM revoked_tokens", Integer.class)).isEqualTo(2);
     }
 
     @Test
-    void signingOutRefusesEveryTokenOfThatSignInAndNoOther() {
+    void revokesWholeSignInSession() {
         UUID user = UUID.randomUUID();
         UUID session = UUID.randomUUID();
-        // A refresh token from before the browser's last refresh, then the two the browser holds.
         String older = jwtService.issueRefreshToken(user, session);
         String access = jwtService.issueAccessToken(user, session);
         String refresh = jwtService.issueRefreshToken(user, session);
@@ -99,14 +97,13 @@ class TokenRevocationsTest {
         assertThat(revocations.isRevoked(access)).isTrue();
         assertThat(revocations.isRevoked(refresh)).isTrue();
         assertThat(revocations.isRevoked(elsewhere)).isFalse();
-        // The sign-in stays refused as long as a refresh token made at sign-out would last.
         assertThat(db.queryForObject("SELECT expires_at FROM revoked_tokens WHERE token_id = ?",
                         Timestamp.class, session).toInstant())
                 .isAfter(Instant.now().plus(Duration.ofHours(23)));
     }
 
     @Test
-    void aTokenFromBeforeSessionIdsIsRefusedByItsOwnId() {
+    void legacyTokenRevokedById() {
         Instant now = Instant.now();
         String old = Jwts.builder()
                 .subject(UUID.randomUUID().toString())
@@ -124,7 +121,7 @@ class TokenRevocationsTest {
     }
 
     @Test
-    void tokensThatHaveRunOutAreRemoved() {
+    void expiredRevocationsRemoved() {
         UUID session = UUID.randomUUID();
         revocations.revoke(jwtService.issueAccessToken(UUID.randomUUID(), session));
         revocations.revoke(jwtService.issueAccessToken(UUID.randomUUID(), UUID.randomUUID()));

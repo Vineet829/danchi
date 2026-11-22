@@ -25,7 +25,6 @@ const userSlice = createSlice({
 			state.techPage = action.payload;
 		},
 	},
-	// The next person to sign in starts without anyone else's search or page.
 	extraReducers: (builder) => {
 		builder.addCase(setLogout, () => initialState);
 	},

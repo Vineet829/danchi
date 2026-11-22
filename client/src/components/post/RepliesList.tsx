@@ -5,7 +5,6 @@ import { Reply } from "@/types";
 
 interface ReplyProps {
 	reply: Reply;
-	/** The reply was written by the person who wrote the post. */
 	isAuthor?: boolean;
 }
 

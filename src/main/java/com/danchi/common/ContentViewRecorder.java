@@ -18,7 +18,6 @@ public class ContentViewRecorder {
     @Transactional
     public void record(String contentType, Long objectPkid, User user, HttpServletRequest request) {
         if (user == null) return;
-        // Keep deletion from racing this insert. A stale page view after deletion is ignored.
         String targetQuery = switch (contentType) {
             case "post" -> "SELECT pkid FROM posts WHERE pkid = ? FOR KEY SHARE";
             case "issue" -> "SELECT pkid FROM issues WHERE pkid = ? FOR KEY SHARE";

@@ -68,8 +68,8 @@ export default function PasswordResetConfirmForm() {
 				isPassword={true}
 			/>
 			<div className="es-form-actions">
-				<p className="es-form-note">You will log in with it next.</p>
-				<SubmitButton isLoading={isLoading} busyLabel="Saving…">
+				<p className="es-form-note">You&apos;ll log in with it next.</p>
+				<SubmitButton isLoading={isLoading} busyLabel="Saving...">
 					Save new password
 				</SubmitButton>
 			</div>

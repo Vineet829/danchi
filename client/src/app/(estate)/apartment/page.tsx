@@ -5,7 +5,7 @@ import { Wrench } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Add your apartment — Danchi",
+	title: "Add your apartment | Danchi",
 	description: "Authenticated users can add their apartment details",
 };
 
@@ -18,7 +18,7 @@ function AddApartmentPage() {
 					Add your <em>apartment</em>
 				</>
 			}
-			description="Put your home on your profile, so your neighbours and the technicians know where to find you."
+			description="This shows your neighbours and the technicians where you live."
 			back={{ href: "/profile", label: "Back to profile" }}
 			aside={
 				<FormContext icon={<Wrench strokeWidth={1.75} />} label="Good to know">

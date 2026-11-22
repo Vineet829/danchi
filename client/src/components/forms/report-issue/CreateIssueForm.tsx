@@ -79,7 +79,7 @@ export default function CreateIssueForm() {
 				name="description"
 				register={register}
 				errors={errors}
-				placeholder="What is happening, where, and since when? Mention the best time for a visit."
+				placeholder="What's happening, and since when? Mention the best time for a visit."
 				isTextArea
 			/>
 
@@ -95,7 +95,7 @@ export default function CreateIssueForm() {
 						onChange={onChange}
 						onBlur={onBlur}
 						inputRef={ref}
-						hint="Choose Reported when you are raising a new issue."
+						hint="Choose Reported when you're raising a new issue."
 						error={errors.status?.message}
 					/>
 				)}
@@ -120,8 +120,8 @@ export default function CreateIssueForm() {
 			/>
 
 			<div className="es-form-actions">
-				<p className="es-form-note">You will find it under My issues on your profile.</p>
-				<SubmitButton isLoading={isLoading} busyLabel="Sending…">
+				<p className="es-form-note">You&apos;ll find it under My issues on your profile.</p>
+				<SubmitButton isLoading={isLoading} busyLabel="Sending...">
 					Report issue
 				</SubmitButton>
 			</div>

@@ -5,7 +5,7 @@ import { UsersRound } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Edit profile — Danchi",
+	title: "Edit profile | Danchi",
 	description: "Signed in users can edit their profile information",
 };
 
@@ -18,11 +18,11 @@ function EditProfilePage() {
 					Edit your <em>profile</em>
 				</>
 			}
-			description="A name, a face and a few lines go a long way towards feeling at home."
+			description="Change your photo and personal details."
 			back={{ href: "/profile", label: "Back to profile" }}
 			aside={
 				<FormContext icon={<UsersRound strokeWidth={1.75} />} label="Who sees this">
-					Your name, bio and apartment appear in the tenant directory.
+					Anyone signed in can see these details.
 				</FormContext>
 			}
 		>

@@ -24,7 +24,7 @@ export const registerUserSchema = z
 		re_password: z.string().min(1, { message: "Confirm your password" }),
 	})
 	.refine((data) => data.password === data.re_password, {
-		message: "Passwords do not match",
+		message: "Passwords don't match",
 		path: ["re_password"],
 	});
 

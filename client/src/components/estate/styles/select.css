@@ -1,5 +1,3 @@
-/* react-select retains its accessible layout; these Tailwind components override
-   its structural defaults without depending on Emotion's insertion order. */
 .es-select .es-select-control {
 	@apply min-h-[var(--select-control-height,48px)] cursor-pointer rounded-[var(--select-border-radius,8px)] border border-solid border-[color:var(--select-border-color)] bg-[color:var(--select-background-color)] pl-[5px] text-[0.9375rem] text-[color:var(--select-text-color)] [box-shadow:none] [transition:border-color_0.16s,box-shadow_0.16s];
 }

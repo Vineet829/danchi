@@ -1,7 +1,3 @@
-/*
- * Shared interior typography. Theme variables are registered by the Tailwind
- * base plugin in tailwind.config.ts, including the surfaces rendered in portals.
- */
 .estate-shell,
 .estate-popover,
 .estate-mobile-panel,

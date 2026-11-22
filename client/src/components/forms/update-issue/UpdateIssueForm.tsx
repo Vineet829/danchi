@@ -65,15 +65,15 @@ export default function UpdateIssueForm({ params }: UpdateParamsProps) {
 						onChange={onChange}
 						onBlur={onBlur}
 						inputRef={ref}
-						hint="Pick where the work stands right now."
+						hint="Choose In progress when you start and Resolved when you finish."
 						error={errors.status?.message}
 					/>
 				)}
 			/>
 
 			<div className="es-form-actions">
-				<p className="es-form-note">The tenant is told by email.</p>
-				<SubmitButton isLoading={isLoading} busyLabel="Updating…">
+				<p className="es-form-note">The tenant gets an email when it&apos;s resolved.</p>
+				<SubmitButton isLoading={isLoading} busyLabel="Updating...">
 					Update status
 				</SubmitButton>
 			</div>

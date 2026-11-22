@@ -6,7 +6,7 @@ function Bone({ w, h = 12, className = "" }: { w: string | number; h?: number; c
 }
 
 function Status() {
-	return <span className="es-sr">Loading…</span>;
+	return <span className="es-sr">Loading...</span>;
 }
 
 export function FeedSkeleton({ rows = 4 }: { rows?: number }) {

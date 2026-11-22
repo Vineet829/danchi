@@ -14,7 +14,6 @@ function stateOf(index: number, current: number) {
 	return "upcoming";
 }
 
-/** The reported → in progress → resolved sequence, drawn from the issue's real status. */
 export default function IssueProgress({ status }: { status?: string }) {
 	const current = Math.max(
 		0,

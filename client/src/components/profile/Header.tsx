@@ -13,7 +13,7 @@ import type { CSSProperties } from "react";
 function HeaderSkeleton() {
 	return (
 		<section className="es-card es-profile-hero" role="status">
-			<span className="es-sr">Loading your profile…</span>
+			<span className="es-sr">Loading your profile...</span>
 			<div className="es-profile-cover" />
 			<div className="es-profile-body">
 				<span className="es-avatar es-avatar--xl es-skeleton es-skeleton--circle" />

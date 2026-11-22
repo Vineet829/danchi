@@ -20,7 +20,7 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 import java.util.UUID;
 
 @Route("login")
-@PageTitle("Log in | Danchi Administration")
+@PageTitle("Log in | Danchi Admin")
 @AnonymousAllowed
 public class AdminLoginView extends VerticalLayout {
     private final AuthService authService;
@@ -41,26 +41,9 @@ public class AdminLoginView extends VerticalLayout {
 
         Div intro = new Div(AdminPresentation.brand());
         intro.addClassName("admin-login-intro");
-        Div introduction =
-                new Div(
-                        AdminPresentation.eyebrow("Community operations"),
-                        new H1("Community administration"),
-                        new Paragraph("Manage people, homes and your community’s everyday needs."));
+        Div introduction = new Div(new H1("Danchi admin"));
         introduction.addClassName("admin-login-introduction");
-        intro.add(
-                introduction,
-                feature(
-                        VaadinIcon.USERS,
-                        "Residents & homes",
-                        "Keep records and assignments organized."),
-                feature(
-                        VaadinIcon.TOOLS,
-                        "Maintenance & reports",
-                        "Follow up on community issues."),
-                feature(
-                        VaadinIcon.CLOCK,
-                        "Change history",
-                        "See what changed and who made the update."));
+        intro.add(introduction);
         Anchor back = new Anchor(properties.site().domain(), "Back to the community");
         back.addComponentAsFirst(AdminPresentation.icon(VaadinIcon.ARROW_LEFT));
         back.addClassName("admin-text-link");
@@ -95,15 +78,6 @@ public class AdminLoginView extends VerticalLayout {
         Div card = new Div(intro, form);
         card.addClassName("admin-login-card");
         add(card);
-    }
-
-    private static Div feature(VaadinIcon icon, String title, String description) {
-        Span symbol = new Span(AdminPresentation.icon(icon));
-        symbol.addClassName("admin-login-feature-icon");
-        Div copy = new Div(new H3(title), new Paragraph(description));
-        Div feature = new Div(symbol, copy);
-        feature.addClassName("admin-login-feature");
-        return feature;
     }
 
     private void handleLogin(AbstractLogin.LoginEvent event, LoginForm loginForm) {

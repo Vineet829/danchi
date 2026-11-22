@@ -21,22 +21,22 @@ const features = [
 		number: "01",
 		icon: Wrench,
 		label: "MAINTENANCE",
-		title: "A fix. A follow-up. Sorted.",
-		description: "Report a repair, follow its progress, and rate the people who help.",
+		title: "Track your repairs",
+		description: "See who's working on each one, and rate the technician when the job is done.",
 	},
 	{
 		number: "02",
 		icon: MessageCircle,
 		label: "COMMUNITY",
-		title: "More than next-door neighbours.",
-		description: "Share updates, join conversations, and find people in your building.",
+		title: "Talk to your neighbours",
+		description: "Write posts for the whole building and reply to other tenants.",
 	},
 	{
 		number: "03",
 		icon: ShieldCheck,
 		label: "YOUR SPACE",
-		title: "The little details, together.",
-		description: "Keep your apartment details in one place and report community concerns.",
+		title: "Your apartment details",
+		description: "Add your apartment to your profile, and report a neighbour if there's a problem.",
 	},
 ];
 
@@ -51,7 +51,7 @@ export default function HomeContent() {
 					<Link href="/" className={styles.wordmark} aria-label="Danchi home">
 						dan<span>chi</span><span className={styles.wordmarkDot}>.</span>
 					</Link>
-					<a href="#everyday" className={styles.headerExplore}>Everyday living, made easier</a>
+					<a href="#everyday" className={styles.headerExplore}>Features</a>
 					<nav className={styles.navigation} aria-label="Main navigation">
 						<Link href="/login" prefetch={false} className={styles.loginButton}>Log in <ArrowRight size={16} aria-hidden="true" /></Link>
 					</nav>
@@ -60,25 +60,25 @@ export default function HomeContent() {
 				<main id="home-main" className={styles.main} tabIndex={-1}>
 					<section className={styles.hero} aria-labelledby="home-title">
 						<div className={styles.heroCopy}>
-							<p className={styles.eyebrow}><span aria-hidden="true" /> A LITTLE CLOSER TO HOME</p>
-							<h1 id="home-title">Good neighbours.<br /><em>Better living.</em></h1>
-							<p className={styles.introduction}>Home is more than your front door.</p>
-							<p className={styles.description}>Get things fixed. Keep conversations going. Bring the everyday life of your building together, in one thoughtful space.</p>
+							<p className={styles.eyebrow}><span aria-hidden="true" /> FOR APARTMENT BUILDINGS</p>
+							<h1 id="home-title">Report a repair<br /><em>or post a notice.</em></h1>
+							<p className={styles.introduction}>Made for tenants and building staff.</p>
+							<p className={styles.description}>A technician updates each repair as they work, and neighbours can reply to your posts.</p>
 							<div className={styles.heroActions}>
-								<Link href="/register" prefetch={false} className={styles.primaryButton}>Join your community <ArrowRight size={19} aria-hidden="true" /></Link>
+								<Link href="/register" prefetch={false} className={styles.primaryButton}>Create an account <ArrowRight size={19} aria-hidden="true" /></Link>
 							</div>
-							<div className={styles.heroNote}><Home size={17} strokeWidth={1.5} aria-hidden="true" /><span>For the people who make a building a home.</span></div>
+							<div className={styles.heroNote}><Home size={17} strokeWidth={1.5} aria-hidden="true" /><span>You can also look around with a guest account.</span></div>
 						</div>
 
 						<div className={styles.visual}>
 							<div className={styles.photoFrame}>
 								<Image src={community} alt="Apartment balconies beside a leafy shared courtyard" fill priority placeholder="blur" sizes="(max-width: 912px) 92vw, (max-width: 1320px) 48vw, 720px" className={styles.photo} />
 								<div className={styles.photoShade} />
-								<div className={styles.photoCaption}><span>ROOM TO BELONG</span><span>Life happens here.</span></div>
+								<div className={styles.photoCaption}><span>NEW POST</span><span>Water tank cleaning on Sunday</span></div>
 							</div>
 							<section className={styles.maintenanceCard} aria-labelledby="maintenance-title">
-								<div className={styles.cardTop}><span className={styles.cardIcon}><Wrench size={17} strokeWidth={1.7} aria-hidden="true" /></span><span>THE LITTLE THINGS, TAKEN CARE OF</span></div>
-								<h2 id="maintenance-title">From reported to resolved.</h2>
+								<div className={styles.cardTop}><span className={styles.cardIcon}><Wrench size={17} strokeWidth={1.7} aria-hidden="true" /></span><span>REPAIR REQUEST</span></div>
+								<h2 id="maintenance-title">Bathroom light not working</h2>
 								<ol className={styles.progressSteps} aria-label="Maintenance request stages">
 									{["Reported", "In progress", "Resolved"].map((label, index) => (
 										<li key={label} className={styles.progressStep}>
@@ -87,12 +87,12 @@ export default function HomeContent() {
 										</li>
 									))}
 								</ol>
-								<p className={styles.cardNote}>Know where things stand, every step of the way.</p>
+								<p className={styles.cardNote}>You get an email when it&apos;s marked resolved.</p>
 							</section>
 						</div>
 					</section>
 
-					<section id="everyday" className={styles.features} aria-label="A simpler everyday">
+					<section id="everyday" className={styles.features} aria-label="Features">
 						{features.map(({ number, icon: Icon, label, title, description }) => (
 							<article key={number} className={styles.feature}>
 								<div className={styles.featureLabel}><Icon size={17} strokeWidth={1.7} aria-hidden="true" /><span>{label}</span><span className={styles.featureNumber}>{number}</span></div>
@@ -106,7 +106,7 @@ export default function HomeContent() {
 				<footer className={styles.footer}>
 					<p>© {new Date().getFullYear()} Danchi</p>
 					<p>Good things start with good neighbours.</p>
-					<Link href="/login" prefetch={false}>Already at home here? <span>Log in <ArrowRight size={14} aria-hidden="true" /></span></Link>
+					<Link href="/login" prefetch={false}>Already registered? <span>Log in <ArrowRight size={14} aria-hidden="true" /></span></Link>
 				</footer>
 			</div>
 		</div>

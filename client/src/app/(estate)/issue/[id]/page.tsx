@@ -3,9 +3,9 @@ import IssueDetails from "@/components/issue/IssueDetails";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Issue — Danchi",
+	title: "Issue | Danchi",
 	description:
-		"Authenticated uses can get the details of the issue they have raised. They can also delete the issue",
+		"Authenticated uses can get the details of the issue they've raised. They can also delete the issue",
 };
 
 interface ParamsProps {

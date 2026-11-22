@@ -52,7 +52,7 @@ export default function LoginForm({ disabled = false, onBusyChange }: Props) {
 				<legend className={styles.visuallyHidden}>Your login details</legend>
 				<AuthField id="login-email" label="Email address" type="email" autoComplete="email" autoCapitalize="none" spellCheck={false} placeholder="you@example.com" required {...register("email")} error={errors.email?.message} />
 				<AuthField id="login-password" label="Password" type="password" autoComplete="current-password" placeholder="Enter your password" required {...register("password")} error={errors.password?.message} labelAccessory={<Link href="/forgot-password" prefetch={false} className={styles.forgotLink}>Forgot password?</Link>} />
-				<Button type="submit" className={styles.submitButton} disabled={disabled || isLoading}>{isLoading ? <><Loader2 size={18} className={styles.spinner} aria-hidden="true" />Logging in…</> : <>Log in<ArrowRight size={18} aria-hidden="true" /></>}</Button>
+				<Button type="submit" className={styles.submitButton} disabled={disabled || isLoading}>{isLoading ? <><Loader2 size={18} className={styles.spinner} aria-hidden="true" />Logging in...</> : <>Log in<ArrowRight size={18} aria-hidden="true" /></>}</Button>
 			</fieldset>
 		</form>
 	);

@@ -6,12 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Removes what an image file says about itself, such as where and when a photo was taken, the camera,
- * comments and preview thumbnails, and keeps only what draws the image. Nothing is decoded or encoded
- * again, so the image looks the same and animations still play. A photo's rotation is kept, so phone
- * photos still stand upright.
- */
 final class ImageMetadata {
 
     private static final byte[] EXIF = {'E', 'x', 'i', 'f', 0, 0};
@@ -22,12 +16,10 @@ final class ImageMetadata {
     private static final Set<String> PNG_DRAWING_CHUNKS = Set.of(
             "IHDR", "PLTE", "IDAT", "IEND", "tRNS", "cHRM", "gAMA", "iCCP", "sBIT", "sRGB", "cICP",
             "bKGD", "pHYs", "acTL", "fcTL", "fdAT");
-    // Looping, animation and the colour profile.
     private static final Set<String> GIF_DRAWING_APPLICATIONS = Set.of("NETSCAPE2.0", "ANIMEXTS1.0", "ICCRGBG1012");
 
     private ImageMetadata() {}
 
-    /** The image without its metadata. Throws IllegalArgumentException for a file not laid out as its format says. */
     static byte[] strip(byte[] image, String format) {
         try {
             return switch (format) {
@@ -42,7 +34,6 @@ final class ImageMetadata {
         }
     }
 
-    // A JPEG is a run of marked segments up to the first scan, then its scans and the end marker.
     private static byte[] jpeg(byte[] in) {
         if (u8(in, 0) != 0xFF || u8(in, 1) != 0xD8) throw new IllegalArgumentException("Not a JPEG file");
         List<int[]> kept = new ArrayList<>();
@@ -72,7 +63,6 @@ final class ImageMetadata {
         boolean rotationWritten = orientation == UPRIGHT;
         for (int[] segment : kept) {
             if (u8(in, segment[0] + 1) == 0xE0) {
-                // The JFIF header can carry a thumbnail of the photo; it is written again without one.
                 out.write(new byte[] {(byte) 0xFF, (byte) 0xE0, 0, 16}, 0, 4);
                 out.write(in, segment[0] + 4, 12);
                 out.write(new byte[] {0, 0}, 0, 2);
@@ -89,10 +79,6 @@ final class ImageMetadata {
         return out.toByteArray();
     }
 
-    // From the first scan to the end of the image: each scan with its compressed data, the tables
-    // between scans, and the end marker. Comments and application data between scans are left out, and
-    // so is anything stored after the end, such as the video some phones attach to a photo, which can
-    // say where it was taken. An image that stops without its end marker is kept as far as it goes.
     private static void scans(byte[] in, int i, ByteArrayOutputStream out) {
         while (i < in.length) {
             if (u8(in, i) != 0xFF) throw new IllegalArgumentException("Expected a JPEG marker");
@@ -119,8 +105,6 @@ final class ImageMetadata {
         }
     }
 
-    // A scan's compressed data runs up to the next marker other than a restart: within it, a 0xFF byte
-    // is followed by 0x00, and a marker may be preceded by more 0xFF bytes.
     private static int afterCompressedData(byte[] in, int i) {
         while (i < in.length) {
             if (u8(in, i) != 0xFF || i + 1 == in.length) {
@@ -139,8 +123,6 @@ final class ImageMetadata {
         return in.length;
     }
 
-    // Of the application segments and comments, only the JFIF header, the colour profile and
-    // Adobe's colour transform change how the image is drawn.
     private static boolean drawsImage(byte[] in, int marker, int data, int end) {
         if (marker == 0xFE) return false;
         if (marker < 0xE0 || marker > 0xEF) return true;
@@ -152,7 +134,6 @@ final class ImageMetadata {
         };
     }
 
-    // Exif keeps its values in a TIFF directory, where tag 0x0112 is the orientation, 1 to 8.
     private static int orientation(byte[] in, int tiff, int end) {
         if (tiff + 8 > end) return UPRIGHT;
         boolean little;
@@ -173,7 +154,6 @@ final class ImageMetadata {
         return UPRIGHT;
     }
 
-    // An Exif segment holding nothing but the orientation.
     private static byte[] rotation(int orientation) {
         return new byte[] {
             (byte) 0xFF, (byte) 0xE1, 0, 34,
@@ -185,7 +165,6 @@ final class ImageMetadata {
         };
     }
 
-    // A PNG is a signature, then chunks of length, type, data and checksum.
     private static byte[] png(byte[] in) {
         if (!startsWith(in, 0, in.length, PNG_SIGNATURE)) throw new IllegalArgumentException("Not a PNG file");
         var out = new ByteArrayOutputStream(in.length);
@@ -202,7 +181,6 @@ final class ImageMetadata {
         return out.toByteArray();
     }
 
-    // A GIF is a header and colour table, then images and extensions, each ending in sub-blocks.
     private static byte[] gif(byte[] in) {
         if (!startsWith(in, 0, in.length, ascii("GIF87a")) && !startsWith(in, 0, in.length, ascii("GIF89a"))) {
             throw new IllegalArgumentException("Not a GIF file");
@@ -214,11 +192,9 @@ final class ImageMetadata {
             int start = i;
             boolean keep;
             if (u8(in, i) == 0x2C) {
-                // An image: its descriptor, its own colours, the code size, then its data.
                 i += 10 + colourTable(u8(in, i + 9)) + 1;
                 keep = true;
             } else if (u8(in, i) == 0x21) {
-                // An extension: frame timing and transparency, drawn text, or an application's data.
                 int label = u8(in, i + 1);
                 keep = label == 0xF9 || label == 0x01
                         || (label == 0xFF && u8(in, i + 2) == 11
@@ -243,7 +219,6 @@ final class ImageMetadata {
         return i + 1;
     }
 
-    // A WebP is a RIFF file: "RIFF", its size, "WEBP", then chunks of type, size and data.
     private static byte[] webp(byte[] in) {
         if (!startsWith(in, 0, in.length, ascii("RIFF")) || !startsWith(in, 8, in.length, ascii("WEBP"))) {
             throw new IllegalArgumentException("Not a WebP file");
@@ -267,7 +242,6 @@ final class ImageMetadata {
         byte[] result = out.toByteArray();
         int riffSize = result.length - 8;
         for (int k = 0; k < 4; k++) result[4 + k] = (byte) (riffSize >>> (8 * k));
-        // The extended header lists the chunks that follow; it no longer has Exif (0x08) or XMP (0x04).
         if (extendedHeader >= 0 && extendedHeader + 8 < result.length) result[extendedHeader + 8] &= (byte) ~0x0C;
         return result;
     }

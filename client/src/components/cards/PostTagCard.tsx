@@ -68,7 +68,7 @@ export default function PostTagCard({ params }: SlugParamsProps) {
 			) : (
 				<EmptyState
 					icon={Hash}
-					description="Nobody has used this tag yet. Start the conversation and it will show up here."
+					description="Nobody has used this tag yet."
 					action={
 						<Link href="/add-post" className="es-btn es-btn--primary">
 							Create a post

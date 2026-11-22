@@ -27,7 +27,7 @@ export default function MyPostCard() {
 		return (
 			<EmptyState
 				icon={MessagesSquare}
-				description="Questions, notices and recommendations you share with the building are kept here."
+				description="Posts you write will appear here."
 				action={
 					<Link href="/add-post" className="es-btn es-btn--primary">
 						<PenLine aria-hidden="true" />
@@ -35,7 +35,7 @@ export default function MyPostCard() {
 					</Link>
 				}
 			>
-				You have not posted yet
+				You haven&apos;t posted yet
 			</EmptyState>
 		);
 	}

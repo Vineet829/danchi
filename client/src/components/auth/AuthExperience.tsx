@@ -46,7 +46,6 @@ export default function AuthExperience({ mode }: { mode: "login" | "register" })
 		if (busy) return;
 		setGooglePending(true);
 		setAlternativeError(null);
-		// A successful start leaves for Google, so the button stays busy until the page changes.
 		if (!(await UseGoogle())) setGooglePending(false);
 	};
 
@@ -63,27 +62,27 @@ export default function AuthExperience({ mode }: { mode: "login" | "register" })
 
 				<section id="auth-form" tabIndex={-1} className={styles.panel} aria-labelledby="auth-title">
 					<div className={styles.formHeading}>
-						<p className={styles.formEyebrow}>{isRegister ? "A NEW BEGINNING" : "WELCOME HOME"}</p>
-						<h1 id="auth-title">{isRegister ? "Create your account" : "Come on in."}</h1>
-						<p>{isRegister ? "A few details, and you’re one step closer." : "Log in to your Danchi community."}</p>
+						<p className={styles.formEyebrow}>{isRegister ? "NEW ACCOUNT" : "WELCOME BACK"}</p>
+						<h1 id="auth-title">{isRegister ? "Create your account" : "Log in"}</h1>
+						<p>{isRegister ? "All fields are required." : "Use your email address and password."}</p>
 					</div>
 
 					{isRegister ? <RegisterForm disabled={guestPending || googlePending} onBusyChange={setFormPending} /> : <LoginForm disabled={guestPending || googlePending} onBusyChange={setFormPending} />}
 
 					<div className={styles.divider}><span>or continue with</span></div>
 					<div className={styles.alternatives}>
-						<Button type="button" variant="outline" className={styles.alternativeButton} disabled={busy} onClick={handleGoogle} aria-busy={googlePending}>{googlePending ? <Loader2 size={17} className={styles.spinner} aria-hidden="true" /> : <ArrowUpRight size={17} aria-hidden="true" />}{googlePending ? "Connecting…" : "Google"}</Button>
-						<Button type="button" variant="outline" className={styles.alternativeButton} disabled={busy} onClick={handleGuest} aria-busy={guestPending}>{guestPending ? <Loader2 size={17} className={styles.spinner} aria-hidden="true" /> : <Users size={17} aria-hidden="true" />}{guestPending ? "Logging in…" : "Try as a guest"}</Button>
+						<Button type="button" variant="outline" className={styles.alternativeButton} disabled={busy} onClick={handleGoogle} aria-busy={googlePending}>{googlePending ? <Loader2 size={17} className={styles.spinner} aria-hidden="true" /> : <ArrowUpRight size={17} aria-hidden="true" />}{googlePending ? "Connecting..." : "Google"}</Button>
+						<Button type="button" variant="outline" className={styles.alternativeButton} disabled={busy} onClick={handleGuest} aria-busy={guestPending}>{guestPending ? <Loader2 size={17} className={styles.spinner} aria-hidden="true" /> : <Users size={17} aria-hidden="true" />}{guestPending ? "Logging in..." : "Try as a guest"}</Button>
 					</div>
 					{alternativeError && <p className={styles.formError} role="alert">{alternativeError}</p>}
 					<div className={styles.switchPage}>
-						<span>{isRegister ? "Already a neighbour?" : "New to Danchi?"}</span>
+						<span>{isRegister ? "Already have an account?" : "New to Danchi?"}</span>
 						<Link href={isRegister ? "/login" : "/register"} prefetch={false}>{isRegister ? "Log in" : "Create an account"}<ArrowRight size={16} aria-hidden="true" /></Link>
 					</div>
 				</section>
 			</main>
 
-			<footer className={styles.footer}><span>© {new Date().getFullYear()} Danchi</span><span>Good things start with good neighbours.</span></footer>
+			<footer className={styles.footer}><span>© {new Date().getFullYear()} Danchi</span></footer>
 		</div>
 	);
 }

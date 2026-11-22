@@ -3,7 +3,7 @@ import PasswordResetRequestForm from "@/components/forms/auth/PasswordResetReque
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Reset your password — Danchi",
+	title: "Reset your password | Danchi",
 	description: "Password request reset page",
 };
 
@@ -16,7 +16,7 @@ export default function ForgotPassword() {
 					Reset your <em>password</em>
 				</>
 			}
-			description="Enter your email address and we will send you a link to choose a new password."
+			description="Enter your email address and we'll send you a link to choose a new password."
 			back={{ href: "/login", label: "Back to log in" }}
 		>
 			<PasswordResetRequestForm />

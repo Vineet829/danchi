@@ -44,7 +44,7 @@ function deferred() {
 const sample = { id: 'post-id', slug: 'example', title: 'Community post', body: 'Body', author_username: 'neighbour', created_at: '2026-09-01', replies: [], tags: [], upvotes: 0, downvotes: 0, is_upvoted: false, is_downvoted: false };
 const noop = () => null;
 
-test('one signed score and the selected direction are displayed even at zero', () => {
+test('vote score', () => {
   const Actions = sourceLoader({ '@/components/estate/ConfirmButton': noop })('src/components/post/PostActions.tsx').default;
   for (const [upvotes, downvotes, isUpvoted, isDownvoted] of [[0, 0, false, false], [0, 1, false, true], [1, 0, true, false], [4, 4, false, true]]) {
     const tree = Actions({ slug: 'example', upvotes, downvotes, isUpvoted, isDownvoted, isUpvoteLoading: false, isDownvoteLoading: false });
@@ -80,7 +80,7 @@ function detailHarness(post) {
   return { actions, calls, notifications, get response() { return response; }, retry() { response = deferred(); } };
 }
 
-test('rapid repeated or opposing clicks submit only one request before React rerenders', async () => {
+test('one vote request at a time', async () => {
   const harness = detailHarness(sample);
   const first = harness.actions.handleDownVote();
   await harness.actions.handleDownVote();
@@ -92,7 +92,7 @@ test('rapid repeated or opposing clicks submit only one request before React rer
   assert.deepEqual(harness.notifications, [['success', 'Post downvoted successfully!']]);
 });
 
-test('active votes request removal and failed requests can be retried safely', async () => {
+test('vote removal and retry', async () => {
   for (const direction of ['up', 'down']) {
     const harness = detailHarness({ ...sample, is_upvoted: direction === 'up', is_downvoted: direction === 'down' });
     const action = harness.actions[direction === 'up' ? 'handleUpvote' : 'handleDownVote'];
@@ -106,7 +106,7 @@ test('active votes request removal and failed requests can be retried safely', a
   }
 });
 
-test('confirmed votes update every cached view immediately; failures preserve state; logout clears it', { timeout: 10000 }, async () => {
+test('vote cache updates', { timeout: 10000 }, async () => {
   const originalFetch = global.fetch, OriginalRequest = global.Request;
   const gate = deferred();
   let readsBlocked = false, failure = false;

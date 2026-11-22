@@ -17,7 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 class BoundedPasswordEncoderTest {
 
     @Test
-    void hashesAtMostACoupleAtOnceAndRefusesOnceTheWaitRunsOut() throws Exception {
+    void limitsConcurrentHashes() throws Exception {
         CountDownLatch started = new CountDownLatch(2);
         CountDownLatch release = new CountDownLatch(1);
         PasswordEncoder slow = new PasswordEncoder() {
@@ -60,7 +60,7 @@ class BoundedPasswordEncoderTest {
     }
 
     @Test
-    void theAppHashesTwoPasswordsAtOnceAndWaitsTenSecondsAtMost() {
+    void defaultHashConcurrencyAndTimeout() {
         assertThat(BoundedPasswordEncoder.AT_ONCE).isEqualTo(2);
         assertThat(BoundedPasswordEncoder.WAIT).isEqualTo(Duration.ofSeconds(10));
     }

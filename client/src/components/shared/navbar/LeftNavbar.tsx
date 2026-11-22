@@ -17,7 +17,7 @@ export default function LeftNavbar() {
 			<div className="es-nav-foot">
 				{isAuthenticated && isLoading ? (
 					<div className="es-usercard" role="status">
-						<span className="es-sr">Loading your account…</span>
+						<span className="es-sr">Loading your account...</span>
 						<span className="es-avatar es-avatar--sm es-skeleton es-skeleton--circle" />
 						<span className="es-usercard-copy !gap-[7px]">
 							<span className="es-skeleton h-[11px] w-[96px]" />

@@ -33,7 +33,7 @@ export default function PostCard() {
 				eyebrow="Community"
 				title={
 					<>
-						What&apos;s happening <em>at home</em>
+						Recent <em>posts</em>
 					</>
 				}
 				count={ready ? totalCount : undefined}
@@ -41,7 +41,7 @@ export default function PostCard() {
 
 			<Link href="/add-post" className="es-composer" aria-label="Create a post">
 				<PersonAvatar name={profile?.full_name || profile?.username} seed={profile?.username} src={profile?.avatar} size="md" />
-				<span className="es-composer-field">Share something with your neighbours…</span>
+				<span className="es-composer-field">Share something with your neighbours...</span>
 				<span className="es-btn es-btn--primary es-btn--sm">
 					<PenLine aria-hidden="true" />
 					Post
@@ -71,7 +71,7 @@ export default function PostCard() {
 				) : (
 					<EmptyState
 						icon={MessagesSquare}
-						description="Be the first to say hello, ask a question or share a notice with the building."
+						description="Write the first post for your building."
 						action={
 							<Link href="/add-post" className="es-btn es-btn--primary">
 								<PenLine aria-hidden="true" />
@@ -79,7 +79,7 @@ export default function PostCard() {
 							</Link>
 						}
 					>
-						It&apos;s quiet in here
+						No posts yet
 					</EmptyState>
 				)}
 			</section>

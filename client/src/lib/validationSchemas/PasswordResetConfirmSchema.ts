@@ -12,7 +12,7 @@ export const passwordResetConfirmSchema = z
 		}),
 	})
 	.refine((data) => data.new_password === data.re_new_password, {
-		message: "Passwords do not match",
+		message: "Passwords don't match",
 		path: ["re_new_password"],
 	});
 

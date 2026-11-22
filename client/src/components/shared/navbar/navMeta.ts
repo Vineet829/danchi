@@ -18,7 +18,6 @@ export const NAV_GROUPS: { key: NavGroupKey; label: string }[] = [
 	{ key: "support", label: "Get help" },
 ];
 
-/** Presentation for each route in `leftNavLinks`; the routes themselves stay in constants. */
 export const NAV_META: Record<string, { icon: LucideIcon; label: string; group: NavGroupKey | "cta" }> = {
 	"/welcome": { icon: Home, label: "Home", group: "community" },
 	"/tenants": { icon: UsersRound, label: "Tenants", group: "community" },
